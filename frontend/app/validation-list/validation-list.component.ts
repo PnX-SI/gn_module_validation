@@ -1,21 +1,10 @@
 import { Component, OnInit, OnDestroy, ViewChild } from "@angular/core";
-import { Http } from "@angular/http";
-import { GeoJSON } from "leaflet";
 import { MapListService } from "@geonature_common/map-list/map-list.service";
-import { Subscription } from "rxjs/Subscription";
-import { CommonService } from "@geonature_common/service/common.service";
-import { TranslateService } from "@ngx-translate/core";
-import { Router } from "@angular/router";
-import { FormControl } from "@angular/forms";
 import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
 import { ModuleConfig } from "../module.config";
-import { TaxonomyComponent } from "@geonature_common/form/taxonomy/taxonomy.component";
-import { DatatableComponent } from "@swimlane/ngx-datatable";
 import { FormGroup, FormBuilder } from "@angular/forms";
-import { DynamicFormGeneratorComponent } from "@geonature_common/form/dynamic-form-generator/dynamic-form-generator.component";
 import { NgbDateParserFormatter } from "@ng-bootstrap/ng-bootstrap";
 import { FILTERSLIST } from "./filters-list";
-import { AppConfig } from "@geonature_config/app.config";
 
 @Component({
   selector: "pnx-validation-list",
@@ -33,6 +22,7 @@ export class ValidationListComponent implements OnInit {
   public validationConfig: any;
   public formsDefinition = FILTERSLIST;
   public dynamicFormGroup: FormGroup;
+  public closeResult: string;
   public formsSelected = [];
   // provisoire
   public tableMessages = {
@@ -42,12 +32,8 @@ export class ValidationListComponent implements OnInit {
   advandedFilterOpen = false;
 
   constructor(
-    private _http: Http,
     private mapListService: MapListService,
-    private _commonService: CommonService,
-    private _translate: TranslateService,
-    private _router: Router,
-    public ngbModal: NgbModal,
+    private modalService: NgbModal,
     private _fb: FormBuilder,
     private _dateParser: NgbDateParserFormatter
   ) {}
@@ -118,58 +104,6 @@ export class ValidationListComponent implements OnInit {
     this.mapListService.refreshData(this.apiEndPoint, "set", params);
   }
 
-  onEditReleve(id_releve) {
-    this._router.navigate(["validation/form", id_releve]);
-  }
-
-  onDetailReleve(id_releve) {
-    this._router.navigate(["validation/info", id_releve]);
-  }
-
-  // onDeleteReleve(id) {
-  //   console.log("olooooo");
-
-  //   this._validationService.deleteReleve(id).subscribe(
-  //     data => {
-  //       console.log("lalalala");
-
-  //       this.mapListService.deleteObsFront(id);
-  //       this._commonService.translateToaster(
-  //         "success",
-  //         "Releve.DeleteSuccessfully"
-  //       );
-  //     },
-  //     error => {
-  //       if (error.status === 403) {
-  //         this._commonService.translateToaster("error", "NotAllowed");
-  //       } else {
-  //         this._commonService.translateToaster("error", "ErrorMessage");
-  //       }
-  //     }
-  //   );
-  // }
-
-  openDeleteModal(event, modal, iElement, row) {
-    this.mapListService.urlQuery;
-    this.mapListService.selectedRow = [];
-    this.mapListService.selectedRow.push(row);
-    event.stopPropagation();
-    // prevent erreur link to the component
-    iElement &&
-      iElement.parentElement &&
-      iElement.parentElement.parentElement &&
-      iElement.parentElement.parentElement.blur();
-    this.ngbModal.open(modal);
-  }
-
-  openModalDownload(event, modal) {
-    this.ngbModal.open(modal, { size: "lg" });
-  }
-
-  onAddReleve() {
-    this._router.navigate(["validation/form"]);
-  }
-
   customColumns(feature) {
     // function pass to the getData and the maplist service to format date
     // on the table
@@ -180,7 +114,7 @@ export class ValidationListComponent implements OnInit {
     feature.properties.date_max = date_max.toLocaleDateString("fr-FR");
     return feature;
   }
-  
+
   refreshFilters() {
     // this.taxonomyComponent.refreshAllInput();
     this.dynamicFormGroup.reset();
@@ -203,18 +137,6 @@ export class ValidationListComponent implements OnInit {
     }
   }
 
-  openModalCol(event, modal) {
-    this.ngbModal.open(modal);
-  }
-
-  downloadData(format) {
-    const url = `${
-      AppConfig.API_ENDPOINT
-    }/validation/export?${this.mapListService.urlQuery.toString()}&format=${format}`;
-
-    document.location.href = url;
-  }
-
   onChangeFilterOps(col) {
     // reset url query
     this.mapListService.urlQuery.delete(this.mapListService.colSelected.prop);
@@ -231,4 +153,25 @@ export class ValidationListComponent implements OnInit {
     }
     return i === this.mapListService.displayColumns.length ? false : true;
   }
+
+  open(content) {
+    this.modalService.open(content).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
+
 }
+
+

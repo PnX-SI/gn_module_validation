@@ -214,12 +214,50 @@
           </ngx-datatable-footer>
 
         </ngx-datatable>
+
+        <!-- Boutton pour accéder modal validation -->
+        <button type="submit" id="validatorButton" class="btn btn-success" (click)="open(content)">Valider</button>
+
+        <!-- Modal Validation Popup-->
+        <ng-template #content let-c="close" let-d="dismiss">
+  
+          <!-- Modal content-->
+          <form [formGroup]="modalForm" class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Validation</h4>
+            </div>
+
+            <div class="modal-body">
+              <!-- Formulaire pour le choix des standards et des formats de téléchargement des fichiers -->
+              <br>
+              <ul> Sélectionner: </ul>
+              <label class="radio-inline"><input type="radio" name="optradio">Certain-très probable</label>
+              <label class="radio-inline"><input type="radio" name="optradio">Probable</label>
+              <label class="radio-inline"><input type="radio" name="optradio">Douteux</label> 
+              <label class="radio-inline"><input type="radio" name="optradio">Invalide</label> 
+              <label class="radio-inline"><input type="radio" name="optradio">Non réalisable</label> 
+              <label class="radio-inline"><input type="radio" name="optradio">Non évalué</label> 
+
+              <br>
+              <div>
+                <label for="comment">Comment:</label>
+                <textarea rows="1" id="comment"></textarea>
+              </div> 
+
+              <br>
+            </div>
+
+            <!-- Bouton de fermeture de la modal pop-up ou lancement du téléchargement -->
+            <div class="modal-footer" id="choicePopup">
+              <button type="submit" class="btn btn-danger" data-dismiss="modal" (click)="c('Close click')">Fermer</button>
+              <button id="widthButton" type="submit" class="btn btn-success">OK</button>
+            </div>
+          </form>
+        </ng-template>
+
       </div>
 
-
-
     </div>
-
 
     <!-- Map side -->
     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 padding-sm card">
