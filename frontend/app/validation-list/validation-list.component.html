@@ -26,14 +26,75 @@
               </pnx-taxonomy>
             </div>
 
-            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 padding-md">
-              <pnx-taxonomy
-                label="{{ 'Taxon.Taxon' | translate }}"
-                [parentFormControl]="dynamicFormGroup.controls.cd_nom"
-                [idList]="validationConfig.id_taxon_list"
-                [charNumber]="3"
-                [listLength]="20">
-              </pnx-taxonomy>
+              <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 padding-md">
+                        <div *ngFor="let counting of selectedOccurrence?.cor_counting_occtax; let index = index">
+                          <div class="row row-sm">
+                              <div *ngIf="validationConfig.form_fields.counting.life_stage">
+                                  <pnx-nomenclature
+                                    label="{{ 'Counting.LifeStage' | translate }}" 
+                                    [parentFormControl]="countingFormArray.controls[index].controls.id_nomenclature_life_stage"
+                                    codeNomenclatureType="STADE_VIE"
+                                    [disabled]="disabled"> 
+                                  </pnx-nomenclature>
+                              </div>
+                              <div *ngIf="validationConfig.form_fields.counting.sex">
+                                  <pnx-nomenclature
+                                    label="{{ 'Counting.Sex' | translate }}"
+                                    [parentFormControl]="countingFormArray.controls[index].controls.id_nomenclature_sex"
+                                    codeNomenclatureType="SEXE"
+                                    [disabled]="disabled">
+                                  </pnx-nomenclature>
+                            </div>
+                            <div *ngIf="validationConfig.form_fields.counting.obj_count">
+                                  <pnx-nomenclature 
+                                    label="{{ 'Counting.CountingObject' | translate }}"
+                                    [parentFormControl]="countingFormArray.controls[index].controls.id_nomenclature_obj_count"
+                                    codeNomenclatureType="OBJ_DENBR"
+                                    [disabled]="disabled" >
+                                  </pnx-nomenclature>
+                            </div>
+                      
+                          </div>
+                          <div class="form-group row row-sm">
+                              <div *ngIf="validationConfig.form_fields.counting.type_count">
+                                  <pnx-nomenclature
+                                    #typeDenombrement
+                                    label="{{ 'Counting.CountingType' | translate }}"
+                                    [parentFormControl]="countingFormArray.controls[index].controls.id_nomenclature_type_count"
+                                    codeNomenclatureType="TYP_DENBR"
+                                    [disabled]="disabled">
+                                  </pnx-nomenclature> 
+                            </div>
+                              <div *ngIf="validationConfig.form_fields.counting.count_min">
+                                <div class="form-group">
+                                  <small> {{ 'Counting.NumberMin' | translate }} </small>
+                                  <input class="form-control form-control-sm" type="number" 
+                                  [formControl]="countingFormArray.controls[index].controls.count_min"
+                                  [disableControl]="disabled">
+                                </div>
+                              </div>
+                              <div *ngIf="validationConfig.form_fields.counting.count_max">
+                                <div class="form-group">
+                                    <small> {{ 'Counting.NumberMax' | translate }} </small>
+                                  <input class="form-control form-control-sm" type="number" 
+                                  [formControl]="countingFormArray.controls[index].controls.count_max"
+                                  [disableControl]="disabled">
+                                </div>
+                              </div>
+                          </div>
+                          <div class="form-group row row-0">
+                              <div *ngIf="validationConfig.form_fields.counting.type_count">
+                                  <pnx-nomenclature
+                                    #typeDenombrement
+                                    label="{{ 'Counting.ValidationStatus' | translate }}"
+                                    [parentFormControl]="countingFormArray.controls[index].controls.id_nomenclature_valid_status"
+                                    codeNomenclatureType="STATUT_VALID"
+                                    [disabled]="disabled">
+                                  </pnx-nomenclature> 
+                              </div>
+                            </div>
+                            <hr>
+                      </div>
             </div>
 
             <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 padding-md">
@@ -97,33 +158,25 @@
           <div id="fieldInLine">
 
             <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 padding-md">
-              <pnx-taxonomy
-                label="{{ 'Taxon.Taxon' | translate }}"
-                [parentFormControl]="dynamicFormGroup.controls.cd_nom"
-                [idList]="validationConfig.id_taxon_list"
-                [charNumber]="3"
-                [listLength]="20">
-              </pnx-taxonomy>
+              <pnx-date
+                label="{{ 'Releve.MinDate' | translate }} "
+                [parentFormControl]="dynamicFormGroup.controls.date_low">
+              </pnx-date>
             </div>
 
             <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 padding-md">
-              <pnx-taxonomy
-                label="{{ 'Taxon.Taxon' | translate }}"
-                [parentFormControl]="dynamicFormGroup.controls.cd_nom"
-                [idList]="validationConfig.id_taxon_list"
-                [charNumber]="3"
-                [listLength]="20">
-              </pnx-taxonomy>
+              <pnx-date
+                label="{{ 'Releve.MaxDate' | translate }} "
+                [parentFormControl]="dynamicFormGroup.controls.date_up">
+              </pnx-date>
             </div>
 
             <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 padding-md">
-              <pnx-taxonomy
-                label="{{ 'Taxon.Taxon' | translate }}"
-                [parentFormControl]="dynamicFormGroup.controls.cd_nom"
-                [idList]="validationConfig.id_taxon_list"
-                [charNumber]="3"
-                [listLength]="20">
-              </pnx-taxonomy>
+              <pnx-observers
+                [parentFormControl]="dynamicFormGroup.controls.observers"
+                [idMenu]="validationConfig.id_observers_list"
+                label="{{ 'Releve.Observers' | translate }}">
+            </pnx-observers>
             </div> 
             
           </div>
@@ -131,13 +184,13 @@
           <div id="fieldInLine">
 
             <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 padding-md">
-              <pnx-taxonomy
-                label="{{ 'Taxon.Taxon' | translate }}"
-                [parentFormControl]="dynamicFormGroup.controls.cd_nom"
-                [idList]="validationConfig.id_taxon_list"
-                [charNumber]="3"
-                [listLength]="20">
-              </pnx-taxonomy>
+              <pnx-datasets
+                [displayAll]="true"
+                label="{{ 'Releve.Dataset' | translate }}"
+                [parentFormControl]="dynamicFormGroup.controls.id_dataset"
+                appId="14"
+              >
+              </pnx-datasets>
             </div>
 
             <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 padding-md">
@@ -216,7 +269,7 @@
         </ngx-datatable>
 
         <!-- Boutton pour accéder modal validation -->
-        <button type="submit" id="validatorButton" class="btn btn-success" (click)="open(content)">Valider</button>
+        <button type="submit" id="validatorButton" class="btn btn-success" (click)="openVerticallyCentered(content)">Valider</button>
 
         <!-- Modal Validation Popup-->
         <ng-template #content let-c="close" let-d="dismiss">
@@ -231,16 +284,17 @@
               <!-- Formulaire pour le choix des standards et des formats de téléchargement des fichiers -->
               <br>
               <ul> Sélectionner: </ul>
-              <label class="radio-inline"><input type="radio" name="optradio">Certain-très probable</label>
-              <label class="radio-inline"><input type="radio" name="optradio">Probable</label>
-              <label class="radio-inline"><input type="radio" name="optradio">Douteux</label> 
-              <label class="radio-inline"><input type="radio" name="optradio">Invalide</label> 
-              <label class="radio-inline"><input type="radio" name="optradio">Non réalisable</label> 
-              <label class="radio-inline"><input type="radio" name="optradio">Non évalué</label> 
-
-              <br>
+              
+                <label class="radio-inline" for="Certain"><input type="radio" name="optradio" value="Certain" id="Certain">Certain</label>
+                <label class="radio-inline" for="Probable"><input type="radio" name="optradio" value="Probable" id="Probable">Probable</label>
+                <label class="radio-inline" for="Douteux"><input type="radio" name="optradio" value="Douteux" id="Douteux">Douteux</label> 
+                <label class="radio-inline" for="Invalide"><input type="radio" name="optradio" value="Invalide" id="Invalide">Invalide</label> 
+                <label class="radio-inline" for="NR"><input type="radio" name="optradio" value="NR" id="NR">Non réalisable</label> 
+                <label class="radio-inline" for="NE"><input type="radio" name="optradio" value="NE" id="NE">Non évalué</label> 
+              
+              <br><br><br>
               <div>
-                <label for="comment">Comment:</label>
+                <label for="comment">Commentaire:</label>
                 <textarea rows="1" id="comment"></textarea>
               </div> 
 
@@ -250,7 +304,7 @@
             <!-- Bouton de fermeture de la modal pop-up ou lancement du téléchargement -->
             <div class="modal-footer" id="choicePopup">
               <button type="submit" class="btn btn-danger" data-dismiss="modal" (click)="c('Close click')">Fermer</button>
-              <button id="widthButton" type="submit" class="btn btn-success">OK</button>
+              <button id="widthButton" type="submit" class="btn btn-success">Save</button>
             </div>
           </form>
         </ng-template>

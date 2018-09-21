@@ -19,7 +19,7 @@ export class ValidationListComponent implements OnInit {
   public pathInfo: string;
   public idName: string;
   public apiEndPoint: string;
-  public validationConfig: any;
+  public validationConfig = ModuleConfig;
   public formsDefinition = FILTERSLIST;
   public dynamicFormGroup: FormGroup;
   public closeResult: string;
@@ -71,6 +71,10 @@ export class ValidationListComponent implements OnInit {
       this.customColumns
     );
     // end OnInit
+  }
+
+  openVerticallyCentered(content) {
+    this.modalService.open(content, { centered: true, size: 'lg', backdrop: 'static' });
   }
 
   toggleAdvancedFilters() {
@@ -171,6 +175,8 @@ export class ValidationListComponent implements OnInit {
       return `with: ${reason}`;
     }
   }
+  
+
 
 }
 
