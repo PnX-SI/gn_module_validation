@@ -5,6 +5,7 @@ import { ModuleConfig } from "../module.config";
 import { FormGroup, FormBuilder } from "@angular/forms";
 import { NgbDateParserFormatter } from "@ng-bootstrap/ng-bootstrap";
 import { FILTERSLIST } from "./filters-list";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "pnx-validation-list",
@@ -24,7 +25,7 @@ export class ValidationListComponent implements OnInit {
   public dynamicFormGroup: FormGroup;
   public closeResult: string;
   public formsSelected = [];
-  // provisoire
+  public modalForm : FormGroup;
   public tableMessages = {
     emptyMessage: "Aucune observation à afficher",
     totalMessage: "observation(s) au total"
@@ -34,9 +35,12 @@ export class ValidationListComponent implements OnInit {
   constructor(
     private mapListService: MapListService,
     private modalService: NgbModal,
-    private _fb: FormBuilder,
-    private _dateParser: NgbDateParserFormatter
-  ) {}
+    private _dateParser: NgbDateParserFormatter,
+    private _router: Router,
+    private _fb: FormBuilder
+    ) {
+      this.modalForm = this._fb.group({});
+    }
 
   ngOnInit() {
     this.dynamicFormGroup = this._fb.group({
@@ -52,11 +56,8 @@ export class ValidationListComponent implements OnInit {
 
     this.validationConfig = ModuleConfig;
 
-    // parameters for maplist
     // columns to be default displayed
     this.mapListService.displayColumns = this.displayColumns;
-
-    // columns available for display
 
     this.mapListService.availableColumns = this.validationConfig.available_maplist_column;
 
@@ -108,6 +109,10 @@ export class ValidationListComponent implements OnInit {
     this.mapListService.refreshData(this.apiEndPoint, "set", params);
   }
 
+  onDetailReleve(id_releve) {
+    this._router.navigate(["occtax/info", id_releve]);
+  }
+
   customColumns(feature) {
     // function pass to the getData and the maplist service to format date
     // on the table
@@ -120,7 +125,6 @@ export class ValidationListComponent implements OnInit {
   }
 
   refreshFilters() {
-    // this.taxonomyComponent.refreshAllInput();
     this.dynamicFormGroup.reset();
     this.mapListService.refreshUrlQuery(12);
   }

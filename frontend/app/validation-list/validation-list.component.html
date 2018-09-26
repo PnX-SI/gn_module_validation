@@ -26,75 +26,9 @@
               </pnx-taxonomy>
             </div>
 
-              <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 padding-md">
-                        <div *ngFor="let counting of selectedOccurrence?.cor_counting_occtax; let index = index">
-                          <div class="row row-sm">
-                              <div *ngIf="validationConfig.form_fields.counting.life_stage">
-                                  <pnx-nomenclature
-                                    label="{{ 'Counting.LifeStage' | translate }}" 
-                                    [parentFormControl]="countingFormArray.controls[index].controls.id_nomenclature_life_stage"
-                                    codeNomenclatureType="STADE_VIE"
-                                    [disabled]="disabled"> 
-                                  </pnx-nomenclature>
-                              </div>
-                              <div *ngIf="validationConfig.form_fields.counting.sex">
-                                  <pnx-nomenclature
-                                    label="{{ 'Counting.Sex' | translate }}"
-                                    [parentFormControl]="countingFormArray.controls[index].controls.id_nomenclature_sex"
-                                    codeNomenclatureType="SEXE"
-                                    [disabled]="disabled">
-                                  </pnx-nomenclature>
-                            </div>
-                            <div *ngIf="validationConfig.form_fields.counting.obj_count">
-                                  <pnx-nomenclature 
-                                    label="{{ 'Counting.CountingObject' | translate }}"
-                                    [parentFormControl]="countingFormArray.controls[index].controls.id_nomenclature_obj_count"
-                                    codeNomenclatureType="OBJ_DENBR"
-                                    [disabled]="disabled" >
-                                  </pnx-nomenclature>
-                            </div>
-                      
-                          </div>
-                          <div class="form-group row row-sm">
-                              <div *ngIf="validationConfig.form_fields.counting.type_count">
-                                  <pnx-nomenclature
-                                    #typeDenombrement
-                                    label="{{ 'Counting.CountingType' | translate }}"
-                                    [parentFormControl]="countingFormArray.controls[index].controls.id_nomenclature_type_count"
-                                    codeNomenclatureType="TYP_DENBR"
-                                    [disabled]="disabled">
-                                  </pnx-nomenclature> 
-                            </div>
-                              <div *ngIf="validationConfig.form_fields.counting.count_min">
-                                <div class="form-group">
-                                  <small> {{ 'Counting.NumberMin' | translate }} </small>
-                                  <input class="form-control form-control-sm" type="number" 
-                                  [formControl]="countingFormArray.controls[index].controls.count_min"
-                                  [disableControl]="disabled">
-                                </div>
-                              </div>
-                              <div *ngIf="validationConfig.form_fields.counting.count_max">
-                                <div class="form-group">
-                                    <small> {{ 'Counting.NumberMax' | translate }} </small>
-                                  <input class="form-control form-control-sm" type="number" 
-                                  [formControl]="countingFormArray.controls[index].controls.count_max"
-                                  [disableControl]="disabled">
-                                </div>
-                              </div>
-                          </div>
-                          <div class="form-group row row-0">
-                              <div *ngIf="validationConfig.form_fields.counting.type_count">
-                                  <pnx-nomenclature
-                                    #typeDenombrement
-                                    label="{{ 'Counting.ValidationStatus' | translate }}"
-                                    [parentFormControl]="countingFormArray.controls[index].controls.id_nomenclature_valid_status"
-                                    codeNomenclatureType="STATUT_VALID"
-                                    [disabled]="disabled">
-                                  </pnx-nomenclature> 
-                              </div>
-                            </div>
-                            <hr>
-                      </div>
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 padding-md">
+      
+                        
             </div>
 
             <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 padding-md">
@@ -245,6 +179,13 @@
         (page)="mapListService.setTablePage($event, apiEndPoint)"
         (select)="mapListService.onRowSelect($event)"
         >
+          <ngx-datatable-column maxWidth="10">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+            <button class="btn btn-secondary btn-no-padding btn-ghost" [disabled]="!row.rights.R" (click)="onDetailReleve(row[mapListService.idName])">
+                <i [ngClass]="{'disabled' : !row.rights.R}" matTooltip="{{ 'Releve.Info' | translate }} {{row[mapListService.idName]}}" class="fa fa-info-circle" aria-hidden="true" ></i>
+            </button>
+            </ng-template>
+          </ngx-datatable-column>
 
           <ngx-datatable-footer>
             <ng-template
