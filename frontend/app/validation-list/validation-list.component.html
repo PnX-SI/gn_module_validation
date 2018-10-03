@@ -4,18 +4,16 @@
 
     <!-- Formular side -->
     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 padding-sm card">
-      
-      <!-- Card Filtre TaxRef -->
+
+      <!-- Card Filtre -->
+      <div class="row row-sm" id="blockFilter">
         
-      <div class="row row-sm" id="blockTaxRefFilter">
-        
-        <div class="btn btn-outline-secondary btn-block" href="#filterTaxrefCollapse" data-toggle="collapse" aria-expanded="false" aria-controls="filterTaxrefCollapse">
-            Filtres TaxRef
+        <div class="btn btn-outline-secondary btn-block" href="#filterCollapse" data-toggle="collapse" aria-expanded="false" aria-controls="filterCollapse">
+            FILTRE
         </div>
-        <section id="filterTaxrefCollapse" class="collapse"> 
+        <section id="filterCollapse" class="collapse"> 
 
           <div id="fieldInLine">
-
             <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 padding-md">
               <pnx-taxonomy
                 label="{{ 'Taxon.Taxon' | translate }}"
@@ -25,71 +23,6 @@
                 [listLength]="20">
               </pnx-taxonomy>
             </div>
-
-            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 padding-md">
-      
-                        
-            </div>
-
-            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 padding-md">
-              <pnx-taxonomy
-                label="{{ 'Taxon.Taxon' | translate }}"
-                [parentFormControl]="dynamicFormGroup.controls.cd_nom"
-                [idList]="validationConfig.id_taxon_list"
-                [charNumber]="3"
-                [listLength]="20">
-              </pnx-taxonomy>
-            </div> 
-            
-          </div>
-
-          <div id="fieldInLine">
-
-            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 padding-md">
-              <pnx-taxonomy
-                label="{{ 'Taxon.Taxon' | translate }}"
-                [parentFormControl]="dynamicFormGroup.controls.cd_nom"
-                [idList]="validationConfig.id_taxon_list"
-                [charNumber]="3"
-                [listLength]="20">
-              </pnx-taxonomy>
-            </div>
-
-            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 padding-md">
-              <pnx-taxonomy
-                label="{{ 'Taxon.Taxon' | translate }}"
-                [parentFormControl]="dynamicFormGroup.controls.cd_nom"
-                [idList]="validationConfig.id_taxon_list"
-                [charNumber]="3"
-                [listLength]="20">
-              </pnx-taxonomy>
-            </div>
-
-            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 padding-md">
-              <pnx-taxonomy
-                label="{{ 'Taxon.Taxon' | translate }}"
-                [parentFormControl]="dynamicFormGroup.controls.cd_nom"
-                [idList]="validationConfig.id_taxon_list"
-                [charNumber]="3"
-                [listLength]="20">
-              </pnx-taxonomy>
-            </div> 
-            
-          </div>
-
-        </section> 
-
-      </div>
-
-      <!-- Card Filtre Autres -->
-      <div class="row row-sm" id="blockOtherFilter">
-        
-        <div class="btn btn-outline-secondary btn-block" href="#filterOtherCollapse" data-toggle="collapse" aria-expanded="false" aria-controls="filterOtherCollapse">
-            Autres Filtres
-        </div>
-        <section id="filterOtherCollapse" class="collapse"> 
-
-          <div id="fieldInLine">
 
             <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 padding-md">
               <pnx-date
@@ -104,18 +37,18 @@
                 [parentFormControl]="dynamicFormGroup.controls.date_up">
               </pnx-date>
             </div>
+            
+          </div>
+
+          <div id="fieldInLine">
 
             <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 padding-md">
               <pnx-observers
                 [parentFormControl]="dynamicFormGroup.controls.observers"
                 [idMenu]="validationConfig.id_observers_list"
                 label="{{ 'Releve.Observers' | translate }}">
-            </pnx-observers>
-            </div> 
-            
-          </div>
-
-          <div id="fieldInLine">
+              </pnx-observers>
+            </div>
 
             <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 padding-md">
               <pnx-datasets
@@ -128,24 +61,21 @@
             </div>
 
             <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 padding-md">
-              <pnx-taxonomy
-                label="{{ 'Taxon.Taxon' | translate }}"
-                [parentFormControl]="dynamicFormGroup.controls.cd_nom"
-                [idList]="validationConfig.id_taxon_list"
-                [charNumber]="3"
-                [listLength]="20">
-              </pnx-taxonomy>
-            </div>
+              
+            </div> 
+            
+          </div>
+
+          <div id="fieldInLine">
 
             <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 padding-md">
-              <pnx-taxonomy
-                label="{{ 'Taxon.Taxon' | translate }}"
-                [parentFormControl]="dynamicFormGroup.controls.cd_nom"
-                [idList]="validationConfig.id_taxon_list"
-                [charNumber]="3"
-                [listLength]="20">
-              </pnx-taxonomy>
-            </div> 
+              <pnx-dynamic-form-generator
+                #dynamicForm
+                selectLabel="Autres Critères"
+                [formGroup]="dynamicFormGroup"
+                [formsDefinition]="formsDefinition">
+              </pnx-dynamic-form-generator>
+            </div>
             
           </div>
 

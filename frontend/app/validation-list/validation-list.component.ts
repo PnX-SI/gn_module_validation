@@ -110,7 +110,7 @@ export class ValidationListComponent implements OnInit {
   }
 
   onDetailReleve(id_releve) {
-    this._router.navigate(["occtax/info", id_releve]);
+    this._router.navigate(["validation/info", id_releve]);
   }
 
   customColumns(feature) {
