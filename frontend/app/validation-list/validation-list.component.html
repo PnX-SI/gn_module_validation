@@ -68,7 +68,7 @@
 
           <div id="fieldInLine">
 
-            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 padding-md">
+            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 padding-md">
               <pnx-dynamic-form-generator
                 #dynamicForm
                 selectLabel="Autres Critères"
@@ -79,10 +79,17 @@
             
           </div>
 
+          <hr>
+
+          <!-- Fonction recherche -->
+          <button id="search-btn" class="btn btn-primary" (click)="searchData()" >
+              {{ 'Search' | translate }}
+            <i class="fa fa-search" aria-hidden="true"></i>
+          </button>
+
         </section> 
 
       </div>
-
 
       <!-- Table Part -->
 
