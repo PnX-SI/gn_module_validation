@@ -114,9 +114,6 @@ export class ValidationListComponent implements OnInit {
   }
 
   customColumns(feature) {
-    // function pass to the getData and the maplist service to format date
-    // on the table
-    // must return a feature
     const date_min = new Date(feature.properties.date_min);
     const date_max = new Date(feature.properties.date_max);
     feature.properties.date_min = date_min.toLocaleDateString("fr-FR");

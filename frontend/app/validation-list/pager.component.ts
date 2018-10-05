@@ -1,6 +1,11 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, HostBinding, Input, Output } from '@angular/core';
 import { DatatableComponent as SuperDataTablePagerComponent } from '@swimlane/ngx-datatable';
 
+
+
+//Système de pagination du tableau
+
+
 @Component({
   selector: 'app-datatable-pager',
   template: `
