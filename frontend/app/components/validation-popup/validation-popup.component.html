@@ -1,0 +1,40 @@
+<!-- Boutton pour accéder modal validation -->
+<button type="submit" id="validatorButton" class="btn btn-success" (click)="openVerticallyCentered(content)">Accédez à la validation</button>
+
+<!-- Modal Validation Popup-->
+<ng-template #content let-c="close" let-d="dismiss">
+
+  <!-- Modal content-->
+  <form [formGroup]="modalForm" class="modal-content">
+    <div class="modal-header">
+        <h4 class="modal-title">Validation</h4>
+    </div>
+
+    <div class="modal-body">
+      <!-- Formulaire pour le choix des standards et des formats de téléchargement des fichiers -->
+      <br>
+      <ul> Sélectionner: </ul>
+      
+        <label class="radio-inline" for="Certain"><input type="radio" name="optradio" value="Certain" id="Certain">Certain - Très probable</label>
+        <label class="radio-inline" for="Probable"><input type="radio" name="optradio" value="Probable" id="Probable">Probable</label>
+        <label class="radio-inline" for="Douteux"><input type="radio" name="optradio" value="Douteux" id="Douteux">Douteux</label> 
+        <label class="radio-inline" for="Invalide"><input type="radio" name="optradio" value="Invalide" id="Invalide">Invalide</label> 
+        <label class="radio-inline" for="NR"><input type="radio" name="optradio" value="NR" id="NR">Non réalisable</label> 
+        <label class="radio-inline" for="NE"><input type="radio" name="optradio" value="NE" id="NE">Non évalué</label> 
+      
+      <br><br><br>
+      <div>
+        <label for="comment">Commentaire:</label>
+        <textarea rows="1" id="comment"></textarea>
+      </div> 
+
+      <br>
+    </div>
+
+    <!-- Bouton de fermeture de la modal pop-up ou lancement du téléchargement -->
+    <div class="modal-footer" id="choicePopup">
+      <button type="submit" class="btn btn-danger" data-dismiss="modal" (click)="c('Close click')">Annuler</button>
+      <button id="widthButton" type="submit" class="btn btn-success">Valider</button>
+    </div>
+  </form>
+</ng-template>

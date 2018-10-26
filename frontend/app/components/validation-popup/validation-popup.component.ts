@@ -1,27 +1,28 @@
-import { Component, OnInit, OnDestroy, ViewChild } from "@angular/core";
+import { Component} from "@angular/core";
 import { MapListService } from "@geonature_common/map-list/map-list.service";
 import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
 import { ModuleConfig } from "../module.config";
 import { FormGroup, FormBuilder } from "@angular/forms";
 import { NgbDateParserFormatter } from "@ng-bootstrap/ng-bootstrap";
-import { FILTERSLIST } from "./filters-list";
+//import { FILTERSLIST } from "./filters-list";
 import { Router } from "@angular/router";
 
 @Component({
-  selector: "pnx-validation-list",
-  templateUrl: "validation-list.component.html",
-  styleUrls: ["./validation-list.component.scss"],
+  selector: "pnx-validation-popup",
+  templateUrl: "validation-popup.component.html",
+  styleUrls: ["./validation-popup.component.scss"],
   providers: [MapListService]
 })
-export class ValidationListComponent implements OnInit {
+export class ValidationPopupComponent implements OnInit {
+
   public displayColumns: Array<any>;
   public availableColumns: Array<any>;
   public pathEdit: string;
   public pathInfo: string;
   public idName: string;
   public apiEndPoint: string;
-  public validationConfig = ModuleConfig;
-  public formsDefinition = FILTERSLIST;
+  //public validationConfig = ModuleConfig;
+  //public formsDefinition = FILTERSLIST;
   public dynamicFormGroup: FormGroup;
   public closeResult: string;
   public formsSelected = [];
@@ -32,9 +33,10 @@ export class ValidationListComponent implements OnInit {
   };
   advandedFilterOpen = false;
 
+
   constructor(
+    private modalService: NgbModal
     private mapListService: MapListService,
-    private modalService: NgbModal,
     private _dateParser: NgbDateParserFormatter,
     private _router: Router,
     private _fb: FormBuilder
@@ -42,6 +44,8 @@ export class ValidationListComponent implements OnInit {
       this.modalForm = this._fb.group({});
     }
 
+
+  /*
   ngOnInit() {
     this.dynamicFormGroup = this._fb.group({
       cd_nom: null,
@@ -53,7 +57,9 @@ export class ValidationListComponent implements OnInit {
       date_low: null,
       municipality: null
     });
+    */
 
+    /*
     this.validationConfig = ModuleConfig;
 
     // columns to be default displayed
@@ -73,10 +79,13 @@ export class ValidationListComponent implements OnInit {
     );
     // end OnInit
   }
+  */
 
   openVerticallyCentered(content) {
     this.modalService.open(content, { centered: true, size: 'lg', backdrop: 'static' });
   }
+
+  /*
 
   toggleAdvancedFilters() {
     this.advandedFilterOpen = !this.advandedFilterOpen;
@@ -176,9 +185,8 @@ export class ValidationListComponent implements OnInit {
       return `with: ${reason}`;
     }
   }
-  
+  */
+
 
 
 }
-
-
