@@ -4,7 +4,7 @@ import { isArray } from 'util';
 import { GeoJSON } from 'leaflet';
 import { AppConfig } from '@geonature_config/app.config';
 import { CommonService } from '@geonature_common/service/common.service';
-
+import { AppConfig } from '@geonature_config/app.config';
 
 
 @Injectable()
@@ -29,6 +29,11 @@ export class DataService {
     return this._http.get<GeoJSON>(`${AppConfig.API_ENDPOINT}/validation`, {
       params: this.buildQueryUrl(params)
     });
+  }
+
+  postStatus(data: any, endpoint: string) {
+    const urlStatus = AppConfig.API_ENDPOINT + endpoint;
+    return this._http.post<any>(urlStatus, data);
   }
 
 }

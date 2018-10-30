@@ -5,7 +5,8 @@
 <ng-template #content let-c="close" let-d="dismiss">
 
   <!-- Modal content-->
-  <form [formGroup]="modalForm" class="modal-content">
+  <form [formGroup]="modalForm" (ngSubmit)="onSubmit(modalForm.value)" class="modal-content">
+
     <div class="modal-header">
         <h4 class="modal-title">Validation</h4>
     </div>
@@ -13,28 +14,29 @@
     <div class="modal-body">
       <!-- Formulaire pour le choix des standards et des formats de téléchargement des fichiers -->
       <br>
-      <ul> Sélectionner: </ul>
-      
-        <label class="radio-inline" for="Certain"><input type="radio" name="optradio" value="Certain" id="Certain">Certain - Très probable</label>
-        <label class="radio-inline" for="Probable"><input type="radio" name="optradio" value="Probable" id="Probable">Probable</label>
-        <label class="radio-inline" for="Douteux"><input type="radio" name="optradio" value="Douteux" id="Douteux">Douteux</label> 
-        <label class="radio-inline" for="Invalide"><input type="radio" name="optradio" value="Invalide" id="Invalide">Invalide</label> 
-        <label class="radio-inline" for="NR"><input type="radio" name="optradio" value="NR" id="NR">Non réalisable</label> 
-        <label class="radio-inline" for="NE"><input type="radio" name="optradio" value="NE" id="NE">Non évalué</label> 
-      
-      <br><br><br>
+      <ul> <b> Sélectionner : </b></ul>
+
+        <label class="radio-inline" for="Certain"><input type="radio" formControlName="status" value="Certain - très probable" id="Certain">Certain - Très probable</label>
+        <label class="radio-inline" for="Probable"><input type="radio" formControlName="status" value="Probable" id="Probable">Probable</label>
+        <label class="radio-inline" for="Douteux"><input type="radio" formControlName="status" value="Douteux" id="Douteux">Douteux</label>
+        <label class="radio-inline" for="Invalide"><input type="radio" formControlName="status" value="Invalide" id="Invalide">Invalide</label>
+        <label class="radio-inline" for="NR"><input type="radio" formControlName="status" value="Non réalisable" id="NR">Non réalisable</label>
+        <label class="radio-inline" for="NE"><input type="radio" formControlName="status" value="En attente de validation" id="NE">Non évalué</label>
+
+      <br>
+      <div> observations concernées : {{observations}}</div>
       <div>
         <label for="comment">Commentaire:</label>
-        <textarea rows="1" id="comment"></textarea>
-      </div> 
+        <textarea rows="1" formControlName="comment" id="comment"></textarea>
+      </div>
 
       <br>
     </div>
 
-    <!-- Bouton de fermeture de la modal pop-up ou lancement du téléchargement -->
+    <!-- Bouton de fermeture de la modal pop-up ou envoi -->
     <div class="modal-footer" id="choicePopup">
       <button type="submit" class="btn btn-danger" data-dismiss="modal" (click)="c('Close click')">Annuler</button>
-      <button id="widthButton" type="submit" class="btn btn-success">Valider</button>
+      <input id="widthButton" value="Envoyer" type="submit" class="btn btn-success">
     </div>
   </form>
 </ng-template>

@@ -11,17 +11,18 @@ import {
 import { GeoJSON } from 'leaflet';
 import { MapListService } from '@geonature_common/map-list/map-list.service';
 import { DataService } from '../../services/data.service';
-import { ValidationPopupComponent } from '../validation-popup/validation-popup.component';
 //import { SyntheseFormService } from '../../services/form.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonService } from '@geonature_common/service/common.service';
 import { ModuleConfig } from '../../module.config';
-import { HttpParams } from '@angular/common/http/src/params';
+//import { HttpParams } from '@angular/common/http/src/params';
 import { DomSanitizer } from '@angular/platform-browser';
 //import { SyntheseModalDownloadComponent } from './modal-download/modal-download.component';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 //import { ModalInfoObsComponent } from './modal-info-obs/modal-info-obs.component';
 import { CommonModule } from '@angular/common';
+import { ValidationPopupComponent } from './validation-popup/ValidationPopupComponent';
+
 
 
 @Component({
@@ -31,14 +32,14 @@ import { CommonModule } from '@angular/common';
 })
 export class ValidationSyntheseListComponent implements OnInit, OnChanges, AfterContentChecked {
   public VALIDATION_CONFIG = ModuleConfig;
-  public selectedObs: any;
-  public selectObsTaxonInfo: any;
-  public selectedObsTaxonDetail: any;
-  public previousRow: any;
+  selectedObs : Array<number> = [];
+  //public selectObsTaxonInfo: any;
+  //public selectedObsTaxonDetail: any;
+  //public previousRow: any;
   public rowNumber: number;
-  public queyrStringDownload: HttpParams;
-  public inpnMapUrl: string;
-  public downloadMessage: string;
+  //public queyrStringDownload: HttpParams;
+  //public inpnMapUrl: string;
+  //public downloadMessage: string;
   //input to resize datatable on searchbar toggle
   @Input() inputSyntheseData: GeoJSON;
   @ViewChild('table') table: DatatableComponent;
@@ -80,6 +81,18 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
   ngAfterContentChecked() {
     if (this.table && this.table.element.clientWidth !== this._latestWidth) {
       this._latestWidth = this.table.element.clientWidth;
+    }
+  }
+
+  onActivate(event) {
+    if (event.type == 'checkbox') {
+      if (this.selectedObs.some(x => x === event.row.id_synthese)) {
+        this.selectedObs.splice(this.selectedObs.indexOf(event.row.id_synthese),1);
+        console.log('id_synthese_selected', this.selectedObs);
+      } else {
+        this.selectedObs.push(event.row.id_synthese);
+        console.log('id_synthese_selected', this.selectedObs);
+      }
     }
   }
 

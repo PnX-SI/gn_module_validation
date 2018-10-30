@@ -7,6 +7,7 @@ import { ValidationSyntheseListComponent } from "./components/validation-synthes
 import { ValidationSyntheseCarteComponent } from "./components/validation-synthese-carte/validation-synthese-carte.component";
 import { ValidationPopupComponent } from "./components/validation-popup/validation-popup.component";
 import { DataService } from "./services/data.service";
+import { HttpClient } from '@angular/common/http';
 
 // my module routing
 const routes: Routes = [

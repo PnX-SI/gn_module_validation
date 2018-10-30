@@ -1,19 +1,30 @@
-from flask import Blueprint, current_app
+from flask import (
+    Blueprint,
+    current_app,
+    request
+    )
+from sqlalchemy import select
 import pdb
+import datetime
 from geojson import FeatureCollection
 
 from geonature.utils.utilssqlalchemy import json_resp
 
 from geonature.core.gn_meta.models import TDatasets
 
+from geonature.core.gn_synthese.models import Synthese
+
 from geonature.utils.env import DB
 
-from .models import (VValidationForWebApp)
+from .models import (
+    VValidationForWebApp,
+    TValidations
+    )
 
 #from geonature.core.gn_synthese.utils import query as synthese_query
 
 from pypnusershub import routes as fnauth
-
+from pypnnomenclature.models import TNomenclatures
 
 blueprint = Blueprint('validation', __name__)
 
@@ -57,3 +68,52 @@ def get_synthese_data(info_role):
         'nb_obs_limited': nb_total == blueprint.config['NB_MAX_OBS_MAP'],
         'nb_total': nb_total
     }
+
+@blueprint.route('/<id_synthese>', methods=['GET','POST'])
+@fnauth.check_auth_cruved('C', True)
+@json_resp
+def post_status(info_role,id_synthese):
+    # faire validations pour multiples observations
+    # trouver pour id_table_loc
+    # trouver pour id_locator
+    data = dict(request.get_json())
+    print(data)
+    print('id_synthese = ' + id_synthese)
+    validation_status = data['status']
+    validation_comment = data['comment']
+    if validation_status == '':
+        return 'Veuillez sélectionner un statut de validation ou cliquez sur annuler'
+
+    id_val = 1
+    id_table_loc = 4
+    uuid = select([Synthese.unique_id_sinp]).where(Synthese.id_synthese == id_synthese)
+    id_nomenclature_status = select([TNomenclatures.id_nomenclature]).where(TNomenclatures.mnemonique == validation_status)
+    id_valdator = 5
+    comment = validation_comment
+    val_date = datetime.datetime.now()
+
+    addValidation = TValidations(
+        id_val,
+        id_table_loc,
+        uuid,
+        id_nomenclature_status,
+        id_valdator,
+        comment,
+        val_date
+    )
+
+    DB.session.add(addValidation)
+    DB.session.commit()
+    DB.session.close()
+
+    pdb.set_trace()
+
+    return data
+
+    """
+    id_nomenclature_status = select([TNomenclatures.id_nomenclature]).where(TNomenclatures.mnemonique == validation_status)
+    DB.session.execute(status).fetchall()
+    """
+
+
+    return data

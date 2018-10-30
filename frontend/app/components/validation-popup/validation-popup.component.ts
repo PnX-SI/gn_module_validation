@@ -1,11 +1,14 @@
-import { Component} from "@angular/core";
+import { Component, Input} from "@angular/core";
 import { MapListService } from "@geonature_common/map-list/map-list.service";
 import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
 import { ModuleConfig } from "../module.config";
-import { FormGroup, FormBuilder } from "@angular/forms";
+import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgbDateParserFormatter } from "@ng-bootstrap/ng-bootstrap";
 //import { FILTERSLIST } from "./filters-list";
 import { Router } from "@angular/router";
+import { DataService } from '../../services/data.service';
+
+
 
 @Component({
   selector: "pnx-validation-popup",
@@ -15,6 +18,8 @@ import { Router } from "@angular/router";
 })
 export class ValidationPopupComponent implements OnInit {
 
+  //my_url: string;
+  public isError: Boolean;
   public displayColumns: Array<any>;
   public availableColumns: Array<any>;
   public pathEdit: string;
@@ -23,26 +28,55 @@ export class ValidationPopupComponent implements OnInit {
   public apiEndPoint: string;
   //public validationConfig = ModuleConfig;
   //public formsDefinition = FILTERSLIST;
-  public dynamicFormGroup: FormGroup;
+  //public dynamicFormGroup: FormGroup;
   public closeResult: string;
   public formsSelected = [];
-  public modalForm : FormGroup;
+  public modalForm: FormGroup;
   public tableMessages = {
     emptyMessage: "Aucune observation à afficher",
     totalMessage: "observation(s) au total"
   };
   advandedFilterOpen = false;
 
+  @Input() observations : Array<number>;
 
   constructor(
-    private modalService: NgbModal
-    private mapListService: MapListService,
+    private modalService: NgbModal,
+    //private mapListService: MapListService,
     private _dateParser: NgbDateParserFormatter,
     private _router: Router,
-    private _fb: FormBuilder
+    private _fb: FormBuilder,
+    public searchService: DataService
     ) {
-      this.modalForm = this._fb.group({});
+      this.modalForm = this._fb.group({
+        status : ['', Validators.required],
+        comment : ['']
+        //mettre le statut actuel par défaut
+      });
     }
+
+  // faire un form.service.ts
+  onSubmit(value: any) {
+    console.log('Soumission des données à valider : ');
+    this.postValidationStatus(value);
+  }
+
+  postValidationStatus(value) {
+    const statusUrl = '/validation/' + this.observations;
+    this.searchService.postStatus(value, statusUrl)
+      .subscribe(
+        data => {
+          console.log('Message de retour du serveur suite au HTTP Post du formulaire = ' + JSON.stringify(data));
+        },
+        (err) => {
+          this.isError = true;
+          console.log(err);
+        },
+        () => {
+          console.log('fin de lenvoi');
+        }
+      );
+  }
 
 
   /*
