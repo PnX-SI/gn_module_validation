@@ -17,7 +17,7 @@ from geonature.core.gn_synthese.models import Synthese
 from geonature.utils.env import DB
 
 from .models import (
-    VValidationForWebApp,
+    VLastValidationForWebApp,
     TValidations
     )
 
@@ -40,7 +40,7 @@ def get_synthese_data(info_role):
 
     allowed_datasets = TDatasets.get_user_datasets(info_role)
 
-    q = DB.session.query(VValidationForWebApp)
+    q = DB.session.query(VLastValidationForWebApp)
 
     """
     q = synthese_query.filter_query_all_filters(VSyntheseForWebApp, q, filters, info_role, allowed_datasets)
@@ -77,43 +77,49 @@ def post_status(info_role,id_synthese):
     # trouver pour id_table_loc
     # trouver pour id_locator
     data = dict(request.get_json())
+
     print(data)
     print('id_synthese = ' + id_synthese)
-    validation_status = data['status']
-    validation_comment = data['comment']
-    if validation_status == '':
-        return 'Veuillez sélectionner un statut de validation ou cliquez sur annuler'
 
-    id_val = 1
-    id_table_loc = 4
-    uuid = select([Synthese.unique_id_sinp]).where(Synthese.id_synthese == id_synthese)
-    id_nomenclature_status = select([TNomenclatures.id_nomenclature]).where(TNomenclatures.mnemonique == validation_status)
-    id_valdator = 5
-    comment = validation_comment
-    val_date = datetime.datetime.now()
+    l_id_synthese = []
+    for t in list(id_synthese):
+        try:
+            l_id_synthese.append(int(t))
+        except ValueError:
+            pass
 
-    addValidation = TValidations(
-        id_val,
-        id_table_loc,
-        uuid,
-        id_nomenclature_status,
-        id_valdator,
-        comment,
-        val_date
-    )
+    for id in l_id_synthese:
 
-    DB.session.add(addValidation)
-    DB.session.commit()
+        validation_status = data['status']
+        validation_comment = data['comment']
+        if validation_status == '':
+            return 'Veuillez sélectionner un statut de validation ou cliquez sur annuler'
+
+        id_val = 1
+        id_table_loc = 4
+        uuid = select([Synthese.unique_id_sinp]).where(Synthese.id_synthese == id)
+        id_nomenclature_status = select([TNomenclatures.id_nomenclature]).where(TNomenclatures.mnemonique == validation_status)
+        id_valdator = 5
+        comment = validation_comment
+        val_date = datetime.datetime.now()
+
+        addValidation = TValidations(
+            id_val,
+            id_table_loc,
+            uuid,
+            id_nomenclature_status,
+            id_valdator,
+            comment,
+            val_date
+        )
+
+        DB.session.add(addValidation)
+        DB.session.commit()
+
     DB.session.close()
 
-    pdb.set_trace()
-
-    return data
-
     """
-    id_nomenclature_status = select([TNomenclatures.id_nomenclature]).where(TNomenclatures.mnemonique == validation_status)
-    DB.session.execute(status).fetchall()
+    Data = select([data])
+    DB.session.execute(data).fetchall()
     """
-
-
     return data

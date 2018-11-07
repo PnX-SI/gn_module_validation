@@ -13,18 +13,17 @@
 
     <div class="modal-body">
       <!-- Formulaire pour le choix des standards et des formats de téléchargement des fichiers -->
-      <br>
-      <ul> <b> Sélectionner : </b></ul>
 
         <label class="radio-inline" for="Certain"><input type="radio" formControlName="status" value="Certain - très probable" id="Certain">Certain - Très probable</label>
         <label class="radio-inline" for="Probable"><input type="radio" formControlName="status" value="Probable" id="Probable">Probable</label>
         <label class="radio-inline" for="Douteux"><input type="radio" formControlName="status" value="Douteux" id="Douteux">Douteux</label>
         <label class="radio-inline" for="Invalide"><input type="radio" formControlName="status" value="Invalide" id="Invalide">Invalide</label>
+        <br>
         <label class="radio-inline" for="NR"><input type="radio" formControlName="status" value="Non réalisable" id="NR">Non réalisable</label>
-        <label class="radio-inline" for="NE"><input type="radio" formControlName="status" value="En attente de validation" id="NE">Non évalué</label>
+        <br>
+        <label class="radio-inline" for="NE"><input type="radio" formControlName="status" value="En attente de validation" id="NE">En attente de validation</label>
 
       <br>
-      <div> observations concernées : {{observations}}</div>
       <div>
         <label for="comment">Commentaire:</label>
         <textarea rows="1" formControlName="comment" id="comment"></textarea>

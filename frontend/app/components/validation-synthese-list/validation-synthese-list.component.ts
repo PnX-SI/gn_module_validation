@@ -24,7 +24,6 @@ import { CommonModule } from '@angular/common';
 import { ValidationPopupComponent } from './validation-popup/ValidationPopupComponent';
 
 
-
 @Component({
   selector: 'pnx-validation-synthese-list',
   templateUrl: 'validation-synthese-list.component.html',
@@ -76,6 +75,10 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
       this.table.offset = page;
     });
 
+  }
+
+  action() {
+    console.log('à faire');
   }
 
   ngAfterContentChecked() {

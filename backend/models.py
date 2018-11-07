@@ -9,8 +9,8 @@ from geoalchemy2 import Geometry
 
 @serializable
 @geoserializable
-class VValidationForWebApp(DB.Model):
-    __tablename__ = 'v_validations_for_web_app'
+class VLastValidationForWebApp(DB.Model):
+    __tablename__ = 'v_last_validations_for_web_app'
     __table_args__ = {'schema': 'gn_commons'}
 
     id_synthese = DB.Column(DB.Integer, ForeignKey(

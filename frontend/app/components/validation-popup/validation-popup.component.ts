@@ -1,13 +1,13 @@
 import { Component, Input} from "@angular/core";
 import { MapListService } from "@geonature_common/map-list/map-list.service";
 import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
-import { ModuleConfig } from "../module.config";
+import { ModuleConfig } from "../../module.config";
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgbDateParserFormatter } from "@ng-bootstrap/ng-bootstrap";
 //import { FILTERSLIST } from "./filters-list";
 import { Router } from "@angular/router";
 import { DataService } from '../../services/data.service';
-
+import { ToastrService } from 'ngx-toastr'
 
 
 @Component({
@@ -19,6 +19,7 @@ import { DataService } from '../../services/data.service';
 export class ValidationPopupComponent implements OnInit {
 
   //my_url: string;
+  string_observations: string;
   public isError: Boolean;
   public displayColumns: Array<any>;
   public availableColumns: Array<any>;
@@ -46,7 +47,8 @@ export class ValidationPopupComponent implements OnInit {
     private _dateParser: NgbDateParserFormatter,
     private _router: Router,
     private _fb: FormBuilder,
-    public searchService: DataService
+    public searchService: DataService,
+    private toastr: ToastrService
     ) {
       this.modalForm = this._fb.group({
         status : ['', Validators.required],
@@ -62,7 +64,9 @@ export class ValidationPopupComponent implements OnInit {
   }
 
   postValidationStatus(value) {
-    const statusUrl = '/validation/' + this.observations;
+    this.string_observations = JSON.stringify(this.observations);
+    console.log(this.string_observations);
+    const statusUrl = '/validation/' + this.string_observations;
     this.searchService.postStatus(value, statusUrl)
       .subscribe(
         data => {
@@ -71,27 +75,23 @@ export class ValidationPopupComponent implements OnInit {
         (err) => {
           this.isError = true;
           console.log(err);
+          //this.toastr.success('Le changement de statut de validation des observations ' + this.observations.toString() + ' a été modifié avec succès');
+          this.toastr.warning("La modification du statut de validation a échoué, contactez l'administrateur web");
         },
         () => {
           console.log('fin de lenvoi');
+          this.toastr.success('Le statut de validation a été modifié avec succès');
         }
       );
+      this._router.navigate([ModuleConfig.api_url]);
+      // this.modalService.close();
   }
 
 
-  /*
   ngOnInit() {
-    this.dynamicFormGroup = this._fb.group({
-      cd_nom: null,
-      observers: null,
-      dataset: null,
-      observers_txt: null,
-      id_dataset: null,
-      date_up: null,
-      date_low: null,
-      municipality: null
+    console.log('valeur observations : ', this.observations);
     });
-    */
+
 
     /*
     this.validationConfig = ModuleConfig;
@@ -118,6 +118,8 @@ export class ValidationPopupComponent implements OnInit {
   openVerticallyCentered(content) {
     this.modalService.open(content, { centered: true, size: 'lg', backdrop: 'static' });
   }
+
+
 
   /*
 

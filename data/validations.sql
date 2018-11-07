@@ -84,6 +84,24 @@ CREATE OR REPLACE VIEW gn_commons.v_validations_for_web_app AS
      JOIN gn_meta.t_datasets d ON d.id_dataset = s.id_dataset
      JOIN gn_synthese.t_sources sources ON sources.id_source = s.id_source
      JOIN gn_commons.t_validations v ON v.uuid_attached_row = s.unique_id_sinp
-     JOIN ref_nomenclatures.t_nomenclatures n ON n.id_nomenclature = v.id_nomenclature_valid_status
+     JOIN ref_nomenclatures.t_nomenclatures n ON n.id_nomenclature = v.id_nomenclature_valid_status;
 
- --WHERE s.deleted = false;
+
+CREATE OR REPLACE VIEW gn_commons.v_latest_validations_for_web_app AS
+-- WITH actors AS (SELECT
+--   s.id_synthese,
+--    array_agg(cda.id_role) AS actor_role_ids,
+--    array_agg(cda.id_organism) AS actor_organisme_ids
+--  FROM gn_synthese.synthese s
+--   JOIN gn_meta.t_datasets d ON d.id_dataset = s.id_dataset
+--   JOIN gn_meta.cor_dataset_actor cda ON cda.id_dataset = d.id_dataset
+--  GROUP BY s.id_synthese
+-- )
+select v1.*
+from gn_commons.v_validations_for_web_app v1
+join
+(
+	SELECT id_synthese, Max(validation_date)
+	FROM gn_commons.v_validations_for_web_app
+	GROUP BY id_synthese
+) v2 on v1.validation_date = v2.max AND v1.id_synthese = v2.id_synthese;
