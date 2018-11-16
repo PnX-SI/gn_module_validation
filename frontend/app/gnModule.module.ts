@@ -8,7 +8,7 @@ import { ValidationSyntheseCarteComponent } from "./components/validation-synthe
 import { ValidationPopupComponent } from "./components/validation-popup/validation-popup.component";
 import { DataService } from "./services/data.service";
 import { HttpClient } from '@angular/common/http';
-import { ToastrModule } from 'ngx-toastr';
+//import { ToastrModule } from 'ngx-toastr';
 
 // my module routing
 const routes: Routes = [
@@ -16,8 +16,8 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [ValidationComponent, ValidationSyntheseListComponent,ValidationSyntheseCarteComponent, ValidationPopupComponent],
-  imports: [GN2CommonModule, RouterModule.forChild(routes), CommonModule, ToastrModule.forRoot()],
+  declarations: [ValidationComponent, ValidationSyntheseListComponent, ValidationSyntheseCarteComponent, ValidationPopupComponent],
+  imports: [GN2CommonModule, RouterModule.forChild(routes), CommonModule],
   providers: [DataService],
   bootstrap: []
 })

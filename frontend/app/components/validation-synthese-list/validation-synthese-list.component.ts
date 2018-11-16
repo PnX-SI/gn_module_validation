@@ -99,6 +99,14 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
     }
   }
 
+  onStatusChange(status) {
+    console.log(status);
+    for (let obs in this.mapListService.selectedRow) {
+      this.mapListService.selectedRow[obs]['id_nomenclature_valid_status'] = status;
+    }
+    this.mapListService.selectedRow = [...this.mapListService.selectedRow];
+  }
+
   // update the number of row per page when resize the window
   @HostListener('window:resize', ['$event'])
   onResize(event) {
@@ -134,10 +142,11 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
   }
   */
 
-
+  /*
   getRowClass() {
     return 'row-sm clickable';
   }
+  */
 
   ngOnChanges(changes) {
     if (changes.inputSyntheseData && changes.inputSyntheseData.currentValue) {

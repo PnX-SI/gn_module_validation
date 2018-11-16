@@ -13,6 +13,7 @@ export class DataService {
 
   constructor(private _http: HttpClient, private _commonService: CommonService) { }
 
+  /*
   buildQueryUrl(params): HttpParams {
     let queryUrl = new HttpParams();
     for (let key in params) {
@@ -24,10 +25,11 @@ export class DataService {
     }
     return queryUrl;
   }
+  */
 
-  getSyntheseData(params) {
+  getSyntheseData() {
     return this._http.get<GeoJSON>(`${AppConfig.API_ENDPOINT}/validation`, {
-      params: this.buildQueryUrl(params)
+      //params: this.buildQueryUrl(params)
     });
   }
 

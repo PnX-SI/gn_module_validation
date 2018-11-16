@@ -1,41 +1,67 @@
 <!-- Boutton pour accéder modal validation -->
-<button type="submit" id="validatorButton" class="btn btn-success" (click)="openVerticallyCentered(content)">Accédez à la validation</button>
+<button type="button" id="validatorButton" class="btn btn-primary btn-lg" [disabled]="this.observations.length === 0" (click)="openVerticallyCentered(content)">Accédez à la validation</button>
 
-<!-- Modal Validation Popup-->
 <ng-template #content let-c="close" let-d="dismiss">
 
-  <!-- Modal content-->
-  <form [formGroup]="modalForm" (ngSubmit)="onSubmit(modalForm.value)" class="modal-content">
+<!-- Modal Validation Popup-->
 
-    <div class="modal-header">
-        <h4 class="modal-title">Validation</h4>
-    </div>
+      <!-- Modal content-->
+      <form [formGroup]="modalForm" class="modal-content">
 
-    <div class="modal-body">
-      <!-- Formulaire pour le choix des standards et des formats de téléchargement des fichiers -->
+        <div class="modal-header" style="justify-content: center" >
+            <h4 class="modal-title">Choix du statut de validation</h4>
+        </div>
 
-        <label class="radio-inline" for="Certain"><input type="radio" formControlName="status" value="Certain - très probable" id="Certain">Certain - Très probable</label>
-        <label class="radio-inline" for="Probable"><input type="radio" formControlName="status" value="Probable" id="Probable">Probable</label>
-        <label class="radio-inline" for="Douteux"><input type="radio" formControlName="status" value="Douteux" id="Douteux">Douteux</label>
-        <label class="radio-inline" for="Invalide"><input type="radio" formControlName="status" value="Invalide" id="Invalide">Invalide</label>
-        <br>
-        <label class="radio-inline" for="NR"><input type="radio" formControlName="status" value="Non réalisable" id="NR">Non réalisable</label>
-        <br>
-        <label class="radio-inline" for="NE"><input type="radio" formControlName="status" value="En attente de validation" id="NE">En attente de validation</label>
+        <div class="modal-body" id="bodyModal" style="padding-top:30px;">
 
-      <br>
-      <div>
-        <label for="comment">Commentaire:</label>
-        <textarea rows="1" formControlName="comment" id="comment"></textarea>
-      </div>
+          <div id="validButtons">
+          <!-- Formulaire pour le choix des standards et des formats de téléchargement des fichiers -->
+          <label style="background-color:#28a745;" class="btn btn-primary radio-inline" for="Certain">
+            <input type="radio" formControlName="statut" value="Certain - très probable" id="Certain">
+            Certain - Très probable</label>
 
-      <br>
-    </div>
+          <label style="background-color:#9ACD32;" class="btn btn-primary radio-inline" for="Probable">
+            <input type="radio" formControlName="statut" value="Probable" id="Probable">
+            Probable</label>
 
-    <!-- Bouton de fermeture de la modal pop-up ou envoi -->
-    <div class="modal-footer" id="choicePopup">
-      <button type="submit" class="btn btn-danger" data-dismiss="modal" (click)="c('Close click')">Annuler</button>
-      <input id="widthButton" value="Envoyer" type="submit" class="btn btn-success">
-    </div>
-  </form>
+          <label style="background-color:#FFA500;" class="btn btn-primary radio-inline" for="Douteux">
+            <input type="radio" formControlName="statut" value="Douteux" id="Douteux">
+            Douteux</label>
+
+          <label style="background-color:#FF0000;" class="btn btn-primary radio-inline" for="Invalide">
+            <input type="radio" formControlName="statut" value="Invalide" id="Invalide">
+            Invalide</label>
+
+          </div>
+
+          <br>
+
+            <div style="padding-top:30px;">
+
+            <label style="background-color:#8e8e8e;width: 30%;" class="btn btn-primary radio-inline" for="NR">
+              <input type="radio" formControlName="statut" value="Non réalisable" id="NR">
+              Non réalisable</label>
+            <br>
+
+            <label style="background-color:#8e8e8e;width: 30%;" class="btn btn-primary radio-inline" for="NE">
+              <input type="radio" formControlName="statut" value="En attente de validation" id="NE">
+              En attente de validation</label>
+
+            </div>
+
+          <div class="md-form mb-0" style="padding-top:30px;">
+            <span> Commentaire : </span>
+            <textarea type="text" rows="1" class="form-control md-textarea" formControlName="comment" id="form1"> </textarea>
+          </div>
+
+          <br>
+        </div>
+
+        <!-- Bouton de fermeture de la modal pop-up ou envoi -->
+        <div class="modal-footer" id="choicePopup">
+          <button type="submit" class="btn btn-danger" data-dismiss="modal" (click)="closeModal()">Fermer</button>
+          <input id="widthButton" (click)="onSubmit(modalForm.value)" data-toggle="modal" #content value="Envoyer" type="button" class="btn btn-success" [disabled]="this.modalForm.controls.statut.value === ''" data-dismiss="modal">
+        </div>
+
+      </form>
 </ng-template>

@@ -31,7 +31,7 @@ export const ModuleConfig = {
  {
   "max_width": 100,
   "name": "Statut Validation",
-  "prop": "mnemonique"
+  "prop": "id_nomenclature_valid_status"
  }],
  "MANDATORY_COLUMNS": [
   "entity_source_pk_value",

@@ -8,6 +8,7 @@ import { ValidationSyntheseCarteComponent } from './validation-synthese-carte/va
 //import { SyntheseFormService } from './services/form.service';
 //import { SyntheseModalDownloadComponent } from './synthese-results/synthese-list/modal-download/modal-download.component';
 import { AppConfig } from '@geonature_config/app.config';
+import { ToastrService } from 'ngx-toastr'
 
 @Component({
   selector: 'pnx-validation',
@@ -22,11 +23,17 @@ export class ValidationComponent implements OnInit {
   constructor(
     public searchService: DataService,
     private _mapListService: MapListService,
-    private _commonService: CommonService
+    private _commonService: CommonService,
+    private toastr: ToastrService
+
     //private _modalService: NgbModal,
     //private _fs: SyntheseFormService
   ) {}
 
+  ngOnInit() {
+    //const initialData = { limit: AppConfig.SYNTHESE.NB_LAST_OBS };
+    this.loadAndStoreData();
+  }
 
   /*
   ngOnInit() {
@@ -45,9 +52,9 @@ export class ValidationComponent implements OnInit {
   }
   */
 
-  loadAndStoreData(formParams) {
+  loadAndStoreData() {
     this.searchService.dataLoaded = false;
-    this.searchService.getSyntheseData(formParams).subscribe(
+    this.searchService.getSyntheseData().subscribe(
       result => {
         /*
         if (result['nb_obs_limited']) {
@@ -75,10 +82,6 @@ export class ValidationComponent implements OnInit {
     );
   }
 
-  ngOnInit() {
-    const initialData = { limit: AppConfig.SYNTHESE.NB_LAST_OBS };
-    this.loadAndStoreData(initialData);
-  }
 
 
   formatDate(unformatedDate) {
@@ -88,8 +91,33 @@ export class ValidationComponent implements OnInit {
 
   customColumns(feature) {
     // function pass to the LoadTableData maplist service function to format date
-    // on the table
+    // and nomenclature code on the table
     // must return a feature
+    if(feature.properties.id_nomenclature_valid_status === 466) {
+      feature.properties.id_nomenclature_valid_status = 'En attente de validation';
+    }
+    if(feature.properties.id_nomenclature_valid_status === 318) {
+      feature.properties.id_nomenclature_valid_status = 'Certain - très probable';
+    }
+    if(feature.properties.id_nomenclature_valid_status === 319) {
+      feature.properties.id_nomenclature_valid_status = 'Probable';
+    }
+    if(feature.properties.id_nomenclature_valid_status === 320) {
+      feature.properties.id_nomenclature_valid_status = 'Douteux';
+    }
+    if(feature.properties.id_nomenclature_valid_status === 321) {
+      feature.properties.id_nomenclature_valid_status = 'Invalide';
+    }
+    if(feature.properties.id_nomenclature_valid_status === 322) {
+      feature.properties.id_nomenclature_valid_status = 'Non réalisable';
+    }
+    if(feature.properties.id_nomenclature_valid_status === 323) {
+      feature.properties.id_nomenclature_valid_status = 'Inconnu';
+    }
+    if(feature.properties.id_nomenclature_valid_status === 466) {
+      feature.properties.id_nomenclature_valid_status = 'En attente de validation';
+    }
+
     if (feature.properties.date_min) {
       feature.properties.date_min = this.formatDate(feature.properties.date_min);
     }

@@ -12,14 +12,11 @@ from geonature.utils.utilssqlalchemy import json_resp
 
 from geonature.core.gn_meta.models import TDatasets
 
-from geonature.core.gn_synthese.models import Synthese
+from geonature.core.gn_synthese.models import Synthese,VSyntheseForWebApp
 
 from geonature.utils.env import DB
 
-from .models import (
-    VLastValidationForWebApp,
-    TValidations
-    )
+from .models import (TValidations)
 
 #from geonature.core.gn_synthese.utils import query as synthese_query
 
@@ -40,7 +37,7 @@ def get_synthese_data(info_role):
 
     allowed_datasets = TDatasets.get_user_datasets(info_role)
 
-    q = DB.session.query(VLastValidationForWebApp)
+    q = DB.session.query(VSyntheseForWebApp)
 
     """
     q = synthese_query.filter_query_all_filters(VSyntheseForWebApp, q, filters, info_role, allowed_datasets)
@@ -73,53 +70,63 @@ def get_synthese_data(info_role):
 @fnauth.check_auth_cruved('C', True)
 @json_resp
 def post_status(info_role,id_synthese):
-    # faire validations pour multiples observations
-    # trouver pour id_table_loc
-    # trouver pour id_locator
-    data = dict(request.get_json())
+    try:
+        # revoir id_table_loc
+        # revoir pour id_locator
+        data = dict(request.get_json())
 
-    print(data)
-    print('id_synthese = ' + id_synthese)
+        print(data)
+        print('id_synthese = ' + id_synthese)
 
-    l_id_synthese = []
-    for t in list(id_synthese):
-        try:
-            l_id_synthese.append(int(t))
-        except ValueError:
-            pass
+        expected_values = ['Certain - très probable', 'Probable', 'Douteux', 'Invalide', 'Non réalisable', 'En attente de validation']
 
-    for id in l_id_synthese:
+        l_id_synthese = []
+        for t in list(id_synthese):
+            try:
+                l_id_synthese.append(int(t))
+            except ValueError:
+                pass
 
-        validation_status = data['status']
+        validation_status = data['statut']
         validation_comment = data['comment']
+        print(validation_status)
+
         if validation_status == '':
-            return 'Veuillez sélectionner un statut de validation ou cliquez sur annuler'
+            return 'Aucun statut de validation n\'est sélectionné', 400
 
-        id_val = 1
-        id_table_loc = 4
-        uuid = select([Synthese.unique_id_sinp]).where(Synthese.id_synthese == id)
-        id_nomenclature_status = select([TNomenclatures.id_nomenclature]).where(TNomenclatures.mnemonique == validation_status)
-        id_valdator = 5
-        comment = validation_comment
-        val_date = datetime.datetime.now()
+        if validation_status not in expected_values:
+            return 'INTERNAL SERVER ERROR : wrong status / contactez l\'administrateur du site', 500
 
-        addValidation = TValidations(
-            id_val,
-            id_table_loc,
-            uuid,
-            id_nomenclature_status,
-            id_valdator,
-            comment,
-            val_date
-        )
+        for id in l_id_synthese:
 
-        DB.session.add(addValidation)
-        DB.session.commit()
+            id_val = 1
+            id_table_loc = 4
+            uuid = select([Synthese.unique_id_sinp]).where(Synthese.id_synthese == id)
+            id_nomenclature_status = select([TNomenclatures.id_nomenclature]).where(TNomenclatures.mnemonique == validation_status)
+            id_valdator = 5
+            comment = validation_comment
+            val_date = datetime.datetime.now()
 
-    DB.session.close()
+            addValidation = TValidations(
+                id_val,
+                id_table_loc,
+                uuid,
+                id_nomenclature_status,
+                id_valdator,
+                comment,
+                val_date
+            )
 
-    """
-    Data = select([data])
-    DB.session.execute(data).fetchall()
-    """
-    return data
+            DB.session.add(addValidation)
+            DB.session.commit()
+
+        DB.session.close()
+
+        """
+        Data = select([data])
+        DB.session.execute(data).fetchall()
+        """
+        return data
+
+    except Exception:
+        return 'INTERNAL SERVER ERROR : contactez l\'administrateur du site',500
