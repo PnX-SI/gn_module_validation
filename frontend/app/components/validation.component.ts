@@ -31,8 +31,9 @@ export class ValidationComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    //const initialData = { limit: AppConfig.SYNTHESE.NB_LAST_OBS };
-    this.loadAndStoreData();
+    const initialData = { limit: AppConfig.SYNTHESE.NB_LAST_OBS };
+    this.loadAndStoreData(initialData);
+    console.log(AppConfig);
   }
 
   /*
@@ -52,9 +53,9 @@ export class ValidationComponent implements OnInit {
   }
   */
 
-  loadAndStoreData() {
+  loadAndStoreData(formatedParams) {
     this.searchService.dataLoaded = false;
-    this.searchService.getSyntheseData().subscribe(
+    this.searchService.getSyntheseData(formatedParams).subscribe(
       result => {
         /*
         if (result['nb_obs_limited']) {
@@ -93,6 +94,7 @@ export class ValidationComponent implements OnInit {
     // function pass to the LoadTableData maplist service function to format date
     // and nomenclature code on the table
     // must return a feature
+    /*
     if(feature.properties.id_nomenclature_valid_status === 466) {
       feature.properties.id_nomenclature_valid_status = 'En attente de validation';
     }
@@ -117,6 +119,7 @@ export class ValidationComponent implements OnInit {
     if(feature.properties.id_nomenclature_valid_status === 466) {
       feature.properties.id_nomenclature_valid_status = 'En attente de validation';
     }
+    */
 
     if (feature.properties.date_min) {
       feature.properties.date_min = this.formatDate(feature.properties.date_min);

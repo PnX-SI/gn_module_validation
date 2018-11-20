@@ -24,9 +24,11 @@ export class ValidationPopupComponent implements OnInit {
   error: any;
   public modalRef:any;
   string_observations: string;
-  public modalForm: FormGroup;
+  public statusForm: FormGroup;
+  //private isAccessOk: Boolean = false;
 
   @Input() observations : Array<number>;
+  @Input() nbTotalObservation : number;
   @Output() valStatus: EventEmitter<any> = new EventEmitter();
 
   constructor(
@@ -34,11 +36,11 @@ export class ValidationPopupComponent implements OnInit {
     private _dateParser: NgbDateParserFormatter,
     private _router: Router,
     private _fb: FormBuilder,
-    public searchService: DataService,
+    public dataService: DataService,
     private toastr: ToastrService
     ) {
-      this.error = ''
-      this.modalForm = this._fb.group({
+      //this.error = '';
+      this.statusForm = this._fb.group({
         statut : ['', Validators.required],
         comment : ['']
       });
@@ -48,8 +50,8 @@ export class ValidationPopupComponent implements OnInit {
 
   onSubmit(value) {
     this.string_observations = JSON.stringify(this.observations);
-    const statusUrl = '/validation/' + this.string_observations;
-    return this.searchService.postStatus(value, statusUrl).toPromise()
+    const statusUrl = '/' + this.string_observations;
+    return this.dataService.postStatus(value, statusUrl).toPromise()
     .then(
       data => {
         this.promiseResult = data as JSON;
@@ -86,18 +88,32 @@ export class ValidationPopupComponent implements OnInit {
   }
 
   update_status() {
-    this.valStatus.emit(this.modalForm.controls['statut'].value);
+    this.valStatus.emit(this.statusForm.controls['statut'].value);
+  }
+
+  isAccess() {
+    // disable access validation button if no row is checked
+    if (this.observations.length === 0) {
+      return false;
+    } else {
+      return true;
+    }
   }
 
   openVerticallyCentered(content) {
+    console.log(this.nbTotalObservation);
+
     this.modalRef = this.modalService.open(content, {
       centered: true, size: "lg", backdrop: 'static', centered: true, windowClass: 'dark-modal'
     });
   }
 
   closeModal() {
+    this.statusForm.reset();
     this.modalRef.close();
-    this.modalForm.controls['statut'].setValue('');
   }
+
+  //this.statusForm.controls['statut'].setValue('');
+  //this.statusForm.controls['comment'].setValue('');
 
 }

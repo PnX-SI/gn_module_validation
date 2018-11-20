@@ -54,10 +54,10 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
   ) {}
 
   ngOnInit() {
+
     // get wiewport height to set the number of rows in the tabl
     const h = document.documentElement.clientHeight;
     this.rowNumber = Math.trunc(h / 37);
-
 
     // On map click, select on the list a change the page
     this.mapListService.onMapClik$.subscribe(id => {
@@ -79,6 +79,8 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
 
   action() {
     console.log('à faire');
+    this.selectAll();
+    console.log(this.selectedObs);
   }
 
   ngAfterContentChecked() {
@@ -87,14 +89,30 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
     }
   }
 
+  selectAll() {
+    this.mapListService.selectedRow = [...this.mapListService.tableData];
+    this.setSelectedObs();
+  }
+
+  deselectAll() {
+    this.mapListService.selectedRow = [];
+    this.setSelectedObs();
+  }
+
   onActivate(event) {
     if (event.type == 'checkbox') {
-      if (this.selectedObs.some(x => x === event.row.id_synthese)) {
-        this.selectedObs.splice(this.selectedObs.indexOf(event.row.id_synthese),1);
-        console.log('id_synthese_selected', this.selectedObs);
-      } else {
-        this.selectedObs.push(event.row.id_synthese);
-        console.log('id_synthese_selected', this.selectedObs);
+      this.setSelectedObs();
+      console.log(this.selectedObs);
+    }
+  }
+
+  setSelectedObs() {
+    this.selectedObs = [];
+    if (this.mapListService.selectedRow.length === 0) {
+      this.selectedObs = [];
+    } else {
+      for (let obs in this.mapListService.selectedRow) {
+        this.selectedObs.push(this.mapListService.selectedRow[obs]['id_synthese']);
       }
     }
   }
@@ -112,6 +130,7 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
   onResize(event) {
     this.rowNumber = Math.trunc(event.target.innerHeight / 37);
   }
+
 
 
   backToModule(url_source, id_pk_source) {
@@ -142,16 +161,18 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
   }
   */
 
-  /*
+
   getRowClass() {
     return 'row-sm clickable';
   }
-  */
+
+
 
   ngOnChanges(changes) {
     if (changes.inputSyntheseData && changes.inputSyntheseData.currentValue) {
       // reset page 0 when new data appear
       this.table.offset = 0;
     }
+    this.nbTotalObservation = this.mapListService.tableData.length;
   }
 }

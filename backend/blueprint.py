@@ -3,6 +3,10 @@ from flask import (
     current_app,
     request
     )
+
+import pdb
+
+
 from sqlalchemy import select
 import pdb
 import datetime
@@ -25,10 +29,12 @@ from pypnnomenclature.models import TNomenclatures
 
 blueprint = Blueprint('validation', __name__)
 
+
 @blueprint.route('', methods=['GET'])
 @fnauth.check_auth_cruved('R', True)
 @json_resp
 def get_synthese_data(info_role):
+
     """
         return synthese row(s) filtered by form params
         Params must have same synthese fields names
@@ -60,11 +66,23 @@ def get_synthese_data(info_role):
         feature['properties']['nom_vern_or_lb_nom'] = d.nom_vern if d.lb_nom is None else d.lb_nom
         features.append(feature)
 
+    '''
+    print(features)
+    id_nomenclature_status = DB.session.execute(select([TNomenclatures.id_nomenclature,TNomenclatures.mnemonique]))
+    for row in id_nomenclature_status:
+        print(row)
+
+    print(id_nomenclature_status)
+    '''
+
     return {
         'data': FeatureCollection(features),
         'nb_obs_limited': nb_total == blueprint.config['NB_MAX_OBS_MAP'],
         'nb_total': nb_total
     }
+
+
+
 
 @blueprint.route('/<id_synthese>', methods=['GET','POST'])
 @fnauth.check_auth_cruved('C', True)
@@ -75,7 +93,6 @@ def post_status(info_role,id_synthese):
         # revoir pour id_locator
         data = dict(request.get_json())
 
-        print(data)
         print('id_synthese = ' + id_synthese)
 
         expected_values = ['Certain - très probable', 'Probable', 'Douteux', 'Invalide', 'Non réalisable', 'En attente de validation']

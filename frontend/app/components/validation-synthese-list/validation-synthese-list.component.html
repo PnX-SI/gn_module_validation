@@ -37,6 +37,9 @@
        let-selectedCount="selectedCount",
        let-curPage="curPage"
        let-offset="offset">
+       <button type="button" (click)="this.selectAll()" class="btn btn-valid"> Tout sélectionner</button>
+       <button type="button" (click)="this.deselectAll()" class="btn btn-valid"> Tout désélectionner</button>
+
        <datatable-pager
          [pagerLeftArrowIcon]="'datatable-icon-left'"
          [pagerRightArrowIcon]="'datatable-icon-right'"
@@ -54,7 +57,7 @@
 
 </ngx-datatable>
 
-<pnx-validation-popup [observations]="selectedObs" (valStatus)="onStatusChange($event)"></pnx-validation-popup>
+<pnx-validation-popup [nbTotalObservation]="nbTotalObservation" [observations]="selectedObs" (valStatus)="onStatusChange($event)"></pnx-validation-popup>
 
   <!--
   <ngx-datatable-column [maxWidth]="5">
