@@ -43,6 +43,7 @@ def get_synthese_data(info_role):
         Params must have same synthese fields names
     """
     result_limit = blueprint.config['NB_MAX_OBS_MAP']
+    print(blueprint.config)
 
     allowed_datasets = TDatasets.get_user_datasets(info_role)
 

@@ -1,6 +1,5 @@
 <!--Table-->
-<br>
-<h4 style="padding-left:15px;">Observations </h4>
+
 
 <ngx-datatable (window:resize)="onResize($event)" #table class="material striped margin-top-xs table-size expandable"
   [rows]="mapListService.tableData" [columns]="VALIDATION_CONFIG.LIST_COLUMNS_FRONTEND" [columnMode]="'force'"
@@ -15,7 +14,13 @@
   <!-- DATA COLOMNS -->
   <ngx-datatable-column [checkboxable]="true" [maxWidth]="10"></ngx-datatable-column>
 
-  <ngx-datatable-column *ngFor="let col of VALIDATION_CONFIG.LIST_COLUMNS_FRONTEND " name={{col.name}} prop={{col.prop}}
+  <ngx-datatable-column [maxWidth]="50">
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        <div class="validationCircle"></div>
+      </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column *ngFor="let col of VALIDATION_CONFIG.LIST_COLUMNS_FRONTEND" name={{col.name}} prop={{col.prop}}
     [maxWidth]="auto">
   </ngx-datatable-column>
 
@@ -37,9 +42,9 @@
        let-selectedCount="selectedCount",
        let-curPage="curPage"
        let-offset="offset">
-       <button type="button" (click)="this.selectAll()" class="btn btn-primary btn-sm"> Tout sélectionner</button>
+       <button type="button" (click)="this.selectAll()" class="btn btn-primary btn-xs"> Tout sélectionner</button>
        <span> ' ' </span>
-       <button type="button" (click)="this.deselectAll()" class="btn btn-primary btn-sm"> Tout désélectionner</button>
+       <button type="button" (click)="this.deselectAll()" class="btn btn-primary btn-xs"> Tout désélectionner</button>
 
        <datatable-pager
          [pagerLeftArrowIcon]="'datatable-icon-left'"

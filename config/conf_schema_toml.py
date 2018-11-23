@@ -5,6 +5,8 @@
 from marshmallow import Schema, fields
 from geonature.utils.config_schema import GnModuleProdConf
 
+
+
 #
 DEFAULT_COLUMNS_API_VALIDATION = [
     'mnemonique',
@@ -32,10 +34,18 @@ DEFAULT_LIST_COLUMN = [
     {'prop': 'observers', 'name': 'Observateur', 'max_width': 200}
 ]
 
-
+COLOR_CORRESPONDENCES = [
+    {'MnemoStatus': 'En attente de validation', 'ColorStatus': '#8e8e8e'},
+    {'MnemoStatus': 'Non réalisable', 'ColorStatus': '#8e8e8e'},
+    {'MnemoStatus': 'Invalide', 'ColorStatus': '#FF0000'},
+    {'MnemoStatus': 'Douteux', 'ColorStatus': '#FFA500'},
+    {'MnemoStatus': 'Probable', 'ColorStatus': '#9ACD32'},
+    {'MnemoStatus': 'Certain - très probable', 'ColorStatus': '#28a745'}
+]
 
 class GnModuleSchemaConf(GnModuleProdConf):
     MANDATORY_COLUMNS = fields.List(fields.String(), missing=MANDATORY_COLUMNS)
+    COLOR_CORRESPONDENCES = fields.List(fields.Dict(), missing=COLOR_CORRESPONDENCES)
     COLUMNS_API_VALIDATION_WEB_APP = fields.List(fields.String, missing=DEFAULT_COLUMNS_API_VALIDATION)
     LIST_COLUMNS_FRONTEND = fields.List(fields.Dict, missing=DEFAULT_LIST_COLUMN)
     NB_MAX_OBS_MAP = fields.Integer(missing=10000)

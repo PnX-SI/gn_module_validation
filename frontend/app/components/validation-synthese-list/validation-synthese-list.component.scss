@@ -1,6 +1,20 @@
+.validationCircle {
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  padding: 0px;
+  background: #00ff00;
+  color: 'black';
+  border: 1px solid black;
+  text-align: center;
+  font: 15px Arial, sans-serif;
+}
+
+
 .selected {
   background-color: red;
 }
+
 ngx-datatable {
   // position: absolute;
   // left:0;
