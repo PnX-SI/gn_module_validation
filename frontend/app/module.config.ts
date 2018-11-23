@@ -8,6 +8,11 @@ export const ModuleConfig = {
   "dataset_name"
  ],
  "LIST_COLUMNS_FRONTEND": [
+   {
+    "max_width": 100,
+    "name": "Statut Validation",
+    "prop": "mnemonique"
+   }
   {
    "max_width": 200,
    "name": "Taxon",
@@ -27,11 +32,6 @@ export const ModuleConfig = {
    "max_width": 200,
    "name": "observateur",
    "prop": "observers"
- },
- {
-  "max_width": 100,
-  "name": "Statut Validation",
-  "prop": "id_nomenclature_valid_status"
  }],
  "MANDATORY_COLUMNS": [
   "entity_source_pk_value",

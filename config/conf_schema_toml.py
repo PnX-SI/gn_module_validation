@@ -7,7 +7,7 @@ from geonature.utils.config_schema import GnModuleProdConf
 
 #
 DEFAULT_COLUMNS_API_VALIDATION = [
-    'id_nomenclature_valid_status',
+    'mnemonique',
     'id_synthese',
     'date_min',
     'observers',
@@ -25,11 +25,11 @@ MANDATORY_COLUMNS = [
 
 # CONFIG MAP-LIST
 DEFAULT_LIST_COLUMN = [
-    {'prop': 'id_nomenclature_valid_status', 'name': 'Statut Validation', 'max_width': 100},
+    {'prop': 'mnemonique', 'name': 'Statut Validation', 'max_width': 100},
     {'prop': 'nom_vern_or_lb_nom', 'name': 'Taxon', 'max_width': 200},
     {'prop': 'date_min', 'name': 'Date obs', 'max_width': 100},
     {'prop': 'dataset_name', 'name': 'JDD', 'max_width': 200},
-    {'prop': 'observers', 'name': 'observateur', 'max_width': 200}
+    {'prop': 'observers', 'name': 'Observateur', 'max_width': 200}
 ]
 
 

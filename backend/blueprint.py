@@ -16,11 +16,14 @@ from geonature.utils.utilssqlalchemy import json_resp
 
 from geonature.core.gn_meta.models import TDatasets
 
-from geonature.core.gn_synthese.models import Synthese,VSyntheseForWebApp
+from geonature.core.gn_synthese.models import Synthese
 
 from geonature.utils.env import DB
 
-from .models import (TValidations)
+from .models import (
+    TValidations,
+    VLatestValidationForWebApp
+    )
 
 #from geonature.core.gn_synthese.utils import query as synthese_query
 
@@ -43,7 +46,7 @@ def get_synthese_data(info_role):
 
     allowed_datasets = TDatasets.get_user_datasets(info_role)
 
-    q = DB.session.query(VSyntheseForWebApp)
+    q = DB.session.query(VLatestValidationForWebApp)
 
     """
     q = synthese_query.filter_query_all_filters(VSyntheseForWebApp, q, filters, info_role, allowed_datasets)
@@ -66,14 +69,15 @@ def get_synthese_data(info_role):
         feature['properties']['nom_vern_or_lb_nom'] = d.nom_vern if d.lb_nom is None else d.lb_nom
         features.append(feature)
 
+
     '''
     print(features)
     id_nomenclature_status = DB.session.execute(select([TNomenclatures.id_nomenclature,TNomenclatures.mnemonique]))
     for row in id_nomenclature_status:
         print(row)
-
-    print(id_nomenclature_status)
     '''
+    #print(id_nomenclature_status)
+
 
     return {
         'data': FeatureCollection(features),
@@ -90,7 +94,7 @@ def get_synthese_data(info_role):
 def post_status(info_role,id_synthese):
     try:
         # revoir id_table_loc
-        # revoir pour id_locator
+        # revoir pour id_validator
         data = dict(request.get_json())
 
         print('id_synthese = ' + id_synthese)
