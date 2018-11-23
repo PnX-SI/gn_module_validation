@@ -57,7 +57,7 @@ export class ValidationPopupComponent implements OnInit {
         this.promiseResult = data as JSON;
         console.log('retour du post : ', this.promiseResult);
         return new Promise((resolve, reject) => {
-            this.toastr.success('Changement(s) de statut de validation effectué(s)');
+            this.toastr.success('Vous avez modifié le statut de validation de ' + this.observations.length + ' observation(s)');
             this.update_status();
             resolve('data updated');
         }
@@ -101,8 +101,6 @@ export class ValidationPopupComponent implements OnInit {
   }
 
   openVerticallyCentered(content) {
-    console.log(this.nbTotalObservation);
-
     this.modalRef = this.modalService.open(content, {
       centered: true, size: "lg", backdrop: 'static', centered: true, windowClass: 'dark-modal'
     });

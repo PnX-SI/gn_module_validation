@@ -79,8 +79,6 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
 
   action() {
     console.log('à faire');
-    this.selectAll();
-    console.log(this.selectedObs);
   }
 
   ngAfterContentChecked() {
@@ -100,9 +98,8 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
   }
 
   onActivate(event) {
-    if (event.type == 'checkbox') {
+    if (event.type == 'checkbox' || event.type == 'click') {
       this.setSelectedObs();
-      console.log(this.selectedObs);
     }
   }
 

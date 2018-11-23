@@ -4,7 +4,7 @@
 
 <ngx-datatable (window:resize)="onResize($event)" #table class="material striped margin-top-xs table-size expandable"
   [rows]="mapListService.tableData" [columns]="VALIDATION_CONFIG.LIST_COLUMNS_FRONTEND" [columnMode]="'force'"
-  [headerHeight]="50" [footerHeight]="35" [selected]="mapListService.selectedRow" [selectionType]="'checkbox'" [count]="mapListService.tableData.length"
+  [headerHeight]="50" [footerHeight]="35" [selected]="mapListService.selectedRow" [selectionType]="'multiClick'" [count]="mapListService.tableData.length"
   [limit]="rowNumber" [rowClass]="getRowClass" (select)="mapListService.onRowSelect($event)" (activate)="onActivate($event, modal)">
 
 
@@ -37,8 +37,9 @@
        let-selectedCount="selectedCount",
        let-curPage="curPage"
        let-offset="offset">
-       <button type="button" (click)="this.selectAll()" class="btn btn-valid"> Tout sélectionner</button>
-       <button type="button" (click)="this.deselectAll()" class="btn btn-valid"> Tout désélectionner</button>
+       <button type="button" (click)="this.selectAll()" class="btn btn-primary btn-sm"> Tout sélectionner</button>
+       <span> ' ' </span>
+       <button type="button" (click)="this.deselectAll()" class="btn btn-primary btn-sm"> Tout désélectionner</button>
 
        <datatable-pager
          [pagerLeftArrowIcon]="'datatable-icon-left'"

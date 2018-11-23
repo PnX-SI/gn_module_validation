@@ -15,6 +15,9 @@
 
         <div class="modal-body" id="bodyModal" style="padding-top:30px;">
 
+          <div> Nombre d'observations sélectionnées : {{this.observations.length}} </div>
+          <br>
+
           <div id="validButtons">
           <!-- Formulaire pour le choix des standards et des formats de téléchargement des fichiers -->
           <label style="background-color:#28a745;" class="btn btn-primary radio-inline" for="Certain">
@@ -61,7 +64,7 @@
         <!-- Bouton de fermeture de la modal pop-up ou envoi -->
         <div class="modal-footer" id="choicePopup">
           <button type="submit" class="btn btn-danger" data-dismiss="modal" (click)="closeModal()">Fermer</button>
-          <input id="widthButton" (click)="onSubmit(statusForm.value)" data-toggle="modal" #content value="Envoyer" type="button" class="btn btn-success" data-dismiss="modal">
+          <input id="widthButton" (click)="onSubmit(statusForm.value)" data-toggle="modal" #content value="Enregistrer" type="button" [disabled]="!this.statusForm.valid" class="btn btn-success" data-dismiss="modal" #required>
         </div>
 
       </form>
