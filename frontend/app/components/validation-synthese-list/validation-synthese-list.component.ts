@@ -74,9 +74,6 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
       const page = Math.trunc(i / this.rowNumber);
       this.table.offset = page;
     });
-
-    console.log(this.VALIDATION_CONFIG);
-
   }
 
   action() {
@@ -119,7 +116,8 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
   onStatusChange(status) {
     console.log(status);
     for (let obs in this.mapListService.selectedRow) {
-      this.mapListService.selectedRow[obs]['mnemonique'] = status;
+      this.mapListService.selectedRow[obs]['id_nomenclature_valid_status'] = status;
+      this.mapListService.selectedRow[obs]['validation_auto'] = '';
     }
     this.mapListService.selectedRow = [...this.mapListService.selectedRow];
   }

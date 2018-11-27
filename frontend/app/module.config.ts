@@ -1,6 +1,7 @@
 export const ModuleConfig = {
  "COLUMNS_API_VALIDATION_WEB_APP": [
-  "mnemonique",
+  "validation_auto",
+  "id_nomenclature_valid_status",
   "id_synthese",
   "date_min",
   "observers",
@@ -8,35 +9,11 @@ export const ModuleConfig = {
   "dataset_name"
  ],
  "LIST_COLUMNS_FRONTEND": [
+
    {
-    "max_width": 100,
-    "name": "Statut Validation",
-    "prop": "mnemonique"
-    "colors": [
-      {
-        "MnemoStatus": "En attente de validation",
-        "ColorStatus": "#8e8e8e"
-      },
-      {
-        "MnemoStatus": "Non réalisable",
-        "ColorStatus": "#8e8e8e"
-      },
-      {
-        "MnemoStatus": "Invalide",
-        "ColorStatus": "#FF0000"
-      },
-      {
-        "MnemoStatus": "Douteux",
-        "ColorStatus": "#FFA500"
-      },
-      {
-        "MnemoStatus": "Probable",
-        "ColorStatus": "#9ACD32"
-      },
-      {
-        "MnemoStatus": "Certain - très probable",
-        "ColorStatus": "#28a745"
-      }]
+    "max_width": 50,
+    "name": "",
+    "prop": "id_nomenclature_valid_status"
    },
   {
    "max_width": 200,
@@ -63,6 +40,15 @@ export const ModuleConfig = {
   "url_source",
   "cd_nom"
  ],
+ "STATUS_COLORS": [
+   {
+     "466":"#8e8e8e",
+     "322":"#8e8e8e",
+     "321":"#FF0000",
+     "320":"#FFA500",
+     "319":"#9ACD32",
+     "318":"#28a745"
+   }],
  "NB_MAX_OBS_MAP": 10000,
  "api_url": "/validation",
  "id_application": 8

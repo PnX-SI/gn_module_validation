@@ -78,6 +78,7 @@ CREATE OR REPLACE VIEW gn_commons.v_validations_for_web_app AS
     v.id_validator,
     v.validation_comment,
     v.validation_date,
+    v.validation_auto,
     n.mnemonique
    FROM gn_synthese.synthese s
      JOIN taxonomie.taxref t ON t.cd_nom = s.cd_nom

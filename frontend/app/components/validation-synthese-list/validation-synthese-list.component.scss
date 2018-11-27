@@ -3,13 +3,24 @@
   width: 20px;
   height: 20px;
   padding: 0px;
-  background: #00ff00;
+  //background: #00ff00;
   color: 'black';
   border: 1px solid black;
   text-align: center;
   font: 15px Arial, sans-serif;
+  position: absolute;
+  left:0%;
+  transform: translateX(0%);
 }
 
+.statusContent {
+  position: relative;
+}
+
+.statusName {
+  position: relative;
+  left: 30%;
+}
 
 .selected {
   background-color: red;

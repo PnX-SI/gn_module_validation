@@ -72,7 +72,6 @@ def get_synthese_data(info_role):
 
 
     '''
-    print(features)
     id_nomenclature_status = DB.session.execute(select([TNomenclatures.id_nomenclature,TNomenclatures.mnemonique]))
     for row in id_nomenclature_status:
         print(row)
@@ -100,7 +99,7 @@ def post_status(info_role,id_synthese):
 
         print('id_synthese = ' + id_synthese)
 
-        expected_values = ['Certain - très probable', 'Probable', 'Douteux', 'Invalide', 'Non réalisable', 'En attente de validation']
+        expected_values = ['318', '319', '320', '321', '322', '466']
 
         l_id_synthese = []
         for t in list(id_synthese):
@@ -124,10 +123,11 @@ def post_status(info_role,id_synthese):
             id_val = 1
             id_table_loc = 4
             uuid = select([Synthese.unique_id_sinp]).where(Synthese.id_synthese == id)
-            id_nomenclature_status = select([TNomenclatures.id_nomenclature]).where(TNomenclatures.mnemonique == validation_status)
+            id_nomenclature_status = select([TNomenclatures.id_nomenclature]).where(TNomenclatures.id_nomenclature == validation_status)
             id_valdator = 5
             comment = validation_comment
             val_date = datetime.datetime.now()
+            val_auto = False
 
             addValidation = TValidations(
                 id_val,
@@ -136,7 +136,8 @@ def post_status(info_role,id_synthese):
                 id_nomenclature_status,
                 id_valdator,
                 comment,
-                val_date
+                val_date,
+                val_auto
             )
 
             DB.session.add(addValidation)

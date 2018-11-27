@@ -92,35 +92,12 @@ export class ValidationComponent implements OnInit {
 
   customColumns(feature) {
     // function pass to the LoadTableData maplist service function to format date
-    // and nomenclature code on the table
-    // must return a feature
-    /*
-    if(feature.properties.id_nomenclature_valid_status === 466) {
-      feature.properties.id_nomenclature_valid_status = 'En attente de validation';
+    if (feature.properties.validation_auto === true) {
+      feature.properties.validation_auto = 'a';
     }
-    if(feature.properties.id_nomenclature_valid_status === 318) {
-      feature.properties.id_nomenclature_valid_status = 'Certain - très probable';
+    if (feature.properties.validation_auto === false) {
+      feature.properties.validation_auto = '';
     }
-    if(feature.properties.id_nomenclature_valid_status === 319) {
-      feature.properties.id_nomenclature_valid_status = 'Probable';
-    }
-    if(feature.properties.id_nomenclature_valid_status === 320) {
-      feature.properties.id_nomenclature_valid_status = 'Douteux';
-    }
-    if(feature.properties.id_nomenclature_valid_status === 321) {
-      feature.properties.id_nomenclature_valid_status = 'Invalide';
-    }
-    if(feature.properties.id_nomenclature_valid_status === 322) {
-      feature.properties.id_nomenclature_valid_status = 'Non réalisable';
-    }
-    if(feature.properties.id_nomenclature_valid_status === 323) {
-      feature.properties.id_nomenclature_valid_status = 'Inconnu';
-    }
-    if(feature.properties.id_nomenclature_valid_status === 466) {
-      feature.properties.id_nomenclature_valid_status = 'En attente de validation';
-    }
-    */
-
     if (feature.properties.date_min) {
       feature.properties.date_min = this.formatDate(feature.properties.date_min);
     }
