@@ -11,6 +11,7 @@ import { ToastrService } from 'ngx-toastr'
 import { Observable } from 'rxjs';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { GeoJSON } from 'leaflet';
+import { ValidationDefinitionsComponent } from './validation-definitions/ValidationDefinitionsComponent';
 
 
 @Component({
@@ -39,25 +40,28 @@ export class ValidationPopupComponent implements OnInit {
     public dataService: DataService,
     private toastr: ToastrService
     ) {
-      //this.error = '';
+      // form used for changing validation status
       this.statusForm = this._fb.group({
         statut : ['', Validators.required],
         comment : ['']
       });
     }
 
-  // faire un form.service.ts
 
   onSubmit(value) {
+    // chain of actions for changing status validation of one or several observations:
     this.string_observations = JSON.stringify(this.observations);
     const statusUrl = '/' + this.string_observations;
+    // post validation status form ('statusForm') for one or several observation(s) to backend/routes
     return this.dataService.postStatus(value, statusUrl).toPromise()
     .then(
       data => {
         this.promiseResult = data as JSON;
         console.log('retour du post : ', this.promiseResult);
         return new Promise((resolve, reject) => {
+            // show success message indicating the number of observation(s) with modified validation status
             this.toastr.success('Vous avez modifié le statut de validation de ' + this.observations.length + ' observation(s)');
+            // bind statut value with validation-synthese-list component
             this.update_status();
             resolve('data updated');
         }
@@ -65,8 +69,10 @@ export class ValidationPopupComponent implements OnInit {
     .catch(
       err => {
         if (err.statusText === 'Unknown Error') {
+          // show error message if no connexion
           this.toastr.error('ERROR: IMPOSSIBLE TO CONNECT TO SERVER');
         } else {
+          // show error message if other server error
           this.toastr.error(err.error);
         }
         reject()
@@ -76,6 +82,7 @@ export class ValidationPopupComponent implements OnInit {
       data => {
         console.log(data);
         return new Promise((resolve, reject) => {
+          // close validation status popup
           this.closeModal();
           resolve('process finished');
       }
@@ -88,6 +95,7 @@ export class ValidationPopupComponent implements OnInit {
   }
 
   update_status() {
+    // send valstatus value to validation-synthese-list component
     this.valStatus.emit(this.statusForm.controls['statut'].value);
   }
 
@@ -101,17 +109,17 @@ export class ValidationPopupComponent implements OnInit {
   }
 
   openVerticallyCentered(content) {
+    // open popup for changing validation status
     this.modalRef = this.modalService.open(content, {
       centered: true, size: "lg", backdrop: 'static', centered: true, windowClass: 'dark-modal'
     });
   }
 
   closeModal() {
+    // close validation status popup
     this.statusForm.reset();
     this.modalRef.close();
   }
 
-  //this.statusForm.controls['statut'].setValue('');
-  //this.statusForm.controls['comment'].setValue('');
 
 }

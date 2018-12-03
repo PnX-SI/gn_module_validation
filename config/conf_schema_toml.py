@@ -9,6 +9,7 @@ from geonature.utils.config_schema import GnModuleProdConf
 #
 DEFAULT_COLUMNS_API_VALIDATION = [
     'validation_auto',
+    'mnemonique',
     'id_nomenclature_valid_status',
     'id_synthese',
     'date_min',
@@ -27,24 +28,23 @@ MANDATORY_COLUMNS = [
 
 # CONFIG MAP-LIST
 DEFAULT_LIST_COLUMN = [
-    {'prop': 'validation_auto', 'name': 'essai', 'max_width': 100},
-    {'prop': 'id_nomenclature_valid_status', 'name': 'Statut Validation', 'max_width': 100},
-    {'prop': 'nom_vern_or_lb_nom', 'name': 'Taxon', 'max_width': 200},
+    {'prop': 'id_nomenclature_valid_status', 'name': '', 'max_width': 40},
+    {'prop': 'mnemonique', 'name': '', 'max_width': 40},
+    {'prop': 'nom_vern_or_lb_nom', 'name': 'Taxon', 'max_width': 150},
     {'prop': 'date_min', 'name': 'Date obs', 'max_width': 100},
     {'prop': 'dataset_name', 'name': 'JDD', 'max_width': 200},
     {'prop': 'observers', 'name': 'Observateur', 'max_width': 200}
 ]
 
 STATUS_COLORS = [
-   {
-     "466":"#8e8e8e",
-     "322":"#8e8e8e",
-     "321":"#FF0000",
-     "320":"#FFA500",
-     "319":"#9ACD32",
-     "318":"#28a745"
-   }
-  ]
+    # ne pas changer les couleurs
+     {"466":"#8e8e8e"},
+     {"322":"#8e8e8e"},
+     {"321":"#FF0000"},
+     {"320":"#FFA500"},
+     {"319":"#9ACD32"},
+     {"318":"#28a745"}
+ ]
 
 class GnModuleSchemaConf(GnModuleProdConf):
     MANDATORY_COLUMNS = fields.List(fields.String(), missing=MANDATORY_COLUMNS)

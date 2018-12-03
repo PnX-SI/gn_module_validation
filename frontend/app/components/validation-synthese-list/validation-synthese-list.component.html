@@ -6,7 +6,6 @@
   [headerHeight]="50" [footerHeight]="35" [selected]="mapListService.selectedRow" [selectionType]="'multiClick'" [count]="mapListService.tableData.length"
   [limit]="rowNumber" [rowClass]="getRowClass" (select)="mapListService.onRowSelect($event)" (activate)="onActivate($event, modal)">
 
-
   <ngx-datatable-row-detail rowHeight="100">
      </ngx-datatable-row-detail>
 
@@ -15,10 +14,12 @@
   <ngx-datatable-column [checkboxable]="true" [maxWidth]="10"></ngx-datatable-column>
 
   <ngx-datatable-column *ngFor="let col of VALIDATION_CONFIG.LIST_COLUMNS_FRONTEND" name="{{col.name}}" prop="{{col.prop}}"
-    [maxWidth]="auto" [minWidth]="20">
+    maxWidth="{{col.max_width}}">
     <ng-template *ngIf="col.prop === 'id_nomenclature_valid_status'" let-row="row" ngx-datatable-cell-template>
       <div class="statusContent"> <span class="validationCircle" [ngStyle]="{'background': VALIDATION_CONFIG.STATUS_COLORS[0][row.id_nomenclature_valid_status]}">{{row.validation_auto}}</span>
-        <!-- <span class="statusName">{{row.id_nomenclature_valid_status}}</span> -->
+        <div [ngStyle]="{'background': VALIDATION_CONFIG.STATUS_COLORS[0][row.id_nomenclature_valid_status]}" class="statusName">
+          <span>{{row.mnemonique}}</span>
+        </div>
       </div>
     </ng-template>
   </ngx-datatable-column>
@@ -61,6 +62,7 @@
    </ngx-datatable-footer>
 
 </ngx-datatable>
+
 
 <pnx-validation-popup [nbTotalObservation]="nbTotalObservation" [observations]="selectedObs" (valStatus)="onStatusChange($event)"></pnx-validation-popup>
 

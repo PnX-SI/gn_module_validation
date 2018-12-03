@@ -1,6 +1,8 @@
 export const ModuleConfig = {
+ "api_url": "/validation",
  "COLUMNS_API_VALIDATION_WEB_APP": [
   "validation_auto",
+  "mnemonique",
   "id_nomenclature_valid_status",
   "id_synthese",
   "date_min",
@@ -9,14 +11,13 @@ export const ModuleConfig = {
   "dataset_name"
  ],
  "LIST_COLUMNS_FRONTEND": [
-
    {
-    "max_width": 50,
+    "max_width": 40,
     "name": "",
     "prop": "id_nomenclature_valid_status"
    },
   {
-   "max_width": 200,
+   "max_width": 150,
    "name": "Taxon",
    "prop": "nom_vern_or_lb_nom"
   },
@@ -50,6 +51,5 @@ export const ModuleConfig = {
      "318":"#28a745"
    }],
  "NB_MAX_OBS_MAP": 10000,
- "api_url": "/validation",
  "id_application": 8
 }

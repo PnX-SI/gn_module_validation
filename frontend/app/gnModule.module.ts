@@ -6,6 +6,7 @@ import { ValidationComponent } from "./components/validation.component";
 import { ValidationSyntheseListComponent } from "./components/validation-synthese-list/validation-synthese-list.component";
 import { ValidationSyntheseCarteComponent } from "./components/validation-synthese-carte/validation-synthese-carte.component";
 import { ValidationPopupComponent } from "./components/validation-popup/validation-popup.component";
+import { ValidationDefinitionsComponent } from "./components/validation-definitions/validation-definitions.component";
 import { DataService } from "./services/data.service";
 import { HttpClient } from '@angular/common/http';
 //import { ToastrModule } from 'ngx-toastr';
@@ -16,7 +17,13 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [ValidationComponent, ValidationSyntheseListComponent, ValidationSyntheseCarteComponent, ValidationPopupComponent],
+  declarations: [
+    ValidationComponent,
+    ValidationSyntheseListComponent,
+    ValidationSyntheseCarteComponent,
+    ValidationPopupComponent,
+    ValidationDefinitionsComponent
+  ],
   imports: [GN2CommonModule, RouterModule.forChild(routes), CommonModule],
   providers: [DataService],
   bootstrap: []

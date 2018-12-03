@@ -1,6 +1,6 @@
 <!-- Boutton pour accéder modal validation -->
 <p></p>
-<button type="button" id="validatorButton" class="btn btn-success box-shadow" [disabled]="!isAccess()" (click)="openVerticallyCentered(content)">Mettre à jour le statut de validation</button>
+<button type="button" id="validatorButton" class="btn btn-success box-shadow" [disabled]="!isAccess()" (click)="openVerticallyCentered(content)">Attribuer un statut de validation</button>
 
 <ng-template #content let-c="close" let-d="dismiss">
 
@@ -57,6 +57,10 @@
             <span> Commentaire : </span>
             <textarea type="text" rows="1" class="form-control md-textarea" formControlName="comment" id="form1"> </textarea>
           </div>
+
+          <br>
+
+          <pnx-validation-definitions></pnx-validation-definitions>
 
           <br>
         </div>

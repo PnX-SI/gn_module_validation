@@ -102,6 +102,7 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
     }
   }
 
+
   setSelectedObs() {
     this.selectedObs = [];
     if (this.mapListService.selectedRow.length === 0) {
@@ -110,7 +111,10 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
       for (let obs in this.mapListService.selectedRow) {
         this.selectedObs.push(this.mapListService.selectedRow[obs]['id_synthese']);
       }
+      //this.mapListService.selectedRow[0]['observers'] = 'o';
+      //this.mapListService = [...this.mapListService];
     }
+
   }
 
   onStatusChange(status) {

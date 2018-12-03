@@ -1,0 +1,21 @@
+<button type="button" id="definitionButton" class="btn btn-success box-shadow" (click)="getDefinitions()">Afficher les définitions des statuts</button>
+
+<p></p>
+
+<table *ngIf="showDefinitions">
+
+  <thead>
+    <tr>
+      <th class="table_status"> Statut </th>
+      <th class="table_definition"> Définition </th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr *ngFor="let def of definitions">
+      <td> {{def.status}} </td>
+      <td> {{def.definition}} </td>
+    </tr>
+  </tbody>
+
+</table>
