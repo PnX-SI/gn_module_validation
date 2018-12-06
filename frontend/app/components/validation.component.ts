@@ -19,6 +19,7 @@ import { ToastrService } from 'ngx-toastr'
 export class ValidationComponent implements OnInit {
 
   public serverData;
+  public sameCoordinates: any;
 
   constructor(
     public searchService: DataService,
@@ -35,6 +36,8 @@ export class ValidationComponent implements OnInit {
     this.loadAndStoreData(initialData);
     console.log(AppConfig);
   }
+
+
 
   /*
   ngOnInit() {

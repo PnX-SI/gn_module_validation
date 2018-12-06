@@ -23,17 +23,17 @@ export const ModuleConfig = {
   },
   {
    "max_width": 100,
-   "name": "Date obs",
+   "name": "Date obs.",
    "prop": "date_min"
   },
   {
    "max_width": 200,
-   "name": "JDD",
+   "name": "Jeu de données",
    "prop": "dataset_name"
   },
   {
    "max_width": 200,
-   "name": "observateur",
+   "name": "Observateur",
    "prop": "observers"
  }],
  "MANDATORY_COLUMNS": [

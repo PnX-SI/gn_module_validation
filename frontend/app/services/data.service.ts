@@ -8,6 +8,7 @@ import { CommonService } from '@geonature_common/service/common.service';
 
 @Injectable()
 export class DataService {
+
   public dataLoaded: Boolean = false;
 
   constructor(private _http: HttpClient, private _commonService: CommonService) { }

@@ -6,10 +6,12 @@ import {
   HostListener,
   AfterContentChecked,
   OnChanges,
-  ChangeDetectorRef
+  ChangeDetectorRef,
+  OnDestroy
 } from '@angular/core';
-import { GeoJSON } from 'leaflet';
+import { Map, GeoJSON, Layer, FeatureGroup, Marker, LatLng } from 'leaflet';
 import { MapListService } from '@geonature_common/map-list/map-list.service';
+import { MapService } from '@geonature_common/map/map.service';
 import { DataService } from '../../services/data.service';
 //import { SyntheseFormService } from '../../services/form.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -21,7 +23,9 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 //import { ModalInfoObsComponent } from './modal-info-obs/modal-info-obs.component';
 import { CommonModule } from '@angular/common';
-import { ValidationPopupComponent } from './validation-popup/ValidationPopupComponent';
+import { ValidationPopupComponent } from '../validation-popup/validation-popup.component';
+import { ValidationComponent } from '../validation.component'
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -29,20 +33,22 @@ import { ValidationPopupComponent } from './validation-popup/ValidationPopupComp
   templateUrl: 'validation-synthese-list.component.html',
   styleUrls: ['validation-synthese-list.component.scss']
 })
+
 export class ValidationSyntheseListComponent implements OnInit, OnChanges, AfterContentChecked {
+
   public VALIDATION_CONFIG = ModuleConfig;
-  selectedObs : Array<number> = [];
-  //public selectObsTaxonInfo: any;
-  //public selectedObsTaxonDetail: any;
-  //public previousRow: any;
+  selectedObs : Array<number> = []; // list of id_synthese values for selected rows
+  coordinates_list = []; // list of coordinates for selected rows
+  group: featureGroup;
+  marker: marker;
   public rowNumber: number;
-  //public queyrStringDownload: HttpParams;
-  //public inpnMapUrl: string;
-  //public downloadMessage: string;
-  //input to resize datatable on searchbar toggle
+  private _latestWidth: number;
+  public id_same_coordinates = []; // list of observation ids having same geographic coordinates
+
+
   @Input() inputSyntheseData: GeoJSON;
   @ViewChild('table') table: DatatableComponent;
-  private _latestWidth: number;
+
   constructor(
     public mapListService: MapListService,
     private _ds: DataService,
@@ -51,44 +57,71 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
     //private _fs: SyntheseFormService,
     public sanitizer: DomSanitizer,
     public ref: ChangeDetectorRef
+    private _ms: MapService
   ) {}
 
   ngOnInit() {
-
+    console.log(this.mapListService);
     // get wiewport height to set the number of rows in the tabl
     const h = document.documentElement.clientHeight;
     this.rowNumber = Math.trunc(h / 37);
 
-    // On map click, select on the list a change the page
-    this.mapListService.onMapClik$.subscribe(id => {
-      this.mapListService.selectedRow = []; // clear selected list
-
-      const integerId = parseInt(id);
-      let i;
-      for (i = 0; i < this.mapListService.tableData.length; i++) {
-        if (this.mapListService.tableData[i]['id_synthese'] === integerId) {
-          this.mapListService.selectedRow.push(this.mapListService.tableData[i]);
-          break;
-        }
-      }
-      const page = Math.trunc(i / this.rowNumber);
-      this.table.offset = page;
-    });
+    this.group = new L.featureGroup();
+    this.onMapClick();
+    this.onTableClick();
   }
 
   action() {
     console.log('à faire');
   }
 
+  onMapClick() {
+    this.mapListService.onMapClik$.subscribe(
+      id => {
+        // create list of observation ids having coordinates = to id value
+        const selected_id_coordinates = this.mapListService.layerDict[id].feature.geometry.coordinates;
+        this.id_same_coordinates = [];
+        for (let obs in this.mapListService.geojsonData.features) {
+          if (JSON.stringify(selected_id_coordinates) == JSON.stringify(this.mapListService.geojsonData.features[obs].geometry.coordinates)) {
+            this.id_same_coordinates.push(parseInt(this.mapListService.geojsonData.features[obs].id));
+          }
+        }
+        // select rows having id_synthese = to one of the id_same_coordinates values
+        this.mapListService.selectedRow = [];
+        for (let id of this.id_same_coordinates) {
+          for (let i = 0; i < this.mapListService.tableData.length; i++) {
+            if (this.mapListService.tableData[i]['id_synthese'] === id) {
+              this.mapListService.selectedRow.push(this.mapListService.tableData[i]);
+            }
+          }
+        }
+        this.setSelectedObs();
+      }
+    );
+  }
+
+
+  onTableClick() {
+    this.mapListService.onTableClick$.subscribe(
+      id => {
+        console.log(id);
+      }
+    );
+    //this.mapListService.onTableClick$.unsubscribe();
+  }
+
+
   ngAfterContentChecked() {
     if (this.table && this.table.element.clientWidth !== this._latestWidth) {
       this._latestWidth = this.table.element.clientWidth;
     }
+
   }
 
   selectAll() {
     this.mapListService.selectedRow = [...this.mapListService.tableData];
     this.setSelectedObs();
+    this.viewFitList(this.selectedObs);
   }
 
   deselectAll() {
@@ -99,11 +132,38 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
   onActivate(event) {
     if (event.type == 'checkbox' || event.type == 'click') {
       this.setSelectedObs();
+      this.viewFitList(this.selectedObs);
     }
   }
 
+  setFeatureGroup(observations) {
+    for (let obs of observations) {
+      let coordinates = this.mapListService.layerDict[obs].feature.geometry.coordinates;
+      if (this.coordinates_list.indexOf(JSON.stringify(coordinates)) == -1) {
+        this.marker = new L.marker([coordinates[1],coordinates[0]);
+        this.marker.addTo(this.group);
+        this.coordinates_list.push(JSON.stringify(coordinates));
+      }
+    }
+  }
+
+  setView() {
+    if (this.coordinates_list.length > 1) {
+      this._ms.getMap().fitBounds(this.group.getBounds());
+    } else {
+      this._ms.getMap().setView(this.marker.getLatLng(), 12);
+    }
+  }
+
+  viewFitList(observations) {
+    this.setFeatureGroup(observations);
+    this.setView();
+    this.group = L.featureGroup();
+    this.coordinates_list = [];
+  }
 
   setSelectedObs() {
+    // array of id_sythese values of selected observations
     this.selectedObs = [];
     if (this.mapListService.selectedRow.length === 0) {
       this.selectedObs = [];
@@ -111,8 +171,6 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
       for (let obs in this.mapListService.selectedRow) {
         this.selectedObs.push(this.mapListService.selectedRow[obs]['id_synthese']);
       }
-      //this.mapListService.selectedRow[0]['observers'] = 'o';
-      //this.mapListService = [...this.mapListService];
     }
 
   }
@@ -132,8 +190,6 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
     this.rowNumber = Math.trunc(event.target.innerHeight / 37);
   }
 
-
-
   backToModule(url_source, id_pk_source) {
     const link = document.createElement('a');
     link.target = '_blank';
@@ -144,30 +200,9 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
     link.remove();
   }
 
-
-  /*
-  getQueryString(): HttpParams {
-    const formatedParams = this._fs.formatParams();
-    return this._ds.buildQueryUrl(formatedParams);
-  }
-  */
-
-  /*
-  openInfoModal(row) {
-    const modalRef = this.ngbModal.open(ModalInfoObsComponent, {
-      size: 'lg',
-      windowClass: 'large-modal'
-    });
-    modalRef.componentInstance.oneObsSynthese = row;
-  }
-  */
-
-
   getRowClass() {
     return 'row-sm clickable';
   }
-
-
 
   ngOnChanges(changes) {
     if (changes.inputSyntheseData && changes.inputSyntheseData.currentValue) {
@@ -176,4 +211,6 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
     }
     this.nbTotalObservation = this.mapListService.tableData.length;
   }
+
+
 }

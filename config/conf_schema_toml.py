@@ -31,8 +31,8 @@ DEFAULT_LIST_COLUMN = [
     {'prop': 'id_nomenclature_valid_status', 'name': '', 'max_width': 40},
     {'prop': 'mnemonique', 'name': '', 'max_width': 40},
     {'prop': 'nom_vern_or_lb_nom', 'name': 'Taxon', 'max_width': 150},
-    {'prop': 'date_min', 'name': 'Date obs', 'max_width': 100},
-    {'prop': 'dataset_name', 'name': 'JDD', 'max_width': 200},
+    {'prop': 'date_min', 'name': 'Date obs.', 'max_width': 100},
+    {'prop': 'dataset_name', 'name': 'Jeu de données', 'max_width': 200},
     {'prop': 'observers', 'name': 'Observateur', 'max_width': 200}
 ]
 
