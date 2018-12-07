@@ -46,6 +46,24 @@ STATUS_COLORS = [
      {"318":"#28a745"}
  ]
 
+"""
+A faire :
+  "originStyle" :
+    {
+      color: '#3388ff',
+      fill: true,
+      fillOpacity: 0,
+      weight: 3
+   },
+  "selectedStyle" :
+   {
+      color: '#3388ff',
+      fillColor: '#ff0000',
+      fillOpacity: 0.8,
+      weight: 3
+   }
+   """
+
 class GnModuleSchemaConf(GnModuleProdConf):
     MANDATORY_COLUMNS = fields.List(fields.String(), missing=MANDATORY_COLUMNS)
     STATUS_COLORS = fields.List(fields.Dict(), missing=STATUS_COLORS)

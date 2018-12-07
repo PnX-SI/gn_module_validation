@@ -9,7 +9,15 @@ import {
   ChangeDetectorRef,
   OnDestroy
 } from '@angular/core';
-import { Map, GeoJSON, Layer, FeatureGroup, Marker, LatLng } from 'leaflet';
+
+import { Map,
+         GeoJSON,
+         Layer,
+         FeatureGroup,
+         Marker,
+         LatLng
+} from 'leaflet';
+
 import { MapListService } from '@geonature_common/map-list/map-list.service';
 import { MapService } from '@geonature_common/map/map.service';
 import { DataService } from '../../services/data.service';
@@ -56,12 +64,11 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
     private _commonService: CommonService,
     //private _fs: SyntheseFormService,
     public sanitizer: DomSanitizer,
-    public ref: ChangeDetectorRef
+    public ref: ChangeDetectorRef,
     private _ms: MapService
   ) {}
 
   ngOnInit() {
-    console.log(this.mapListService);
     // get wiewport height to set the number of rows in the tabl
     const h = document.documentElement.clientHeight;
     this.rowNumber = Math.trunc(h / 37);
@@ -102,12 +109,14 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
 
 
   onTableClick() {
+    this.setSelectedObs();
     this.mapListService.onTableClick$.subscribe(
       id => {
-        console.log(id);
+        this.setSelectedObs();
+        this.setOriginStyleToAll();
+        this.setSelectedSyleToSelectedRows();
       }
     );
-    //this.mapListService.onTableClick$.unsubscribe();
   }
 
 
@@ -115,24 +124,42 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
     if (this.table && this.table.element.clientWidth !== this._latestWidth) {
       this._latestWidth = this.table.element.clientWidth;
     }
+  }
 
+  setOriginStyleToAll() {
+    for (let obs in this.mapListService.layerDict) {
+      this.mapListService.layerDict[obs].setStyle(this.VALIDATION_CONFIG.originStyle);
+    }
+  }
+
+  setSelectedSyleToSelectedRows() {
+    for (let obs of this.selectedObs) {
+      this.mapListService.layerDict[obs].setStyle(this.VALIDATION_CONFIG.selectedStyle);
+    }
   }
 
   selectAll() {
     this.mapListService.selectedRow = [...this.mapListService.tableData];
     this.setSelectedObs();
     this.viewFitList(this.selectedObs);
+    this.setSelectedSyleToSelectedRows();
   }
 
   deselectAll() {
     this.mapListService.selectedRow = [];
     this.setSelectedObs();
+    if (this.mapListService.selectedRow.length === 0) {
+      this.setOriginStyleToAll();
+    }
   }
 
   onActivate(event) {
     if (event.type == 'checkbox' || event.type == 'click') {
       this.setSelectedObs();
       this.viewFitList(this.selectedObs);
+      if (this.mapListService.selectedRow.length === 0) {
+        this.setOriginStyleToAll();
+      }
     }
   }
 

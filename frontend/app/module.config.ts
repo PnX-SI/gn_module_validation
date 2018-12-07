@@ -50,6 +50,20 @@ export const ModuleConfig = {
      "319":"#9ACD32",
      "318":"#28a745"
    }],
+ "originStyle" :
+   {
+     color: '#3388ff',
+     fill: true,
+     fillOpacity: 0,
+     weight: 3
+  },
+ "selectedStyle" :
+  {
+     color: '#3388ff',
+     fillColor: '#ff0000',
+     fillOpacity: 0.8,
+     weight: 3
+  },
  "NB_MAX_OBS_MAP": 10000,
  "id_application": 8
 }

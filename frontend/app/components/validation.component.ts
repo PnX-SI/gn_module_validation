@@ -26,35 +26,12 @@ export class ValidationComponent implements OnInit {
     private _mapListService: MapListService,
     private _commonService: CommonService,
     private toastr: ToastrService
-
-    //private _modalService: NgbModal,
-    //private _fs: SyntheseFormService
   ) {}
 
   ngOnInit() {
     const initialData = { limit: AppConfig.SYNTHESE.NB_LAST_OBS };
     this.loadAndStoreData(initialData);
-    console.log(AppConfig);
   }
-
-
-
-  /*
-  ngOnInit() {
-    this.searchService.getSyntheseData().subscribe(
-      data => {
-        console.log('preparation reception');
-        this.serverData = data as JSON;
-        console.log(this.serverData);
-      },
-
-      error => {},
-      () => {
-        console.log('terminé');
-      }
-    );
-  }
-  */
 
   loadAndStoreData(formatedParams) {
     this.searchService.dataLoaded = false;
