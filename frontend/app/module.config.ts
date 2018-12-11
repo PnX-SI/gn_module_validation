@@ -1,7 +1,6 @@
 export const ModuleConfig = {
  "COLUMNS_API_VALIDATION_WEB_APP": [
   "validation_auto",
-  "mnemonique",
   "id_nomenclature_valid_status",
   "id_synthese",
   "date_min",

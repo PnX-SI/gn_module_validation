@@ -52,6 +52,10 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
   public rowNumber: number;
   private _latestWidth: number;
   public id_same_coordinates = []; // list of observation ids having same geographic coordinates
+  public statusNames;
+  public status_keys;
+
+          // show error message if no connexion
 
 
   @Input() inputSyntheseData: GeoJSON;
@@ -76,7 +80,7 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
     this.group = new L.featureGroup();
     this.onMapClick();
     this.onTableClick();
-    console.log(this.mapListService);
+    this.getStatusNames();
   }
 
   action() {
@@ -104,6 +108,28 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
           }
         }
         this.setSelectedObs();
+      }
+    );
+  }
+
+  getStatusNames() {
+    this._ds.getStatusNames().subscribe(
+      result => {
+        // get status names
+        this.statusNames = result;
+      },
+      err => {
+        if (err.statusText === 'Unknown Error') {
+          // show error message if no connexion
+          this.toastr.error('ERROR: IMPOSSIBLE TO CONNECT TO SERVER');
+        } else {
+          // show error message if other server error
+          this.toastr.error(err.error);
+        }
+      },
+      () => {
+        // if no error : open popup for changing validation status
+        this.status_keys = Object.keys(this.VALIDATION_CONFIG.STATUS_INFO);
       }
     );
   }

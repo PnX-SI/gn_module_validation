@@ -9,7 +9,6 @@ from geonature.utils.config_schema import GnModuleProdConf
 #
 DEFAULT_COLUMNS_API_VALIDATION = [
     'validation_auto',
-    'mnemonique',
     'id_nomenclature_valid_status',
     'id_synthese',
     'date_min',

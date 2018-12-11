@@ -16,7 +16,7 @@
     <ng-template *ngIf="col.prop === 'id_nomenclature_valid_status'" let-row="row" ngx-datatable-cell-template>
       <div class="statusContent"> <span class="validationCircle" [ngStyle]="{'background': VALIDATION_CONFIG.STATUS_INFO[row.id_nomenclature_valid_status].color}">{{row.validation_auto}}</span>
         <div [ngStyle]="{'background': VALIDATION_CONFIG.STATUS_INFO[row.id_nomenclature_valid_status].color}" class="statusName">
-          <span>{{row.mnemonique}}</span>
+          <span>{{statusNames[row.id_nomenclature_valid_status]}}</span>
         </div>
       </div>
     </ng-template>
