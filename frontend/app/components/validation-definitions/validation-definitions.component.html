@@ -12,7 +12,7 @@
   </thead>
 
   <tbody>
-    <tr *ngFor="let def of definitions">
+    <tr *ngFor="let def of definitions" [ngStyle]="{'background': VALIDATION_CONFIG.STATUS_INFO[def.status_id].color}">
       <td> {{def.status}} </td>
       <td> {{def.definition}} </td>
     </tr>

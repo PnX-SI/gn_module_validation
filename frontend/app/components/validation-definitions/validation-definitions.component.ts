@@ -12,6 +12,8 @@ import { Observable } from 'rxjs';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { GeoJSON } from 'leaflet';
 import { AppConfig } from '@geonature_config/app.config';
+import { ModuleConfig } from '../../module.config';
+
 
 
 @Component({
@@ -24,6 +26,7 @@ export class ValidationDefinitionsComponent implements OnInit {
 
   public definitions;
   private showDefinitions: Boolean = false;
+  public VALIDATION_CONFIG = ModuleConfig;
 
   constructor(
     public searchService: DataService,
@@ -43,7 +46,7 @@ export class ValidationDefinitionsComponent implements OnInit {
         }
       },
       () => {
-        console.log('definitions received')
+        console.log(this.definitions);
       });
   }
 

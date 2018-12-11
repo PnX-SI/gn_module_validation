@@ -192,5 +192,5 @@ def get_definitions(info_role):
     for key in blueprint.config['STATUS_INFO'].keys():
         nomenclature_statut = DB.session.execute(select([TNomenclatures.mnemonique]).where(TNomenclatures.id_nomenclature == int(key))).fetchone()
         nomenclature_definitions = DB.session.execute(select([TNomenclatures.definition_default]).where(TNomenclatures.id_nomenclature == int(key))).fetchone()
-        definitions.append({"status":nomenclature_statut[0],"definition":nomenclature_definitions[0]})
+        definitions.append({"status_id":key,"status":nomenclature_statut[0],"definition":nomenclature_definitions[0]})
     return definitions
