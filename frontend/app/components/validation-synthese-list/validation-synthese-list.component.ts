@@ -76,6 +76,7 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
     this.group = new L.featureGroup();
     this.onMapClick();
     this.onTableClick();
+    console.log(this.mapListService);
   }
 
   action() {
@@ -128,13 +129,13 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
 
   setOriginStyleToAll() {
     for (let obs in this.mapListService.layerDict) {
-      this.mapListService.layerDict[obs].setStyle(this.VALIDATION_CONFIG.originStyle);
+      this.mapListService.layerDict[obs].setStyle(this.VALIDATION_CONFIG.MAP_POINT_STYLE.originStyle);
     }
   }
 
   setSelectedSyleToSelectedRows() {
     for (let obs of this.selectedObs) {
-      this.mapListService.layerDict[obs].setStyle(this.VALIDATION_CONFIG.selectedStyle);
+      this.mapListService.layerDict[obs].setStyle(this.VALIDATION_CONFIG.MAP_POINT_STYLE.selectedStyle);
     }
   }
 
@@ -165,11 +166,20 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
 
   setFeatureGroup(observations) {
     for (let obs of observations) {
-      let coordinates = this.mapListService.layerDict[obs].feature.geometry.coordinates;
-      if (this.coordinates_list.indexOf(JSON.stringify(coordinates)) == -1) {
-        this.marker = new L.marker([coordinates[1],coordinates[0]);
-        this.marker.addTo(this.group);
-        this.coordinates_list.push(JSON.stringify(coordinates));
+      if (this.mapListService.layerDict[obs].feature.geometry.type === 'Polygon') {
+        let coordinates = this.mapListService.layerDict[obs].feature.geometry.coordinates[0];
+        for (let coord of coordinates) {
+          this.marker = new L.marker([coord[1],coord[0]);
+          this.marker.addTo(this.group);
+          this.coordinates_list.push(JSON.stringify(coord));
+        }
+      } else {
+        let coordinates = this.mapListService.layerDict[obs].feature.geometry.coordinates;
+        if (this.coordinates_list.indexOf(JSON.stringify(coordinates)) == -1) {
+          this.marker = new L.marker([coordinates[1],coordinates[0]);
+          this.marker.addTo(this.group);
+          this.coordinates_list.push(JSON.stringify(coordinates));
+        }
       }
     }
   }

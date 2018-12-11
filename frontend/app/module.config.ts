@@ -41,33 +41,47 @@ export const ModuleConfig = {
   "url_source",
   "cd_nom"
  ],
- "NB_MAX_OBS_MAP": 10000,
- "STATUS_COLORS": [
-  {
-   "318": "#28a745",
-   "319": "#9ACD32",
-   "320": "#FFA500",
-   "321": "#FF0000",
-   "322": "#8e8e8e",
-   "466": "#8e8e8e"
-  }
- ],
- "api_url": "/validation",
- "id_application": 8,
- "originStyle": [
-  {
+ "MAP_POINT_STYLE": {
+  "originStyle": {
    "color": "#3388ff",
    "fill": true,
    "fillOpacity": 0,
    "weight": 3
-  }
- ],
- "selectedStyle": [
-  {
+  },
+  "selectedStyle": {
    "color": "#3388ff",
    "fillColor": "#ff0000",
-   "fillOpacity": 0.8,
+   "fillOpacity": 0.5,
    "weight": 3
   }
- ]
+ },
+ "NB_MAX_OBS_MAP": 10000,
+ "STATUS_INFO": {
+  "318": {
+   "cat": "assessable",
+   "color": "#28a745"
+  },
+  "319": {
+   "cat": "assessable",
+   "color": "#9ACD32"
+  },
+  "320": {
+   "cat": "assessable",
+   "color": "#FFA500"
+  },
+  "321": {
+   "cat": "assessable",
+   "color": "#FF0000"
+  },
+  "322": {
+   "cat": "notassessable",
+   "color": "#8e8e8e"
+  },
+  "466": {
+   "cat": "notassessed",
+   "color": "#8e8e8e"
+  }
+ },
+ "api_url": "/validation",
+ "id_application": 8
 }

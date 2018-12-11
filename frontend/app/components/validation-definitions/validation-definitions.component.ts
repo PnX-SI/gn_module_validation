@@ -37,11 +37,9 @@ export class ValidationDefinitionsComponent implements OnInit {
     this.searchService.getDefinitionData().subscribe(
       result => {
         this.definitions = result;
-        console.log(this.definitions);
       },
       error => {
         if (error.status !== 403) {
-          console.log('error', 'ErrorMessage');
         }
       },
       () => {

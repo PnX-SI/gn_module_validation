@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from "@angular/core";
+import { Component, Input, Output, EventEmitter,PipeTransform, Pipe } from "@angular/core";
 import { MapListService } from "@geonature_common/map-list/map-list.service";
 import { NgbModal, NgbActiveModal, ModalDismissReasons} from "@ng-bootstrap/ng-bootstrap";
 import { ModuleConfig } from "../../module.config";
@@ -26,6 +26,12 @@ export class ValidationPopupComponent implements OnInit {
   public modalRef:any;
   string_observations: string;
   public statusForm: FormGroup;
+  public VALIDATION_CONFIG = ModuleConfig;
+  public statusNames;
+  public status;
+  public status_keys;
+
+
   //private isAccessOk: Boolean = false;
 
   @Input() observations : Array<number>;
@@ -46,6 +52,11 @@ export class ValidationPopupComponent implements OnInit {
         comment : ['']
       });
     }
+
+
+  ngOnInit() {
+  }
+
 
 
   onSubmit(value) {
@@ -109,10 +120,28 @@ export class ValidationPopupComponent implements OnInit {
   }
 
   openVerticallyCentered(content) {
-    // open popup for changing validation status
-    this.modalRef = this.modalService.open(content, {
-      centered: true, size: "lg", backdrop: 'static', centered: true, windowClass: 'dark-modal'
-    });
+    this.dataService.getStatusNames().subscribe(
+      result => {
+        // get status names
+        this.statusNames = result;
+      },
+      err => {
+        if (err.statusText === 'Unknown Error') {
+          // show error message if no connexion
+          this.toastr.error('ERROR: IMPOSSIBLE TO CONNECT TO SERVER');
+        } else {
+          // show error message if other server error
+          this.toastr.error(err.error);
+        }
+      },
+      () => {
+        // if no error : open popup for changing validation status
+        this.modalRef = this.modalService.open(content, {
+          centered: true, size: "lg", backdrop: 'static', centered: true, windowClass: 'dark-modal'
+        });
+        this.status_keys = Object.keys(this.VALIDATION_CONFIG.STATUS_INFO);
+      }
+    );
   }
 
   closeModal() {
@@ -120,6 +149,5 @@ export class ValidationPopupComponent implements OnInit {
     this.statusForm.reset();
     this.modalRef.close();
   }
-
 
 }

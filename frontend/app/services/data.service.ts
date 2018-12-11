@@ -40,4 +40,8 @@ export class DataService {
     return this._http.get<GeoJSON>(`${AppConfig.API_ENDPOINT}/validation/definitions`);
   }
 
+  getStatusNames() {
+    return this._http.get<GeoJSON>(`${AppConfig.API_ENDPOINT}/validation/statusNames`);
+  }
+
 }

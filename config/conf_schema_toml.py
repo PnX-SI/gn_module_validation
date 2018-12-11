@@ -35,26 +35,51 @@ DEFAULT_LIST_COLUMN = [
     {'prop': 'observers', 'name': 'Observateur', 'max_width': 200}
 ]
 
-STATUS_COLORS = [
-    # ne pas changer les couleurs
-     {"466":"#8e8e8e","322":"#8e8e8e","321":"#FF0000","320":"#FFA500","319":"#9ACD32","318":"#28a745"}
- ]
-
-originStyle = [
-    {'color': '#3388ff','fill': True,'fillOpacity': 0,'weight': 3}
+# id_nomenclature_valid_status used for validation module
+ID_VALID_STATUS = [
+    318,319,320,321,322,466
 ]
 
-selectedStyle = [
-    {'color': '#3388ff','fillColor': '#ff0000','fillOpacity': 0.8,'weight': 3}
- ]
+STATUS_INFO = {
+  "318" : {
+    "cat":"assessable",
+    "color":"#28a745"
+  },
+  "319" : {
+    "cat":"assessable",
+    "color":"#9ACD32"
+  },
+  "320" : {
+    "cat":"assessable",
+    "color":"#FFA500"
+  },
+  "321" : {
+    "cat":"assessable",
+    "color":"#FF0000"
+  },
+  "322" : {
+    "cat":"notassessable",
+    "color":"#8e8e8e"
+  },
+  "466" : {
+    "cat":"notassessed",
+    "color":"#8e8e8e"
+  }
+}
+
+MAP_POINT_STYLE = {
+    'originStyle' :
+        {'color': '#3388ff','fill': True,'fillOpacity': 0,'weight': 3},
+    'selectedStyle' :
+        {'color': '#3388ff','fillColor': '#ff0000','fillOpacity': 0.5,'weight': 3}
+ }
 
 class GnModuleSchemaConf(GnModuleProdConf):
     MANDATORY_COLUMNS = fields.List(fields.String(), missing=MANDATORY_COLUMNS)
-    STATUS_COLORS = fields.List(fields.Dict(), missing=STATUS_COLORS)
+    STATUS_INFO = fields.Dict(fields.Dict(), missing=STATUS_INFO)
     COLUMNS_API_VALIDATION_WEB_APP = fields.List(fields.String, missing=DEFAULT_COLUMNS_API_VALIDATION)
     LIST_COLUMNS_FRONTEND = fields.List(fields.Dict, missing=DEFAULT_LIST_COLUMN)
     NB_MAX_OBS_MAP = fields.Integer(missing=10000)
-    originStyle = fields.List(fields.Dict(), missing=originStyle)
-    selectedStyle = fields.List(fields.Dict(), missing=selectedStyle)
+    MAP_POINT_STYLE = fields.Dict(fields.Dict(), missing=MAP_POINT_STYLE)
     id_application = fields.Integer(required=True)
     api_url = fields.String(required=True)

@@ -18,44 +18,19 @@
           <div> Nombre d'observations sélectionnées : {{this.observations.length}} </div>
           <br>
 
-          <div id="validButtons">
+          <span *ngFor="let id of status_keys" id="validButtons">
           <!-- Formulaire pour le choix des standards et des formats de téléchargement des fichiers -->
-          <label style="background-color:#28a745;" class="btn btn-primary radio-inline" for="Certain">
-            <input type="radio" formControlName="statut" value="318" id="Certain">
-            Certain - Très probable</label>
+            <div *ngIf="VALIDATION_CONFIG.STATUS_INFO[id].cat !== 'assessable'"> </div>
+            <div *ngIf="VALIDATION_CONFIG.STATUS_INFO[id].cat === 'notassessable'" style="padding-top:30px;"> </div>
 
-          <label style="background-color:#9ACD32;" class="btn btn-primary radio-inline" for="Probable">
-            <input type="radio" formControlName="statut" value="319" id="Probable">
-            Probable</label>
-
-          <label style="background-color:#FFA500;" class="btn btn-primary radio-inline" for="Douteux">
-            <input type="radio" formControlName="statut" value="320" id="Douteux">
-            Douteux</label>
-
-          <label style="background-color:#FF0000;" class="btn btn-primary radio-inline" for="Invalide">
-            <input type="radio" formControlName="statut" value="321" id="Invalide">
-            Invalide</label>
-
-          </div>
-
-          <br>
-
-            <div style="padding-top:30px;">
-
-            <label style="background-color:#8e8e8e;width: 30%;" class="btn btn-primary radio-inline" for="NR">
-              <input type="radio" formControlName="statut" value="322" id="NR">
-              Non réalisable</label>
-            <br>
-
-            <label style="background-color:#8e8e8e;width: 30%;" class="btn btn-primary radio-inline" for="NE">
-              <input type="radio" formControlName="statut" value="466" id="NE">
-              En attente de validation</label>
-
-            </div>
+            <label style="text-align:left;" [ngStyle]="{'background-color': VALIDATION_CONFIG.STATUS_INFO[id].color}" class="btn btn-primary radio-inline">
+              <input type="radio" formControlName="statut" value="{{id}}">
+              {{statusNames[id]}}</label>
+          </span>
 
           <div class="md-form mb-0" style="padding-top:30px;">
             <span> Commentaire : </span>
-            <textarea type="text" rows="1" class="form-control md-textarea" formControlName="comment" id="form1"> </textarea>
+            <textarea type="text" rows="1" class="form-control md-textarea" formControlName="comment"> </textarea>
           </div>
 
           <br>

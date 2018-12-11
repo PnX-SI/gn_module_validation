@@ -47,8 +47,6 @@ def get_synthese_data(info_role):
     """
     result_limit = blueprint.config['NB_MAX_OBS_MAP']
 
-    print(info_role)
-
     allowed_datasets = TDatasets.get_user_datasets(info_role)
 
     q = DB.session.query(VLatestValidationForWebApp)
@@ -74,22 +72,25 @@ def get_synthese_data(info_role):
         feature['properties']['nom_vern_or_lb_nom'] = d.nom_vern if d.lb_nom is None else d.lb_nom
         features.append(feature)
 
-
-    '''
-    id_nomenclature_status = DB.session.execute(select([TNomenclatures.id_nomenclature,TNomenclatures.mnemonique]))
-    for row in id_nomenclature_status:
-        print(row)
-    '''
-    #print(id_nomenclature_status)
-
-
     return {
         'data': FeatureCollection(features),
         'nb_obs_limited': nb_total == blueprint.config['NB_MAX_OBS_MAP'],
-        'nb_total': nb_total
+        'nb_total': nb_total,
     }
 
 
+@blueprint.route('/statusNames', methods=['GET'])
+@fnauth.check_auth_cruved('R', True)
+@json_resp
+def get_statusNames(info_role):
+    try:
+        status = {}
+        for key in blueprint.config['STATUS_INFO'].keys():
+            status_name = DB.session.execute(select([TNomenclatures.mnemonique]).where(TNomenclatures.id_nomenclature == int(key))).fetchone()
+            status.update({key:status_name[0]})
+        return status
+    except Exception:
+        return 'INTERNAL SERVER ERROR ("get_status_names() error"): contactez l\'administrateur du site',500
 
 
 @blueprint.route('/<id_synthese>', methods=['GET','POST'])
@@ -97,14 +98,21 @@ def get_synthese_data(info_role):
 @json_resp
 def post_status(info_role,id_synthese):
     try:
-        # revoir id_table_loc
-        # revoir pour id_validator
-        data = dict(request.get_json())
         print('id_role = ', info_role.id_role)
 
-        print('id_synthese = ' + id_synthese)
+        data = dict(request.get_json())
+        validation_status = data['statut']
+        validation_comment = data['comment']
 
-        expected_values = ['318', '319', '320', '321', '322', '466']
+        expected_values = []
+        for id in blueprint.config['STATUS_INFO'].keys():
+            expected_values.append(int(id))
+
+        if validation_status == '':
+            return 'Aucun statut de validation n\'est sélectionné', 400
+
+        if int(validation_status) not in expected_values:
+            return 'INTERNAL SERVER ERROR : providing wrong status / contactez l\'administrateur du site', 500
 
         l_id_synthese = []
         for t in list(id_synthese):
@@ -112,16 +120,6 @@ def post_status(info_role,id_synthese):
                 l_id_synthese.append(int(t))
             except ValueError:
                 pass
-
-        validation_status = data['statut']
-        validation_comment = data['comment']
-        print('status = ' + validation_status)
-
-        if validation_status == '':
-            return 'Aucun statut de validation n\'est sélectionné', 400
-
-        if validation_status not in expected_values:
-            return 'INTERNAL SERVER ERROR : providing wrong status / contactez l\'administrateur du site', 500
 
         for id in l_id_synthese:
 
@@ -187,14 +185,12 @@ def post_status(info_role,id_synthese):
 @fnauth.check_auth_cruved('R', True)
 @json_resp
 def get_definitions(info_role):
-
     """
         return validation status definitions stored in t_nomenclatures
     """
     definitions = []
-    codes = [318,319,320,321,322,466]
-    for code in codes:
-        nomenclature_statut = DB.session.execute(select([TNomenclatures.mnemonique]).where(TNomenclatures.id_nomenclature == code)).fetchone()
-        nomenclature_definitions = DB.session.execute(select([TNomenclatures.definition_default]).where(TNomenclatures.id_nomenclature == code)).fetchone()
+    for key in blueprint.config['STATUS_INFO'].keys():
+        nomenclature_statut = DB.session.execute(select([TNomenclatures.mnemonique]).where(TNomenclatures.id_nomenclature == int(key))).fetchone()
+        nomenclature_definitions = DB.session.execute(select([TNomenclatures.definition_default]).where(TNomenclatures.id_nomenclature == int(key))).fetchone()
         definitions.append({"status":nomenclature_statut[0],"definition":nomenclature_definitions[0]})
     return definitions

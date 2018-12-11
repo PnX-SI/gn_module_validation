@@ -39,10 +39,10 @@ export class ValidationSyntheseCarteComponent implements OnInit {
       click: e => {
 
         for (let obs in this.mapListService.layerDict) {
-          this.mapListService.layerDict[obs].setStyle(this.VALIDATION_CONFIG.originStyle);
+          this.mapListService.layerDict[obs].setStyle(this.VALIDATION_CONFIG.MAP_POINT_STYLE.originStyle);
         }
         // toggle style
-        this.mapListService.layerDict[feature.id].setStyle(this.VALIDATION_CONFIG.selectedStyle);
+        this.mapListService.layerDict[feature.id].setStyle(this.VALIDATION_CONFIG.MAP_POINT_STYLE.selectedStyle);
         // observable
         this.mapListService.mapSelected.next(feature.id);
       }

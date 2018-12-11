@@ -20,6 +20,7 @@ export class ValidationComponent implements OnInit {
 
   public serverData;
   public sameCoordinates: any;
+  public status_names;
 
   constructor(
     public searchService: DataService,
