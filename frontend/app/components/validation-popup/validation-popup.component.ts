@@ -27,15 +27,15 @@ export class ValidationPopupComponent implements OnInit {
   string_observations: string;
   public statusForm: FormGroup;
   public VALIDATION_CONFIG = ModuleConfig;
-  public statusNames;
   public status;
-  public status_keys;
 
 
   //private isAccessOk: Boolean = false;
 
   @Input() observations : Array<number>;
   @Input() nbTotalObservation : number;
+  @Input() status_names : any;
+  @Input() status_keys : any;
   @Output() valStatus: EventEmitter<any> = new EventEmitter();
 
   constructor(
@@ -55,14 +55,14 @@ export class ValidationPopupComponent implements OnInit {
 
 
   ngOnInit() {
+
   }
-
-
 
   onSubmit(value) {
     // chain of actions for changing status validation of one or several observations:
-    this.string_observations = JSON.stringify(this.observations);
-    const statusUrl = '/' + this.string_observations;
+    //let list_observations = []
+    //this.string_observations = JSON.stringify(this.observations);
+    const statusUrl = '/' + this.observations;
     // post validation status form ('statusForm') for one or several observation(s) to backend/routes
     return this.dataService.postStatus(value, statusUrl).toPromise()
     .then(
@@ -120,28 +120,10 @@ export class ValidationPopupComponent implements OnInit {
   }
 
   openVerticallyCentered(content) {
-    this.dataService.getStatusNames().subscribe(
-      result => {
-        // get status names
-        this.statusNames = result;
-      },
-      err => {
-        if (err.statusText === 'Unknown Error') {
-          // show error message if no connexion
-          this.toastr.error('ERROR: IMPOSSIBLE TO CONNECT TO SERVER');
-        } else {
-          // show error message if other server error
-          this.toastr.error(err.error);
-        }
-      },
-      () => {
-        // if no error : open popup for changing validation status
-        this.modalRef = this.modalService.open(content, {
-          centered: true, size: "lg", backdrop: 'static', centered: true, windowClass: 'dark-modal'
-        });
-        this.status_keys = Object.keys(this.VALIDATION_CONFIG.STATUS_INFO);
-      }
-    );
+      // if no error : open popup for changing validation status
+      this.modalRef = this.modalService.open(content, {
+        centered: true, size: "lg", backdrop: 'static', centered: true, windowClass: 'dark-modal'
+      });
   }
 
   closeModal() {

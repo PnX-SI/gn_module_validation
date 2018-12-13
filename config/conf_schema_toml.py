@@ -35,10 +35,6 @@ DEFAULT_LIST_COLUMN = [
 ]
 
 # id_nomenclature_valid_status used for validation module
-ID_VALID_STATUS = [
-    318,319,320,321,322,466
-]
-
 STATUS_INFO = {
   "318" : {
     "cat":"assessable",
@@ -62,7 +58,7 @@ STATUS_INFO = {
   },
   "466" : {
     "cat":"notassessed",
-    "color":"#8e8e8e"
+    "color":""
   }
 }
 

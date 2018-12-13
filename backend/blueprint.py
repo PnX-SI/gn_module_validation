@@ -114,21 +114,16 @@ def post_status(info_role,id_synthese):
         if int(validation_status) not in expected_values:
             return 'INTERNAL SERVER ERROR : providing wrong status / contactez l\'administrateur du site', 500
 
-        l_id_synthese = []
-        for t in list(id_synthese):
-            try:
-                l_id_synthese.append(int(t))
-            except ValueError:
-                pass
+        id_synthese = id_synthese.split(',')
 
-        for id in l_id_synthese:
+        for id in id_synthese:
 
             # t_validations.id_validation:
             id_val = 1 #auto-incremented in t_validations
 
             # t_validations.id_table_location:
             # get id_source value of the observation in synthese table
-            synthese_id_source = select([Synthese.id_source]).where(Synthese.id_synthese == id)
+            synthese_id_source = select([Synthese.id_source]).where(Synthese.id_synthese == int(id))
             # get entity_source_pk_field value of the observation in TSources table with id_source value
             entity_source_pk_field = DB.session.execute(select([TSources.entity_source_pk_field]).where(TSources.id_source == synthese_id_source)).fetchone()[0]
             # get id_table_location in BibTablesLocation by decomposition of entity_source_pk_field in schema_name and table_name values
@@ -141,7 +136,7 @@ def post_status(info_role,id_synthese):
                 return 'INTERNAL SERVER ERROR : problem in BibTablesLocation.schema_name or .table_name / contactez l\'administrateur du site', 500
 
             # t_validations.uuid_attached_row:
-            uuid = DB.session.query(Synthese.unique_id_sinp).filter(Synthese.id_synthese == id)
+            uuid = DB.session.query(Synthese.unique_id_sinp).filter(Synthese.id_synthese == int(id))
 
             # t_validations.id_nomenclature_valid_status:
             id_nomenclature_status = DB.session.query(TNomenclatures.id_nomenclature).filter(TNomenclatures.id_nomenclature == validation_status)

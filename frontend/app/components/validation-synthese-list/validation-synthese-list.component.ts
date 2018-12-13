@@ -53,10 +53,7 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
   private _latestWidth: number;
   public id_same_coordinates = []; // list of observation ids having same geographic coordinates
   public statusNames;
-  public status_keys;
-
-          // show error message if no connexion
-
+  public statusKeys;
 
   @Input() inputSyntheseData: GeoJSON;
   @ViewChild('table') table: DatatableComponent;
@@ -76,7 +73,6 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
     // get wiewport height to set the number of rows in the tabl
     const h = document.documentElement.clientHeight;
     this.rowNumber = Math.trunc(h / 37);
-
     this.group = new L.featureGroup();
     this.onMapClick();
     this.onTableClick();
@@ -113,6 +109,7 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
   }
 
   getStatusNames() {
+
     this._ds.getStatusNames().subscribe(
       result => {
         // get status names
@@ -128,10 +125,11 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
         }
       },
       () => {
-        // if no error : open popup for changing validation status
-        this.status_keys = Object.keys(this.VALIDATION_CONFIG.STATUS_INFO);
+        //console.log(this.statusNames);
+        this.statusKeys = Object.keys(this.VALIDATION_CONFIG.STATUS_INFO);
       }
     );
+
   }
 
 
@@ -151,6 +149,7 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
     if (this.table && this.table.element.clientWidth !== this._latestWidth) {
       this._latestWidth = this.table.element.clientWidth;
     }
+
   }
 
   setOriginStyleToAll() {

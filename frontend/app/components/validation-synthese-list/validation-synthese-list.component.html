@@ -2,7 +2,7 @@
 <ngx-datatable (window:resize)="onResize($event)" #table class="material striped margin-top-xs table-size expandable"
   [rows]="mapListService.tableData" [columns]="VALIDATION_CONFIG.LIST_COLUMNS_FRONTEND" [columnMode]="'force'"
   [headerHeight]="50" [footerHeight]="35" [selected]="mapListService.selectedRow" [selectionType]="'multiClick'" [count]="mapListService.tableData.length"
-  [limit]="rowNumber" [rowClass]="getRowClass" (select)="mapListService.onRowSelect($event)" (activate)="onActivate($event, modal)">
+  [limit]="15" [rowClass]="getRowClass" (select)="mapListService.onRowSelect($event)" (activate)="onActivate($event, modal)">
 
   <ngx-datatable-row-detail rowHeight="100">
      </ngx-datatable-row-detail>
@@ -55,6 +55,7 @@
          [hidden]="!((rowCount / pageSize) > 0)"
          (change)="table.onFooterPage($event)">
        </datatable-pager>
+
      </ng-template>
 
    </ngx-datatable-footer>
@@ -62,4 +63,72 @@
 </ngx-datatable>
 
 
-<pnx-validation-popup [nbTotalObservation]="nbTotalObservation" [observations]="selectedObs" (valStatus)="onStatusChange($event)"></pnx-validation-popup>
+
+<pnx-validation-popup [nbTotalObservation]="nbTotalObservation" [observations]="selectedObs" [status_keys]="statusKeys" [status_names]="statusNames" (valStatus)="onStatusChange($event)"></pnx-validation-popup>
+
+
+<!--
+
+<div class='my-legend'>
+<div class='legend-title'>Légende</div>
+<div class='legend-scale'>
+  <ul class='legend-labels'>
+    <li><span style='background:#8DD3C7;'></span>One</li>
+    <li><span style='background:#FFFFB3;'></span>Two</li>
+    <li><span style='background:#BEBADA;'></span>Three</li>
+    <li><span style='background:#FB8072;'></span>Four</li>
+    <li><span style='background:#80B1D3;'></span>etc</li>
+  </ul>
+</div>
+<div class='legend-source'>Source: <a href="#link to source">Name of source</a></div>
+</div>
+
+<style type='text/css'>
+  .my-legend .legend-title {
+    text-align: left;
+    margin-bottom: 5px;
+    font-weight: bold;
+    font-size: 90%;
+    }
+  .my-legend .legend-scale ul {
+    margin: 0;
+    margin-bottom: 5px;
+    padding: 0;
+    float: left;
+    list-style: none;
+    }
+  .my-legend .legend-scale ul li {
+    font-size: 80%;
+    list-style: none;
+    margin-left: 0;
+    line-height: 18px;
+    margin-bottom: 2px;
+    }
+  .my-legend ul.legend-labels li span {
+    display: block;
+    float: left;
+    height: 16px;
+    width: 30px;
+    margin-right: 5px;
+    margin-left: 0;
+    border: 1px solid #999;
+    }
+  .my-legend .legend-source {
+    font-size: 70%;
+    color: #999;
+    clear: both;
+    }
+  .my-legend a {
+    color: #777;
+    }
+</style>
+-->
+<!--
+<i class="material-icons">
+alternate_email
+</i>
+<span class="fa-stack fa-lg">
+  <i class="fa fa-circle-thin fa-stack-2x"></i>
+  <i class="material-icons"> alternate_email</i>
+</span>
+-->
