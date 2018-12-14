@@ -58,7 +58,7 @@ STATUS_INFO = {
   },
   "466" : {
     "cat":"notassessed",
-    "color":""
+    "color":"#ffffff"
   }
 }
 
