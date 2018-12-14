@@ -8,9 +8,14 @@ import { ValidationSyntheseCarteComponent } from "./components/validation-synthe
 import { ValidationPopupComponent } from "./components/validation-popup/validation-popup.component";
 import { ValidationDefinitionsComponent } from "./components/validation-definitions/validation-definitions.component";
 //import { ValidationSearchComponent } from "./components/validation-search/validation-search.component";
+import { ValidationSearchComponent } from "./components/validation-search/validation-search.component";
+import { ValidationTaxonAdvancedModalComponent } from "./components/validation-search/validation-taxon-advanced/validation-taxon-advanced.component";
+import { TreeModule } from 'angular-tree-component';
 
+import { ValidationTaxonAdvancedStoreService } from "./components/validation-search/validation-taxon-advanced/validation-taxon-advanced-store.service";
+import { DynamicFormService } from '@geonature_common/form/dynamic-form/dynamic-form.service';
 import { DataService } from "./services/data.service";
-//import { ValidationFormService } from "./services/form.service";
+import { FormService } from "./services/form.service";
 import { HttpClient } from '@angular/common/http';
 
 // my module routing
@@ -25,10 +30,12 @@ const routes: Routes = [
     ValidationSyntheseCarteComponent,
     ValidationPopupComponent,
     ValidationDefinitionsComponent,
-    //ValidationSearchComponent
+    ValidationSearchComponent,
+    ValidationTaxonAdvancedModalComponent
   ],
-  imports: [GN2CommonModule, RouterModule.forChild(routes), CommonModule],
-  providers: [DataService],
+  imports: [GN2CommonModule, RouterModule.forChild(routes), CommonModule, TreeModule],
+  entryComponents: [ValidationTaxonAdvancedModalComponent],
+  providers: [DataService,FormService,ValidationTaxonAdvancedStoreService,DynamicFormService],
   bootstrap: []
 })
 export class GeonatureModule {}

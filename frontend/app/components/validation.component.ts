@@ -5,11 +5,13 @@ import { CommonService } from '@geonature_common/service/common.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ValidationSyntheseListComponent } from './validation-synthese-list/validation-synthese-list.component';
 import { ValidationSyntheseCarteComponent } from './validation-synthese-carte/validation-synthese-carte.component';
-//import { SyntheseFormService } from './services/form.service';
 //import { SyntheseModalDownloadComponent } from './synthese-results/synthese-list/modal-download/modal-download.component';
 import { AppConfig } from '@geonature_config/app.config';
 import { ToastrService } from 'ngx-toastr'
 import { ModuleConfig } from '../module.config';
+import { ValidationSearchComponent } from './validation-search/validation-search.component'
+import { FormService } from '../services/form.service';
+
 
 @Component({
   selector: 'pnx-validation',
@@ -30,6 +32,7 @@ export class ValidationComponent implements OnInit {
     private _mapListService: MapListService,
     private _commonService: CommonService,
     private toastr: ToastrService
+    private _fs: FormService
   ) {}
 
   ngOnInit() {
@@ -66,7 +69,6 @@ export class ValidationComponent implements OnInit {
     this._ds.dataLoaded = false;
     this._ds.getSyntheseData(formatedParams).subscribe(
       result => {
-        /*
         if (result['nb_obs_limited']) {
           const modalRef = this._modalService.open(SyntheseModalDownloadComponent, {
             size: 'lg'
@@ -75,7 +77,6 @@ export class ValidationComponent implements OnInit {
           modalRef.componentInstance.queryString = this.searchService.buildQueryUrl(formatedParams);
           modalRef.componentInstance.tooManyObs = true;
         }
-        */
         this._mapListService.geojsonData = result['data'];
         this._mapListService.loadTableData(result['data'], this.customColumns.bind(this));
         this._mapListService.idName = 'id_synthese';

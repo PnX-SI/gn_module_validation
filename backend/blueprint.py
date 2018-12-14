@@ -17,9 +17,15 @@ from geonature.utils.utilssqlalchemy import json_resp
 
 from geonature.core.gn_meta.models import TDatasets
 
-from geonature.core.gn_synthese.models import Synthese, TSources
+from geonature.core.gn_synthese.models import (
+    Synthese,
+    TSources,
+    VMTaxonsSyntheseAutocomplete
+    )
 
 from geonature.core.gn_commons.models import BibTablesLocation
+
+from geonature.core.gn_synthese.utils import query as synthese_query
 
 from geonature.utils.env import DB
 
@@ -45,18 +51,21 @@ def get_synthese_data(info_role):
         return synthese and t_validations data filtered by form params
         Params must have same synthese fields names
     """
-    result_limit = blueprint.config['NB_MAX_OBS_MAP']
+
+    filters = {key: value[0].split(',') for key, value in dict(request.args).items()}
+    if 'limit' in filters:
+        result_limit = filters.pop('limit')[0]
+    else:
+        result_limit = blueprint.config['NB_MAX_OBS_MAP']
 
     allowed_datasets = TDatasets.get_user_datasets(info_role)
 
     q = DB.session.query(VLatestValidationForWebApp)
 
-    """
-    q = synthese_query.filter_query_all_filters(VSyntheseForWebApp, q, filters, info_role, allowed_datasets)
+    q = synthese_query.filter_query_all_filters(VLatestValidationForWebApp, q, filters, info_role, allowed_datasets)
     q = q.order_by(
-        VSyntheseForWebApp.date_min.desc()
+        VLatestValidationForWebApp.date_min.desc()
     )
-    """
     nb_total = 0
 
     data = q.limit(result_limit)
@@ -189,3 +198,31 @@ def get_definitions(info_role):
         nomenclature_definitions = DB.session.execute(select([TNomenclatures.definition_default]).where(TNomenclatures.id_nomenclature == int(key))).fetchone()
         definitions.append({"status_id":key,"status":nomenclature_statut[0],"definition":nomenclature_definitions[0]})
     return definitions
+
+
+@blueprint.route('/taxons_autocomplete', methods=['GET'])
+@json_resp
+def get_autocomplete_taxons_synthese():
+
+    search_name = request.args.get('search_name')
+    q = DB.session.query(VMTaxonsSyntheseAutocomplete)
+    if search_name:
+        search_name = search_name.replace(' ', '%')
+        q = q.filter(
+            VMTaxonsSyntheseAutocomplete.search_name.ilike(search_name+"%")
+        )
+    regne = request.args.get('regne')
+    if regne:
+        q = q.filter(VMTaxonsSyntheseAutocomplete.regne == regne)
+
+    group2_inpn = request.args.get('group2_inpn')
+    if group2_inpn:
+        q = q.filter(VMTaxonsSyntheseAutocomplete.group2_inpn == group2_inpn)
+
+    q = q.order_by(desc(
+        VMTaxonsSyntheseAutocomplete.cd_nom ==
+        VMTaxonsSyntheseAutocomplete.cd_ref
+    ))
+
+    data = q.limit(20).all()
+    return [d.as_dict() for d in data]

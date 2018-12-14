@@ -44,4 +44,8 @@ export class DataService {
     return this._http.get<GeoJSON>(`${AppConfig.API_ENDPOINT}/validation/statusNames`);
   }
 
+  getTaxonTree() {
+    return this._http.get<any>(`${AppConfig.API_ENDPOINT}/synthese/taxons_tree`);
+  }
+
 }
