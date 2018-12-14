@@ -8,6 +8,7 @@ export const ModuleConfig = {
   "nom_valide",
   "dataset_name"
  ],
+ "ICON_FOR_AUTOMATIC_VALIDATION": "computer",
  "LIST_COLUMNS_FRONTEND": [
   {
    "max_width": 40,
@@ -78,9 +79,10 @@ export const ModuleConfig = {
   },
   "466": {
    "cat": "notassessed",
-   "color": ""
+   "color": "#ffffff"
   }
  },
+ "ZOOM_SINGLE_POINT": 12,
  "api_url": "/validation",
  "id_application": 8
 }

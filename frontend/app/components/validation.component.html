@@ -3,7 +3,7 @@
     <div class="row row-sm page-content">
 
       <div class="col-sm-12 col-md-6 padding-sm">
-          <pnx-validation-synthese-list [inputSyntheseData]="_mapListService.tableData"></pnx-validation-synthese-list>
+          <pnx-validation-synthese-list [inputSyntheseData]="_mapListService.tableData" [statusNames]="statusNames" [statusKeys]="statusKeys"></pnx-validation-synthese-list>
       </div>
       <div class="col-sm-12 col-md-6 padding-sm">
           <pnx-validation-synthese-carte [inputSyntheseData]="_mapListService.geojsonData"></pnx-validation-synthese-carte>

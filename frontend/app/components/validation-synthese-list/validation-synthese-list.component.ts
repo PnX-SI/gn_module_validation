@@ -52,10 +52,10 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
   public rowNumber: number;
   private _latestWidth: number;
   public id_same_coordinates = []; // list of observation ids having same geographic coordinates
-  public statusNames;
-  public statusKeys;
 
   @Input() inputSyntheseData: GeoJSON;
+  @Input() statusNames: any;
+  @Input() statusKeys: any;
   @ViewChild('table') table: DatatableComponent;
 
   constructor(
@@ -76,7 +76,6 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
     this.group = new L.featureGroup();
     this.onMapClick();
     this.onTableClick();
-    this.getStatusNames();
   }
 
   action() {
@@ -114,6 +113,8 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
       result => {
         // get status names
         this.statusNames = result;
+        this.statusKeys = Object.keys(this.VALIDATION_CONFIG.STATUS_INFO);
+
       },
       err => {
         if (err.statusText === 'Unknown Error') {
@@ -126,7 +127,6 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
       },
       () => {
         //console.log(this.statusNames);
-        this.statusKeys = Object.keys(this.VALIDATION_CONFIG.STATUS_INFO);
       }
     );
 
@@ -213,7 +213,7 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
     if (this.coordinates_list.length > 1) {
       this._ms.getMap().fitBounds(this.group.getBounds());
     } else {
-      this._ms.getMap().setView(this.marker.getLatLng(), 12);
+      this._ms.getMap().setView(this.marker.getLatLng(), this.VALIDATION_CONFIG.ZOOM_SINGLE_POINT);
     }
   }
 
@@ -271,7 +271,8 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
       // reset page 0 when new data appear
       this.table.offset = 0;
     }
-    this.nbTotalObservation = this.mapListService.tableData.length;
+    this.statusNames = [];
+    this.getStatusNames();
   }
 
 

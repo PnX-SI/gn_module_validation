@@ -42,12 +42,14 @@ export class ValidationDefinitionsComponent implements OnInit {
         this.definitions = result;
       },
       error => {
-        if (error.status !== 403) {
+        if (err.statusText === 'Unknown Error') {
+          // show error message if no connexion
+          this.toastr.error('ERROR: IMPOSSIBLE TO CONNECT TO SERVER');
+        } else {
+          // show error message if other server error
+          this.toastr.error(err.error);
         }
       },
-      () => {
-        console.log(this.definitions);
-      });
   }
 
 }

@@ -9,6 +9,7 @@ import { ValidationSyntheseCarteComponent } from './validation-synthese-carte/va
 //import { SyntheseModalDownloadComponent } from './synthese-results/synthese-list/modal-download/modal-download.component';
 import { AppConfig } from '@geonature_config/app.config';
 import { ToastrService } from 'ngx-toastr'
+import { ModuleConfig } from '../module.config';
 
 @Component({
   selector: 'pnx-validation',
@@ -20,23 +21,50 @@ export class ValidationComponent implements OnInit {
 
   public serverData;
   public sameCoordinates: any;
-  public status_names;
+  public statusNames;
+  public statusKeys;
+  public VALIDATION_CONFIG = ModuleConfig;
 
   constructor(
-    public searchService: DataService,
+    public _ds: DataService,
     private _mapListService: MapListService,
     private _commonService: CommonService,
     private toastr: ToastrService
   ) {}
 
   ngOnInit() {
-    const initialData = { limit: AppConfig.SYNTHESE.NB_LAST_OBS };
-    this.loadAndStoreData(initialData);
+    this.getStatusNames();
+  }
+
+  getStatusNames() {
+
+    this._ds.getStatusNames().subscribe(
+      result => {
+        // get status names
+        this.statusNames = result;
+        this.statusKeys = Object.keys(this.VALIDATION_CONFIG.STATUS_INFO);
+      },
+      err => {
+        if (err.statusText === 'Unknown Error') {
+          // show error message if no connexion
+          this.toastr.error('ERROR: IMPOSSIBLE TO CONNECT TO SERVER');
+        } else {
+          // show error message if other server error
+          this.toastr.error(err.error);
+        }
+      },
+      () => {
+        //console.log(this.statusNames);
+        const initialData = { limit: this.VALIDATION_CONFIG.NB_MAX_OBS_MAP };
+        this.loadAndStoreData(initialData);
+      }
+    );
+
   }
 
   loadAndStoreData(formatedParams) {
-    this.searchService.dataLoaded = false;
-    this.searchService.getSyntheseData(formatedParams).subscribe(
+    this._ds.dataLoaded = false;
+    this._ds.getSyntheseData(formatedParams).subscribe(
       result => {
         /*
         if (result['nb_obs_limited']) {
@@ -52,11 +80,11 @@ export class ValidationComponent implements OnInit {
         this._mapListService.loadTableData(result['data'], this.customColumns.bind(this));
         this._mapListService.idName = 'id_synthese';
 
-        this.searchService.dataLoaded = true;
+        this._ds.dataLoaded = true;
         this.serverData = result['data'];
       },
       error => {
-        this.searchService.dataLoaded = true;
+        this._ds.dataLoaded = true;
         if (error.status !== 403) {
           this._commonService.translateToaster('error', 'ErrorMessage');
         }
@@ -74,7 +102,7 @@ export class ValidationComponent implements OnInit {
   customColumns(feature) {
     // function pass to the LoadTableData maplist service function to format date
     if (feature.properties.validation_auto === true) {
-      feature.properties.validation_auto = 'a';
+      feature.properties.validation_auto = this.VALIDATION_CONFIG.ICON_FOR_AUTOMATIC_VALIDATION;
     }
     if (feature.properties.validation_auto === false) {
       feature.properties.validation_auto = '';

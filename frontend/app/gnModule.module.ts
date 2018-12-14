@@ -7,9 +7,11 @@ import { ValidationSyntheseListComponent } from "./components/validation-synthes
 import { ValidationSyntheseCarteComponent } from "./components/validation-synthese-carte/validation-synthese-carte.component";
 import { ValidationPopupComponent } from "./components/validation-popup/validation-popup.component";
 import { ValidationDefinitionsComponent } from "./components/validation-definitions/validation-definitions.component";
+//import { ValidationSearchComponent } from "./components/validation-search/validation-search.component";
+
 import { DataService } from "./services/data.service";
+//import { ValidationFormService } from "./services/form.service";
 import { HttpClient } from '@angular/common/http';
-//import { ToastrModule } from 'ngx-toastr';
 
 // my module routing
 const routes: Routes = [
@@ -22,7 +24,8 @@ const routes: Routes = [
     ValidationSyntheseListComponent,
     ValidationSyntheseCarteComponent,
     ValidationPopupComponent,
-    ValidationDefinitionsComponent
+    ValidationDefinitionsComponent,
+    //ValidationSearchComponent
   ],
   imports: [GN2CommonModule, RouterModule.forChild(routes), CommonModule],
   providers: [DataService],

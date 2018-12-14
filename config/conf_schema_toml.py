@@ -69,6 +69,11 @@ MAP_POINT_STYLE = {
         {'color': '#3388ff','fillColor': '#ff0000','fillOpacity': 0.5,'weight': 3}
  }
 
+ICON_FOR_AUTOMATIC_VALIDATION = "computer"
+
+ZOOM_SINGLE_POINT = 12
+
+
 class GnModuleSchemaConf(GnModuleProdConf):
     MANDATORY_COLUMNS = fields.List(fields.String(), missing=MANDATORY_COLUMNS)
     STATUS_INFO = fields.Dict(fields.Dict(), missing=STATUS_INFO)
@@ -76,5 +81,7 @@ class GnModuleSchemaConf(GnModuleProdConf):
     LIST_COLUMNS_FRONTEND = fields.List(fields.Dict, missing=DEFAULT_LIST_COLUMN)
     NB_MAX_OBS_MAP = fields.Integer(missing=10000)
     MAP_POINT_STYLE = fields.Dict(fields.Dict(), missing=MAP_POINT_STYLE)
+    ICON_FOR_AUTOMATIC_VALIDATION = fields.String(missing=ICON_FOR_AUTOMATIC_VALIDATION)
+    ZOOM_SINGLE_POINT = fields.Integer(missing=ZOOM_SINGLE_POINT)
     id_application = fields.Integer(required=True)
     api_url = fields.String(required=True)

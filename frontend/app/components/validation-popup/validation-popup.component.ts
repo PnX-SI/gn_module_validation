@@ -29,9 +29,6 @@ export class ValidationPopupComponent implements OnInit {
   public VALIDATION_CONFIG = ModuleConfig;
   public status;
 
-
-  //private isAccessOk: Boolean = false;
-
   @Input() observations : Array<number>;
   @Input() nbTotalObservation : number;
   @Input() status_names : any;
@@ -59,12 +56,8 @@ export class ValidationPopupComponent implements OnInit {
   }
 
   onSubmit(value) {
-    // chain of actions for changing status validation of one or several observations:
-    //let list_observations = []
-    //this.string_observations = JSON.stringify(this.observations);
-    const statusUrl = '/' + this.observations;
     // post validation status form ('statusForm') for one or several observation(s) to backend/routes
-    return this.dataService.postStatus(value, statusUrl).toPromise()
+    return this.dataService.postStatus(value, this.observations).toPromise()
     .then(
       data => {
         this.promiseResult = data as JSON;

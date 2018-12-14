@@ -32,7 +32,7 @@ export class DataService {
   }
 
   postStatus(data: any, endpoint: string) {
-    const urlStatus = `${AppConfig.API_ENDPOINT}/validation` + endpoint;
+    const urlStatus = `${AppConfig.API_ENDPOINT}/validation/${endpoint}`;
     return this._http.post<any>(urlStatus, data);
   }
 

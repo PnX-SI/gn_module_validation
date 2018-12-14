@@ -23,7 +23,11 @@
             <div *ngIf="VALIDATION_CONFIG.STATUS_INFO[id].cat !== 'assessable'"> </div>
             <div *ngIf="VALIDATION_CONFIG.STATUS_INFO[id].cat === 'notassessable'" style="padding-top:30px;"> </div>
 
-            <label style="text-align:left;" [ngStyle]="{'background-color': VALIDATION_CONFIG.STATUS_INFO[id].color}" class="btn btn-primary radio-inline">
+            <label *ngIf="VALIDATION_CONFIG.STATUS_INFO[id].cat !== 'notassessed'" style="text-align:left" [ngStyle]="{'background-color': VALIDATION_CONFIG.STATUS_INFO[id].color}" role="button"  class="btn btn-success box-shadow" aria-pressed="true">
+              <input type="radio" formControlName="statut" value="{{id}}">
+              {{status_names[id]}}</label>
+
+            <label *ngIf="VALIDATION_CONFIG.STATUS_INFO[id].cat === 'notassessed'" style="text-align:left;color:black;" [ngStyle]="{'background-color': VALIDATION_CONFIG.STATUS_INFO[id].color}" role="button" class="btn btn-success box-shadow" aria-pressed="true">
               <input type="radio" formControlName="statut" value="{{id}}">
               {{status_names[id]}}</label>
           </span>
