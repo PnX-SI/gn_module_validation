@@ -15,7 +15,7 @@
 
         <div class="modal-body" id="bodyModal" style="padding-top:30px;">
 
-          <div> Nombre d'observations sélectionnées : {{this.observations.length}} </div>
+          <div> <span id="nbObs">{{this.observations.length}}</span> observations sélectionnées  </div>
           <br>
 
           <span *ngFor="let id of status_keys" id="validButtons">
@@ -23,11 +23,11 @@
             <div *ngIf="VALIDATION_CONFIG.STATUS_INFO[id].cat !== 'assessable'"> </div>
             <div *ngIf="VALIDATION_CONFIG.STATUS_INFO[id].cat === 'notassessable'" style="padding-top:30px;"> </div>
 
-            <label *ngIf="VALIDATION_CONFIG.STATUS_INFO[id].cat !== 'notassessed'" style="text-align:left" [ngStyle]="{'background-color': VALIDATION_CONFIG.STATUS_INFO[id].color}" role="button"  class="btn btn-success box-shadow" aria-pressed="true">
+            <label *ngIf="VALIDATION_CONFIG.STATUS_INFO[id].cat !== 'notassessed'" [ngStyle]="{'background-color': VALIDATION_CONFIG.STATUS_INFO[id].color}" role="button"  class="btn btn-success box-shadow" aria-pressed="true">
               <input type="radio" formControlName="statut" value="{{id}}">
               {{status_names[id]}}</label>
 
-            <label *ngIf="VALIDATION_CONFIG.STATUS_INFO[id].cat === 'notassessed'" style="text-align:left;color:black;" [ngStyle]="{'background-color': VALIDATION_CONFIG.STATUS_INFO[id].color}" role="button" class="btn btn-success box-shadow" aria-pressed="true">
+            <label *ngIf="VALIDATION_CONFIG.STATUS_INFO[id].cat === 'notassessed'" [ngStyle]="{'background-color': VALIDATION_CONFIG.STATUS_INFO[id].color}" role="button" class="btn btn-success box-shadow" aria-pressed="true">
               <input type="radio" formControlName="statut" value="{{id}}">
               {{status_names[id]}}</label>
           </span>
@@ -47,7 +47,9 @@
         <!-- Bouton de fermeture de la modal pop-up ou envoi -->
         <div class="modal-footer" id="choicePopup">
           <button type="submit" class="btn btn-danger" data-dismiss="modal" (click)="closeModal()">Fermer</button>
-          <input id="widthButton" (click)="onSubmit(statusForm.value)" data-toggle="modal" #content value="Enregistrer" type="button" [disabled]="!this.statusForm.valid" class="btn btn-success" data-dismiss="modal" #required>
+          <button id="saveButton" (click)="onSubmit(statusForm.value)" data-toggle="modal" #content value="Enregistrer" type="button" [disabled]="!this.statusForm.valid" class="btn btn-success" data-dismiss="modal" #required>
+            <!--<i class="material-icons">done</i> -->
+            Enregistrer </button>
         </div>
 
       </form>

@@ -13,6 +13,22 @@
   transform: translateX(0%);
 }
 
+.btn {
+  background-color: #1976D2;
+  border: none;
+}
+
+
+#details{
+  width: 20px;
+  height: 20px;
+  font-size:14px;
+  padding:0;
+  background-color: transparent;
+  border-color: transparent;
+  color:#212121;
+}
+
 .material-icons{
   padding-top: 3px;
 }
@@ -39,8 +55,8 @@
   color: black;
 }
 
-.selected {
-  background-color: red;
+#nbObs{
+  font-size: 30px;
 }
 
 ngx-datatable {
@@ -52,9 +68,11 @@ ngx-datatable {
   // overflow:scroll;
 }
 
+
 :host /deep/ .datatable-body-row.active .datatable-row-group {
-  background-color: rgb(117, 227, 118) !important;
+  background-color: #1976D2 !important;
 }
+
 
 :host /deep/ .datatable-body-row {
   height: 30px !important;
@@ -67,6 +85,7 @@ ngx-datatable {
   padding-top: 8px !important;
   padding-left: 15px !important;
 }
+
 :host /deep/ .datatable-body-cell i {
   font-size: 12px;
 }

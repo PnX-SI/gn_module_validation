@@ -1,3 +1,43 @@
 #validatorButton {
   float:right;
+  background-color: #1976D2;
+  border: none;
+
+}
+
+.modal-content {
+  background-color: #EAEAEA;
+  border:none;
+}
+
+label {
+  text-align:left;
+  color:#607D8B;
+}
+
+.btn {
+  border-color: #607D8B;
+}
+
+label:hover {
+  text-align:left;
+  color:#607D8B;
+}
+
+#nbObs {
+  font-size: 25px;
+}
+
+.modal-header {
+  color:white;
+  background-color:#8EAFD1;
+  border-color:#0E4175;
+  border-bottom-width: 1px;
+}
+
+.modal-footer {
+  border-color:#0E4175;
+  border-top-width: 1px;
+  color:white;
+  background-color:#8EAFD1;
 }

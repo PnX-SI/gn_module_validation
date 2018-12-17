@@ -1,3 +1,8 @@
+.wrapper {
+  display: flex;
+  width: 100%;
+  align-items: stretch;
+}
 /*
 
 .is-loading {
@@ -55,11 +60,7 @@
   animation: spin 0.8s linear infinite;
 }
 
-.wrapper {
-  display: flex;
-  width: 100%;
-  align-items: stretch;
-}
+
 
 @media (min-width: 1000px) {
   #sidebar {

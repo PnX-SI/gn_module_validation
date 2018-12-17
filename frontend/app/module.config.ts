@@ -43,14 +43,15 @@ export const ModuleConfig = {
  ],
  "MAP_POINT_STYLE": {
   "originStyle": {
-   "color": "#3388ff",
+   "color": "#2196F3",
    "fill": true,
    "fillOpacity": 0,
    "weight": 3
   },
   "selectedStyle": {
-   "color": "#3388ff",
-   "fillColor": "#ff0000",
+   "color": "#2196F3",
+   "fill": true,
+   "fillColor": "#2196F3",
    "fillOpacity": 0.5,
    "weight": 3
   }
@@ -59,27 +60,27 @@ export const ModuleConfig = {
  "STATUS_INFO": {
   "318": {
    "cat": "assessable",
-   "color": "#28a745"
+   "color": "#8BC34A"
   },
   "319": {
    "cat": "assessable",
-   "color": "#9ACD32"
+   "color": "#CDDC39"
   },
   "320": {
    "cat": "assessable",
-   "color": "#FFA500"
+   "color": "#FF9800"
   },
   "321": {
    "cat": "assessable",
-   "color": "#FF0000"
+   "color": "#FF5722"
   },
   "322": {
    "cat": "notassessable",
-   "color": "#8e8e8e"
+   "color": "#BDBDBD"
   },
   "466": {
    "cat": "notassessed",
-   "color": "#ffffff"
+   "color": "#FFFFFF"
   }
  },
  "ZOOM_SINGLE_POINT": 12,
