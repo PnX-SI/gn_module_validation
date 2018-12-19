@@ -27,7 +27,7 @@
       <span>Détails</span>
     </ng-template>
      <ng-template let-row="row" ngx-datatable-cell-template>
-        <button type="button" style="width: 20px; height: 20px; font-size:14px;padding:0;" (click)="action()" class="btn btn-info fa fa-info-circle" title="details">
+        <button id="details" type="button" (click)="action()" class="btn btn-info fa fa-info-circle" title="details">
         </button>
      </ng-template>
   </ngx-datatable-column>
@@ -40,9 +40,9 @@
        let-selectedCount="selectedCount",
        let-curPage="curPage"
        let-offset="offset">
-       <button type="button" (click)="this.selectAll()" class="btn btn-primary btn-xs"> Tout sélectionner</button>
+       <button type="button" (click)="this.selectAll()" class="btn btn-success btn-xs"> Tout sélectionner</button>
        <span> ' ' </span>
-       <button type="button" (click)="this.deselectAll()" class="btn btn-primary btn-xs"> Tout désélectionner</button>
+       <button type="button" (click)="this.deselectAll()" class="btn btn-success btn-xs"> Tout désélectionner</button>
 
        <datatable-pager
          [pagerLeftArrowIcon]="'datatable-icon-left'"
