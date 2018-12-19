@@ -20,6 +20,7 @@ export class FormService {
     private _periodFormatter: NgbDatePeriodParserFormatter
   ) {
     this.searchForm = this._fb.group({
+      id_nomenclature_valid_status: true,
       cd_nom: null,
       observers: null,
       id_dataset: null,
@@ -37,13 +38,13 @@ export class FormService {
     });
 
     this.searchForm.setValidators([this.periodValidator()]);
-
     AppConfig.SYNTHESE.AREA_FILTERS.forEach(area => {
       const control_name = 'area_' + area.id_type;
       this.searchForm.addControl(control_name, new FormControl(new Array()));
       const control = this.searchForm.controls[control_name];
       area['control'] = control;
     });
+
     // init the dynamic form with the user parameters
     // remove the filters which are in AppConfig.SYNTHESE.EXCLUDED_COLUMNS
     this.dynamycFormDef = DYNAMIC_FORM_DEF.filter(formDef => {
@@ -65,6 +66,7 @@ export class FormService {
   formatParams() {
     const params = Object.assign({}, this.searchForm.value);
     const updatedParams = {};
+    console.log(params);
     // tslint:disable-next-line:forin
     for (let key in params) {
       if ((key === 'date_min' && params.date_min) || (key === 'date_max' && params.date_max)) {
@@ -93,6 +95,7 @@ export class FormService {
         ...this.selectedCdRefFromTree
       ];
     }
+    console.log(updatedParams);
     return updatedParams;
   }
 

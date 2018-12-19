@@ -67,6 +67,7 @@ export class ValidationComponent implements OnInit {
 
   loadAndStoreData(formatedParams) {
     this._ds.dataLoaded = false;
+    console.log(formatedParams);
     this._ds.getSyntheseData(formatedParams).subscribe(
       result => {
         if (result['nb_obs_limited']) {

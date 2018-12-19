@@ -5,6 +5,7 @@ import { DataService } from '../../../services/data.service';
 import { FormService } from '../../../services/form.service';
 import { DynamicFormService } from '@geonature_common/form/dynamic-form/dynamic-form.service';
 import { TreeModel } from 'angular-tree-component';
+import { ITreeState } from 'angular-tree-component';
 
 @Injectable()
 export class ValidationTaxonAdvancedStoreService {

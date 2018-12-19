@@ -8,7 +8,7 @@ import pdb
 
 import re
 
-from sqlalchemy import select
+from sqlalchemy import select, desc
 import pdb
 import datetime
 from geojson import FeatureCollection
@@ -25,7 +25,7 @@ from geonature.core.gn_synthese.models import (
 
 from geonature.core.gn_commons.models import BibTablesLocation
 
-from geonature.core.gn_synthese.utils import query as synthese_query
+from .query import filter_query_all_filters
 
 from geonature.utils.env import DB
 
@@ -55,21 +55,30 @@ def get_synthese_data(info_role):
     filters = {key: value[0].split(',') for key, value in dict(request.args).items()}
     if 'limit' in filters:
         result_limit = filters.pop('limit')[0]
+        onlyAwaiting = True
     else:
         result_limit = blueprint.config['NB_MAX_OBS_MAP']
+        onlyAwaiting = False
 
     allowed_datasets = TDatasets.get_user_datasets(info_role)
 
+    print('filters moi:')
+    print(filters)
+
     q = DB.session.query(VLatestValidationForWebApp)
 
-    q = synthese_query.filter_query_all_filters(VLatestValidationForWebApp, q, filters, info_role, allowed_datasets)
+    if onlyAwaiting:
+        q = DB.session.query(VLatestValidationForWebApp).filter(VLatestValidationForWebApp.id_nomenclature_valid_status == 466)
+
+    q = filter_query_all_filters(VLatestValidationForWebApp, q, filters, info_role, allowed_datasets)
     q = q.order_by(
-        VLatestValidationForWebApp.date_min.desc()
+        VLatestValidationForWebApp.id_nomenclature_valid_status.desc()
     )
     nb_total = 0
 
     data = q.limit(result_limit)
     columns = blueprint.config['COLUMNS_API_VALIDATION_WEB_APP'] + blueprint.config['MANDATORY_COLUMNS']
+
 
     features = []
 

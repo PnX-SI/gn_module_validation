@@ -37,7 +37,9 @@ export class ValidationSearchComponent implements OnInit {
     private _storeService: ValidationTaxonAdvancedStoreService
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    //console.log(this.AppConfig.SYNTHESE);
+  }
 
   onSubmitForm() {
     // mark as dirty to avoid set limit=100 when download

@@ -76,6 +76,7 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
     this.group = new L.featureGroup();
     this.onMapClick();
     this.onTableClick();
+    console.log(this.VALIDATION_CONFIG);
   }
 
   action() {
