@@ -3,13 +3,6 @@
     <div class="absolute">
       <fieldset class="absolute">
         <legend> Quoi ?</legend>
-
-        <div [formGroup]="formService.searchForm">
-          <input value="id_nomenclature_valid_status" formControlName="id_nomenclature_valid_status" type="checkbox">
-        {{formService.searchForm.value['id_nomenclature_valid_status'] | json}}
-        <label> En attente de validation </label>
-        </div>
-
         <pnx-taxonomy label="{{'Taxon.Taxon' | translate }} " [parentFormControl]="formService.searchForm.controls.cd_nom"
           [idList]="500" [charNumber]="3" [listLength]="20" [apiEndPoint]="taxonApiEndPoint" (onChange)=formService.getCurrentTaxon($event)>
         </pnx-taxonomy>

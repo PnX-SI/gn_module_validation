@@ -52,7 +52,8 @@ def get_synthese_data(info_role):
         Params must have same synthese fields names
     """
 
-    filters = {key: value[0].split(',') for key, value in dict(request.args).items()}
+    filters = {key: value.split(',') for key, value in dict(request.args).items()}
+
     if 'limit' in filters:
         result_limit = filters.pop('limit')[0]
         onlyAwaiting = True
@@ -62,18 +63,17 @@ def get_synthese_data(info_role):
 
     allowed_datasets = TDatasets.get_user_datasets(info_role)
 
-    print('filters moi:')
-    print(filters)
-
     q = DB.session.query(VLatestValidationForWebApp)
 
     if onlyAwaiting:
-        q = DB.session.query(VLatestValidationForWebApp).filter(VLatestValidationForWebApp.id_nomenclature_valid_status == 466)
+        q = DB.session.query(VLatestValidationForWebApp).filter(VLatestValidationForWebApp.id_nomenclature_valid_status == blueprint.config['id_for_enAttenteDeValidation'])
 
-    q = filter_query_all_filters(VLatestValidationForWebApp, q, filters, info_role, allowed_datasets)
+    q = filter_query_all_filters(VLatestValidationForWebApp, q, filters, info_role, allowed_datasets, blueprint.config)
+
     q = q.order_by(
-        VLatestValidationForWebApp.id_nomenclature_valid_status.desc()
+        VLatestValidationForWebApp.validation_date.desc()
     )
+
     nb_total = 0
 
     data = q.limit(result_limit)

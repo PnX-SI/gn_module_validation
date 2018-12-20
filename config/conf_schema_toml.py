@@ -73,6 +73,8 @@ ICON_FOR_AUTOMATIC_VALIDATION = "computer"
 
 ZOOM_SINGLE_POINT = 12
 
+id_for_enAttenteDeValidation = 466
+
 
 class GnModuleSchemaConf(GnModuleProdConf):
     MANDATORY_COLUMNS = fields.List(fields.String(), missing=MANDATORY_COLUMNS)
@@ -83,5 +85,6 @@ class GnModuleSchemaConf(GnModuleProdConf):
     MAP_POINT_STYLE = fields.Dict(fields.Dict(), missing=MAP_POINT_STYLE)
     ICON_FOR_AUTOMATIC_VALIDATION = fields.String(missing=ICON_FOR_AUTOMATIC_VALIDATION)
     ZOOM_SINGLE_POINT = fields.Integer(missing=ZOOM_SINGLE_POINT)
+    id_for_enAttenteDeValidation = fields.Integer(missing=id_for_enAttenteDeValidation)
     id_application = fields.Integer(required=True)
     api_url = fields.String(required=True)

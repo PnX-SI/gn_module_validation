@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { DataService } from '../services/data.service';
 import { MapListService } from '@geonature_common/map-list/map-list.service';
 import { CommonService } from '@geonature_common/service/common.service';
@@ -26,6 +26,8 @@ export class ValidationComponent implements OnInit {
   public statusNames;
   public statusKeys;
   public VALIDATION_CONFIG = ModuleConfig;
+  //public syntheseConfig = AppConfig.SYNTHESE;
+  @Output() searchClicked = new EventEmitter();
 
   constructor(
     public _ds: DataService,
@@ -37,6 +39,7 @@ export class ValidationComponent implements OnInit {
 
   ngOnInit() {
     this.getStatusNames();
+    //console.log(this.syntheseConfig);
   }
 
   getStatusNames() {
@@ -67,7 +70,6 @@ export class ValidationComponent implements OnInit {
 
   loadAndStoreData(formatedParams) {
     this._ds.dataLoaded = false;
-    console.log(formatedParams);
     this._ds.getSyntheseData(formatedParams).subscribe(
       result => {
         if (result['nb_obs_limited']) {
@@ -94,7 +96,14 @@ export class ValidationComponent implements OnInit {
     );
   }
 
-
+  onSubmitForm() {
+    // mark as dirty to avoid set limit=100 when download
+    this._fs.searchForm.markAsDirty();
+    const updatedParams = this._fs.formatParams();
+    this.searchClicked.emit(updatedParams);
+    this.loadAndStoreData(updatedParams);
+    this.selectedObs = [];
+  }
 
   formatDate(unformatedDate) {
     const date = new Date(unformatedDate);

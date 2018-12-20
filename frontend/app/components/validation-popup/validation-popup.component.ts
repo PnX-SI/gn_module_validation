@@ -61,7 +61,7 @@ export class ValidationPopupComponent implements OnInit {
     .then(
       data => {
         this.promiseResult = data as JSON;
-        console.log('retour du post : ', this.promiseResult);
+        //console.log('retour du post : ', this.promiseResult);
         return new Promise((resolve, reject) => {
             // show success message indicating the number of observation(s) with modified validation status
             this.toastr.success('Vous avez modifié le statut de validation de ' + this.observations.length + ' observation(s)');
@@ -84,7 +84,7 @@ export class ValidationPopupComponent implements OnInit {
     )
     .then(
       data => {
-        console.log(data);
+        //console.log(data);
         return new Promise((resolve, reject) => {
           // close validation status popup
           this.closeModal();
@@ -93,7 +93,7 @@ export class ValidationPopupComponent implements OnInit {
     })
     .then(
       data => {
-        console.log(data);
+        //console.log(data);
       }
     );
   }

@@ -13,10 +13,7 @@ from geonature.core.gn_synthese.models import (
 )
 from geonature.core.gn_meta.models import TDatasets, TAcquisitionFramework
 
-from .models import (
-    TValidations,
-    VLatestValidationForWebApp
-    )
+from .models import VLatestValidationForWebApp
 
 def filter_query_with_cruved(model, q, user, allowed_datasets):
     """
@@ -101,7 +98,7 @@ def filter_taxonomy(model, q, filters):
     return q, filters
 
 
-def filter_query_all_filters(model, q, filters, user, allowed_datasets):
+def filter_query_all_filters(model, q, filters, user, allowed_datasets, config):
     """
     Return a query filtered with the cruved and all
     the filters available in the synthese form
@@ -123,10 +120,8 @@ def filter_query_all_filters(model, q, filters, user, allowed_datasets):
     #     nom_role='Administrateur',
     #     prenom_role='test'
     # )
-    q = filter_query_with_cruved(model, q, user, allowed_datasets)
 
-    if 'id_nomenclature_valid_status' in filters:
-        q = q.filter(VLatestValidationForWebApp.id_nomenclature_valid_status == 466)
+    q = filter_query_with_cruved(model, q, user, allowed_datasets)
 
     if 'observers' in filters:
         q = q.filter(model.observers.ilike('%'+filters.pop('observers')[0]+'%'))
@@ -191,6 +186,8 @@ def filter_query_all_filters(model, q, filters, user, allowed_datasets):
                 )
             q = q.filter(CorAreaSynthese.id_area.in_(value))
             join_on_cor_area = True
+        elif colname == 'id_nomenclature_valid_status':
+            q = q.filter(model.id_nomenclature_valid_status == config["id_for_enAttenteDeValidation"])
         else:
             col = getattr(model.__table__.columns, colname)
             q = q.filter(col.in_(value))

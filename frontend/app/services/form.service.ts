@@ -66,7 +66,6 @@ export class FormService {
   formatParams() {
     const params = Object.assign({}, this.searchForm.value);
     const updatedParams = {};
-    console.log(params);
     // tslint:disable-next-line:forin
     for (let key in params) {
       if ((key === 'date_min' && params.date_min) || (key === 'date_max' && params.date_max)) {
@@ -95,7 +94,6 @@ export class FormService {
         ...this.selectedCdRefFromTree
       ];
     }
-    console.log(updatedParams);
     return updatedParams;
   }
 

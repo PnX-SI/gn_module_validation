@@ -38,7 +38,6 @@ export class ValidationSearchComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    //console.log(this.AppConfig.SYNTHESE);
   }
 
   onSubmitForm() {

@@ -7,6 +7,13 @@
       </nav>
       <div class="col-sm-12 col-md-5 padding-sm">
           <pnx-validation-synthese-list [inputSyntheseData]="_mapListService.tableData" [statusNames]="statusNames" [statusKeys]="statusKeys"></pnx-validation-synthese-list>
+
+          <!-- select only observations with awaiting validation status -->
+          <div id="awaitingObs" [formGroup]="_fs.searchForm">
+          <input (change)="onSubmitForm()"  value="id_nomenclature_valid_status" formControlName="id_nomenclature_valid_status" type="checkbox" checked/>
+          <label> Afficher seulement les observations en attente de validation </label>
+          </div>
+
       </div>
       <div class="col-sm-12 col-md-5 padding-sm">
           <pnx-validation-synthese-carte [inputSyntheseData]="_mapListService.geojsonData"></pnx-validation-synthese-carte>

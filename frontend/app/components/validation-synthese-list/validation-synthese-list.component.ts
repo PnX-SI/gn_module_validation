@@ -34,6 +34,7 @@ import { CommonModule } from '@angular/common';
 import { ValidationPopupComponent } from '../validation-popup/validation-popup.component';
 import { ValidationComponent } from '../validation.component'
 import { Subscription } from 'rxjs';
+import { FormService } from '../../services/form.service';
 
 
 @Component({
@@ -58,6 +59,7 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
   @Input() statusKeys: any;
   @ViewChild('table') table: DatatableComponent;
 
+
   constructor(
     public mapListService: MapListService,
     private _ds: DataService,
@@ -67,6 +69,8 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
     public sanitizer: DomSanitizer,
     public ref: ChangeDetectorRef,
     private _ms: MapService
+    public formService: FormService,
+
   ) {}
 
   ngOnInit() {
@@ -76,7 +80,6 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
     this.group = new L.featureGroup();
     this.onMapClick();
     this.onTableClick();
-    console.log(this.VALIDATION_CONFIG);
   }
 
   action() {
@@ -239,7 +242,7 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
   }
 
   onStatusChange(status) {
-    console.log(status);
+    //console.log(status);
     for (let obs in this.mapListService.selectedRow) {
       this.mapListService.selectedRow[obs]['id_nomenclature_valid_status'] = status;
       this.mapListService.selectedRow[obs]['validation_auto'] = '';
@@ -275,6 +278,5 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
     this.statusNames = [];
     this.getStatusNames();
   }
-
 
 }
