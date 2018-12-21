@@ -1,4 +1,10 @@
 export const ModuleConfig = {
+ "AREA_FILTERS": [
+  {
+   "id_type": 25,
+   "label": "Communes"
+  }
+ ],
  "COLUMNS_API_VALIDATION_WEB_APP": [
   "validation_auto",
   "id_nomenclature_valid_status",
@@ -8,7 +14,12 @@ export const ModuleConfig = {
   "nom_valide",
   "dataset_name"
  ],
+ "DISPLAY_TAXON_TREE": true,
  "ICON_FOR_AUTOMATIC_VALIDATION": "computer",
+ "ID_ATTRIBUT_TAXHUB": [
+  1,
+  2
+ ],
  "LIST_COLUMNS_FRONTEND": [
   {
    "max_width": 40,
@@ -43,15 +54,15 @@ export const ModuleConfig = {
  ],
  "MAP_POINT_STYLE": {
   "originStyle": {
-   "color": "#2196F3",
+   "color": "#1976D2",
    "fill": true,
    "fillOpacity": 0,
    "weight": 3
   },
   "selectedStyle": {
-   "color": "#2196F3",
+   "color": "#1976D2",
    "fill": true,
-   "fillColor": "#2196F3",
+   "fillColor": "#1976D2",
    "fillOpacity": 0.5,
    "weight": 3
   }
@@ -85,5 +96,6 @@ export const ModuleConfig = {
  },
  "ZOOM_SINGLE_POINT": 12,
  "api_url": "/validation",
- "id_application": 8
+ "id_application": 8,
+ "id_for_enAttenteDeValidation": 466
 }

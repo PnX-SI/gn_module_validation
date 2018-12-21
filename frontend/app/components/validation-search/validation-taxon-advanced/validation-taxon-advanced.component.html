@@ -5,7 +5,7 @@
   </button>
 </div>
 <div class="modal-body">
-  <div [hidden]="!syntheseConfig.DISPLAY_TAXON_TREE">
+  <div [hidden]="!VALIDATION_CONFIG.DISPLAY_TAXON_TREE">
     <small> Selectionner un ou plusieurs taxons à partir de la hierarchie taxonomique </small>
     <div class="card">
       <div class="card-body tree-wrapper">
@@ -21,7 +21,7 @@
             <span [ngClass]="node.data.classes">{{ node.data.name }}</span>
           </ng-template>
         </tree-root>
-        
+
 
 
       </div>

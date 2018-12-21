@@ -58,15 +58,15 @@ STATUS_INFO = {
   },
   "466" : {
     "cat":"notassessed",
-    "color":"#ffffff"
+    "color":"#FFFFFF"
   }
 }
 
 MAP_POINT_STYLE = {
     'originStyle' :
-        {'color': '#2196F3','fill': True,'fillOpacity': 0,'weight': 3},
+        {'color': '#1976D2','fill': True,'fillOpacity': 0,'weight': 3},
     'selectedStyle' :
-        {'color': '#2196F3','fill': True,'fillColor': '#2196F3','fillOpacity': 0.5,'weight': 3}
+        {'color': '#1976D2','fill': True,'fillColor': '#1976D2','fillOpacity': 0.5,'weight': 3}
  }
 
 ICON_FOR_AUTOMATIC_VALIDATION = "computer"
@@ -74,6 +74,14 @@ ICON_FOR_AUTOMATIC_VALIDATION = "computer"
 ZOOM_SINGLE_POINT = 12
 
 id_for_enAttenteDeValidation = 466
+
+DISPLAY_TAXON_TREE = True
+
+ID_ATTRIBUT_TAXHUB = [1, 2]
+
+AREA_FILTERS = [
+    { "label": "Communes", "id_type": 25 },
+]
 
 
 class GnModuleSchemaConf(GnModuleProdConf):
@@ -88,3 +96,6 @@ class GnModuleSchemaConf(GnModuleProdConf):
     id_for_enAttenteDeValidation = fields.Integer(missing=id_for_enAttenteDeValidation)
     id_application = fields.Integer(required=True)
     api_url = fields.String(required=True)
+    DISPLAY_TAXON_TREE = fields.Boolean(missing=True)
+    ID_ATTRIBUT_TAXHUB = fields.List(fields.Integer, missing=ID_ATTRIBUT_TAXHUB)
+    AREA_FILTERS = fields.List(fields.Dict, missing=AREA_FILTERS)

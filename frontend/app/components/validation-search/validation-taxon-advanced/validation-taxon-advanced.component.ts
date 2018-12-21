@@ -1,12 +1,12 @@
 import { Component, OnInit, ViewChild, AfterContentInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-
+import { ModuleConfig } from '../../../module.config';
 import { TreeNode, TreeComponent, IActionMapping } from 'angular-tree-component';
 import { FormService } from '../../../services/form.service';
 import { DynamicFormService } from '@geonature_common/form/dynamic-form/dynamic-form.service';
 import { FormGroup } from '@angular/forms';
 import { ValidationTaxonAdvancedStoreService } from './validation-taxon-advanced-store.service';
-import { AppConfig } from '@geonature_config/app.config';
+//import { AppConfig } from '@geonature_config/app.config';
 
 @Component({
   selector: 'pnx-validation-taxon-advanced',
@@ -16,6 +16,7 @@ import { AppConfig } from '@geonature_config/app.config';
 })
 export class ValidationTaxonAdvancedModalComponent implements OnInit, AfterContentInit {
   @ViewChild('tree') treeComponent: TreeComponent;
+  public VALIDATION_CONFIG = ModuleConfig;
   public taxonsTree;
   public treeOptions;
   public selectedNodes = [];
@@ -23,7 +24,6 @@ export class ValidationTaxonAdvancedModalComponent implements OnInit, AfterConte
   public taxhubAttributes: any;
   public attributForm: FormGroup;
   public formBuilded = false;
-  public syntheseConfig = AppConfig.SYNTHESE;
   constructor(
     public activeModal: NgbActiveModal,
     public formService: FormService,
