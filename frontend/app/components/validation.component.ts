@@ -53,7 +53,7 @@ export class ValidationComponent implements OnInit {
       err => {
         if (err.statusText === 'Unknown Error') {
           // show error message if no connexion
-          this.toastr.error('ERROR: IMPOSSIBLE TO CONNECT TO SERVER');
+          this.toastr.error('ERROR: IMPOSSIBLE TO CONNECT TO SERVER (check your connexion)');
         } else {
           // show error message if other server error
           this.toastr.error(err.error);

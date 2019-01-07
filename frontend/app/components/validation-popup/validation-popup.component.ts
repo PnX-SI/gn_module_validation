@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter,PipeTransform, Pipe } from "@angular/core";
+import { Component, Input, Output, EventEmitter } from "@angular/core";
 import { MapListService } from "@geonature_common/map-list/map-list.service";
 import { NgbModal, NgbActiveModal, ModalDismissReasons} from "@ng-bootstrap/ng-bootstrap";
 import { ModuleConfig } from "../../module.config";
@@ -7,7 +7,7 @@ import { NgbDateParserFormatter, NgbModule, NgbdButtonsRadioreactive } from "@ng
 //import { FILTERSLIST } from "./filters-list";
 import { Router } from "@angular/router";
 import { DataService } from '../../services/data.service';
-import { ToastrService } from 'ngx-toastr'
+import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { GeoJSON } from 'leaflet';
@@ -52,7 +52,6 @@ export class ValidationPopupComponent implements OnInit {
 
 
   ngOnInit() {
-
   }
 
   onSubmit(value) {
@@ -74,7 +73,7 @@ export class ValidationPopupComponent implements OnInit {
       err => {
         if (err.statusText === 'Unknown Error') {
           // show error message if no connexion
-          this.toastr.error('ERROR: IMPOSSIBLE TO CONNECT TO SERVER');
+          this.toastr.error('ERROR: IMPOSSIBLE TO CONNECT TO SERVER (check your connexion)');
         } else {
           // show error message if other server error
           this.toastr.error(err.error);

@@ -31,6 +31,11 @@ export class DataService {
     });
   }
 
+  getValidationHistory(id_synthese) {
+    return this._http.get<GeoJSON>(`${AppConfig.API_ENDPOINT}/validation/history/${id_synthese}`, {
+    });
+  }
+
   postStatus(data: any, endpoint: string) {
     const urlStatus = `${AppConfig.API_ENDPOINT}/validation/${endpoint}`;
     return this._http.post<any>(urlStatus, data);
@@ -46,6 +51,10 @@ export class DataService {
 
   getTaxonTree() {
     return this._http.get<any>(`${AppConfig.API_ENDPOINT}/synthese/taxons_tree`);
+  }
+
+  getOneSyntheseObservation(id_synthese) {
+    return this._http.get<GeoJSON>(`${AppConfig.API_ENDPOINT}/synthese/vsynthese/${id_synthese}`);
   }
 
 }

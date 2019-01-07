@@ -27,14 +27,14 @@ import { CommonService } from '@geonature_common/service/common.service';
 import { ModuleConfig } from '../../module.config';
 //import { HttpParams } from '@angular/common/http/src/params';
 import { DomSanitizer } from '@angular/platform-browser';
-//import { SyntheseModalDownloadComponent } from './modal-download/modal-download.component';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
-//import { ModalInfoObsComponent } from './modal-info-obs/modal-info-obs.component';
 import { CommonModule } from '@angular/common';
 import { ValidationPopupComponent } from '../validation-popup/validation-popup.component';
+import { ValidationModalInfoObsComponent } from '../validation-modal-info-obs/validation-modal-info-obs.component';
 import { ValidationComponent } from '../validation.component'
 import { Subscription } from 'rxjs';
 import { FormService } from '../../services/form.service';
+import { ToastrService } from 'ngx-toastr'
 
 
 @Component({
@@ -70,7 +70,7 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
     public ref: ChangeDetectorRef,
     private _ms: MapService
     public formService: FormService,
-
+    private toastr: ToastrService
   ) {}
 
   ngOnInit() {
@@ -82,9 +82,11 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
     this.onTableClick();
   }
 
+  /*
   action() {
     console.log('à faire');
   }
+  */
 
   onMapClick() {
     this.mapListService.onMapClik$.subscribe(
@@ -123,7 +125,7 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
       err => {
         if (err.statusText === 'Unknown Error') {
           // show error message if no connexion
-          this.toastr.error('ERROR: IMPOSSIBLE TO CONNECT TO SERVER');
+          this.toastr.error('ERROR: IMPOSSIBLE TO CONNECT TO SERVER (check your connexion)');
         } else {
           // show error message if other server error
           this.toastr.error(err.error);
@@ -242,7 +244,7 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
   }
 
   onStatusChange(status) {
-    //console.log(status);
+    console.log('status change : ' + status);
     for (let obs in this.mapListService.selectedRow) {
       this.mapListService.selectedRow[obs]['id_nomenclature_valid_status'] = status;
       this.mapListService.selectedRow[obs]['validation_auto'] = '';
@@ -277,6 +279,14 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
     }
     this.statusNames = [];
     this.getStatusNames();
+  }
+
+  openInfoModal(row) {
+    const modalRef = this.ngbModal.open(ValidationModalInfoObsComponent, {
+      size: 'lg',
+      windowClass: 'large-modal'
+    });
+    modalRef.componentInstance.oneObsSynthese = row;
   }
 
 }

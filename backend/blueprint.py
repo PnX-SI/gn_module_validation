@@ -4,11 +4,13 @@ from flask import (
     request
     )
 
+from operator import itemgetter
+
 import pdb
 
 import re
 
-from sqlalchemy import select, desc
+from sqlalchemy import select, desc, cast, DATE, func
 import pdb
 import datetime
 from geojson import FeatureCollection
@@ -31,7 +33,8 @@ from geonature.utils.env import DB
 
 from .models import (
     TValidations,
-    VLatestValidationForWebApp
+    VLatestValidationForWebApp,
+    VValidationsForWebApp
     )
 
 #from geonature.core.gn_synthese.utils import query as synthese_query
@@ -235,3 +238,33 @@ def get_autocomplete_taxons_synthese():
 
     data = q.limit(20).all()
     return [d.as_dict() for d in data]
+
+
+@blueprint.route('/history/<id_synthese>', methods=['GET'])
+@fnauth.check_auth_cruved('R', True)
+@json_resp
+def get_hist(info_role,id_synthese):
+
+    try:
+        q = DB.session.execute(
+            select([
+                VValidationsForWebApp.mnemonique,
+                func.DATE(VValidationsForWebApp.validation_date),
+                VValidationsForWebApp.validation_comment,
+                VValidationsForWebApp.validator,
+                VValidationsForWebApp.validation_auto])
+            .where(VValidationsForWebApp.id_synthese == id_synthese))
+
+        q = q.fetchall()
+
+        history = []
+        for row in q:
+            line = {}
+            line.update({'status':str(row[0]),'date':str(row[1]),'comment':str(row[2]),'validator':str(row[3]),'typeValidation':str(row[4])})
+            history.append(line)
+
+        history = sorted(history, key=itemgetter('date'),reverse=True)
+        return history
+
+    except(Exception):
+        return 'INTERNAL SERVER ERROR ("get_hist() error"): contactez l\'administrateur du site',500
