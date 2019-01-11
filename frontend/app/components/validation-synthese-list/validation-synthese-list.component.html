@@ -27,7 +27,7 @@
       <span>Détails</span>
     </ng-template>
      <ng-template let-row="row" ngx-datatable-cell-template>
-        <button id="details" type="button" (click)="openInfoModal(row)" class="btn btn-info fa fa-info-circle" title="details">
+        <button #ValidationModalInfoObs id="details" type="button" (click)="openInfoModal(row)" class="btn btn-info fa fa-info-circle" title="details">
         </button>
      </ng-template>
   </ngx-datatable-column>
@@ -38,11 +38,11 @@
        let-rowCount="rowCount"
        let-pageSize="pageSize"
        let-selectedCount="selectedCount",
-       let-curPage="curPage"
+       let-curPage="curPage",
        let-offset="offset">
-       <button type="button" (click)="this.selectAll()" class="btn btn-success btn-xs"> Tout sélectionner</button>
-       <span> ' ' </span>
-       <button type="button" (click)="this.deselectAll()" class="btn btn-success btn-xs"> Tout désélectionner</button>
+      <button type="button" (click)="this.selectAll()" class="btn btn-success btn-sm"> Tout sélectionner</button>
+      <span> ' ' </span>
+      <button type="button" (click)="this.deselectAll()" class="btn btn-success btn-sm"> Tout désélectionner</button>
 
        <datatable-pager
          [pagerLeftArrowIcon]="'datatable-icon-left'"
@@ -67,5 +67,8 @@
 
 <!-- MODAL INFO OBS -->
 <ng-template #ValidationModalInfoObs let-c="close " let-d="dismiss">
-  <pnx-validation-modal-info-obs (valStatus)="onStatusChange($event)"></pnx-validation-modal-info-obs>
+
+  <pnx-validation-modal-info-obs [inputSyntheseData]="_mapListService.geojsonData"></pnx-validation-modal-info-obs>
+
 </ng-template>
+

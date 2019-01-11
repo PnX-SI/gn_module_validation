@@ -33,7 +33,7 @@ export class ValidationPopupComponent implements OnInit {
   @Input() nbTotalObservation : number;
   @Input() status_names : any;
   @Input() status_keys : any;
-  @Output() valStatus: EventEmitter<any> = new EventEmitter();
+  @Output() valStatus = new EventEmitter();
 
   constructor(
     private modalService: NgbModal,
@@ -114,7 +114,7 @@ export class ValidationPopupComponent implements OnInit {
   openVerticallyCentered(content) {
       // if no error : open popup for changing validation status
       this.modalRef = this.modalService.open(content, {
-        centered: true, size: "lg", backdrop: 'static', centered: true, windowClass: 'dark-modal'
+        centered: true, size: "lg", backdrop: 'static', windowClass: 'dark-modal'
       });
   }
 

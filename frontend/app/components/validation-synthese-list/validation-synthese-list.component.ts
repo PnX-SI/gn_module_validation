@@ -53,6 +53,7 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
   public rowNumber: number;
   private _latestWidth: number;
   public id_same_coordinates = []; // list of observation ids having same geographic coordinates
+  public validationStatus;
 
   @Input() inputSyntheseData: GeoJSON;
   @Input() statusNames: any;
@@ -68,7 +69,7 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
     //private _fs: SyntheseFormService,
     public sanitizer: DomSanitizer,
     public ref: ChangeDetectorRef,
-    private _ms: MapService
+    private _ms: MapService,
     public formService: FormService,
     private toastr: ToastrService
   ) {}
@@ -80,13 +81,9 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
     this.group = new L.featureGroup();
     this.onMapClick();
     this.onTableClick();
-  }
+    console.log(this.mapListService);
 
-  /*
-  action() {
-    console.log('à faire');
   }
-  */
 
   onMapClick() {
     this.mapListService.onMapClik$.subscribe(
@@ -244,7 +241,7 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
   }
 
   onStatusChange(status) {
-    console.log('status change : ' + status);
+    //console.log('status change : ' + status);
     for (let obs in this.mapListService.selectedRow) {
       this.mapListService.selectedRow[obs]['id_nomenclature_valid_status'] = status;
       this.mapListService.selectedRow[obs]['validation_auto'] = '';
@@ -287,6 +284,13 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
       windowClass: 'large-modal'
     });
     modalRef.componentInstance.oneObsSynthese = row;
+    modalRef.componentInstance.modifiedStatus.subscribe((modifiedStatus) => {
+      for (let obs in this.mapListService.tableData) {
+        if (this.mapListService.tableData[obs].id_synthese == modifiedStatus.id_synthese) {
+          this.mapListService.tableData[obs].id_nomenclature_valid_status = modifiedStatus.new_status;
+        }
+      }
+    });
   }
 
 }

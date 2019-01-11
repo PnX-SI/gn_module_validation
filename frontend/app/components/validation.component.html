@@ -10,8 +10,8 @@
 
           <!-- select only observations with awaiting validation status -->
           <div id="awaitingObs" [formGroup]="_fs.searchForm">
-          <input (change)="onSubmitForm()"  value="id_nomenclature_valid_status" formControlName="id_nomenclature_valid_status" type="checkbox" checked/>
-          <label> Observations en attente de validation </label>
+          <input (change)="onSubmitForm()"  id="awaiting_checkbox" value="id_nomenclature_valid_status" formControlName="id_nomenclature_valid_status" type="checkbox" checked/>
+          <label for="awaiting_checkbox"> Observations en attente de validation </label>
           </div>
 
       </div>

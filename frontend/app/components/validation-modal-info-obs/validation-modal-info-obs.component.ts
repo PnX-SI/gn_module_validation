@@ -1,24 +1,22 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter,ViewChild } from '@angular/core';
 import { DataService } from '../../services/data.service';
 import { DataFormService } from '@geonature_common/form/data-form.service';
 import { AppConfig } from '@geonature_config/app.config';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { MatTabsModule } from '@angular/material/tabs';
 import { ToastrService } from 'ngx-toastr';
 import { MapListService } from '@geonature_common/map-list/map-list.service';
 import { ModuleConfig } from "../../module.config";
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { NgbModal, NgbActiveModal, ModalDismissReasons} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'pnx-validation-modal-info-obs',
   templateUrl: 'validation-modal-info-obs.component.html',
-  styleUrls: ["./validation-modal-info-obs.component.scss"]
+  styleUrls: ["./validation-modal-info-obs.component.scss"],
+  providers: [MapListService]
 })
 
 export class ValidationModalInfoObsComponent implements OnInit {
-
-  @Input() oneObsSynthese: any;
-  @Output() valStatus: EventEmitter<any> = new EventEmitter();
 
   public selectObsTaxonInfo;
   public selectedObs;
@@ -34,17 +32,22 @@ export class ValidationModalInfoObsComponent implements OnInit {
   public VALIDATION_CONFIG = ModuleConfig;
   public statusForm: FormGroup;
   public edit;
-  public statusKeys2;
+  //public statusKeys2;
   public statusKeys;
   public statusNames;
 
+  @Input() inputSyntheseData: GeoJSON;
+  @Input() oneObsSynthese: any;
+  @Output() modifiedStatus = new EventEmitter();
+  @ViewChild('table') table: DatatableComponent;
+
   constructor(
-    public mapListService: MapListService;
-    private _gnDataService: DataFormService;
-    private _dataService: DataService;
-    public activeModal: NgbActiveModal;
-    private toastr: ToastrService;
-    private _fb: FormBuilder;
+    public mapListService: MapListService,
+    private _gnDataService: DataFormService,
+    private _dataService: DataService,
+    public activeModal: NgbActiveModal,
+    private toastr: ToastrService,
+    private _fb: FormBuilder
   ) {
     // form used for changing validation status
     this.statusForm = this._fb.group({
@@ -66,6 +69,8 @@ export class ValidationModalInfoObsComponent implements OnInit {
     this.isPrevButtonValid = true;
 
     // disable nextButton if last observation selected
+    console.log(this.filteredIds);
+    console.log(this.id_synthese);
     if (this.filteredIds.indexOf(this.id_synthese) == this.filteredIds.length-1) {
       this.isNextButtonValid = false;
     } else {
@@ -79,7 +84,6 @@ export class ValidationModalInfoObsComponent implements OnInit {
     }
 
     this.edit = false;
-
   }
 
   getStatusNames() {
@@ -107,6 +111,9 @@ export class ValidationModalInfoObsComponent implements OnInit {
   }
 
   loadOneSyntheseReleve(oneObsSynthese) {
+
+    console.log(this.mapListService);
+
 
     this._dataService.getOneSyntheseObservation(oneObsSynthese.id_synthese)
       .subscribe(
@@ -181,8 +188,6 @@ export class ValidationModalInfoObsComponent implements OnInit {
   increaseObs() {
     // add 1 to find new position
     this.position = this.filteredIds.indexOf(this.id_synthese)+1;
-    console.log('next position = ' + this.position);
-
     // disable next button if last observation
     if (this.position == this.filteredIds.length-1) {
       this.isNextButtonValid = false;
@@ -192,8 +197,6 @@ export class ValidationModalInfoObsComponent implements OnInit {
 
     // array value (=id_synthese) of the new position
     this.id_synthese = this.filteredIds[this.filteredIds.indexOf(this.id_synthese)+1];
-    console.log('id_synthese = ' + this.id_synthese);
-
     this.loadOneSyntheseReleve(this.mapListService.tableData[this.position]);
     this.loadValidationHistory(this.id_synthese);
     this.isPrevButtonValid = true;
@@ -203,11 +206,8 @@ export class ValidationModalInfoObsComponent implements OnInit {
   }
 
   decreaseObs() {
-    console.log('current position = ' + this.position);
     // substract 1 to find new position
     this.position = this.filteredIds.indexOf(this.id_synthese)-1;
-    console.log('previous position = ' + this.position);
-
     // disable previous button if first observation
     if (this.position == 0) {
       this.isPrevButtonValid = false;
@@ -217,7 +217,6 @@ export class ValidationModalInfoObsComponent implements OnInit {
 
     // array value (=id_synthese) of the new position
     this.id_synthese = this.filteredIds[this.filteredIds.indexOf(this.id_synthese)-1];
-    console.log('id_synthese = ' + this.id_synthese);
 
     this.loadOneSyntheseReleve(this.mapListService.tableData[this.position]);
     this.loadValidationHistory(this.id_synthese);
@@ -249,11 +248,11 @@ export class ValidationModalInfoObsComponent implements OnInit {
         return new Promise((resolve, reject) => {
             // show success message indicating the number of observation(s) with modified validation status
             this.toastr.success('Nouveau statut de validation enregistré');
+            this.update_status();
             this.loadOneSyntheseReleve(this.oneObsSynthese);
             this.loadValidationHistory(this.id_synthese);
             // bind statut value with validation-synthese-list component
             this.statusForm.reset();
-            this.update_status();
             resolve('data updated');
         }
       })
@@ -266,7 +265,7 @@ export class ValidationModalInfoObsComponent implements OnInit {
           // show error message if other server error
           this.toastr.error(err.error);
         }
-        reject()
+        reject();
       }
     )
     .then(
@@ -287,8 +286,10 @@ export class ValidationModalInfoObsComponent implements OnInit {
 
   update_status() {
     // send valstatus value to validation-synthese-list component
-    this.valStatus.emit(this.statusForm.controls['statut'].value);
-    console.log('emitted value : ' + this.statusForm.controls['statut'].value);
+    this.modifiedStatus.emit({
+      id_synthese:this.id_synthese,
+      new_status:this.statusForm.controls['statut'].value
+    });
   }
 
   cancel() {

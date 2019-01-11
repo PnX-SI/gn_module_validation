@@ -10,14 +10,14 @@ import { ValidationDefinitionsComponent } from "./components/validation-definiti
 //import { ValidationSearchComponent } from "./components/validation-search/validation-search.component";
 import { ValidationSearchComponent } from "./components/validation-search/validation-search.component";
 import { ValidationTaxonAdvancedModalComponent } from "./components/validation-search/validation-taxon-advanced/validation-taxon-advanced.component";
-import { TreeModule } from 'node_modules/angular-tree-component';
+import { TreeModule } from 'angular-tree-component';
 import { ValidationModalInfoObsComponent } from './components/validation-modal-info-obs/validation-modal-info-obs.component';
 import { ValidationTaxonAdvancedStoreService } from "./components/validation-search/validation-taxon-advanced/validation-taxon-advanced-store.service";
 import { DynamicFormService } from '@geonature_common/form/dynamic-form/dynamic-form.service';
 import { DataService } from "./services/data.service";
 import { FormService } from "./services/form.service";
 import { HttpClient } from '@angular/common/http';
-import {MatTabsModule} from '@angular/material/tabs';
+import { MatTabsModule } from '@angular/material/tabs';
 
 // my module routing
 const routes: Routes = [

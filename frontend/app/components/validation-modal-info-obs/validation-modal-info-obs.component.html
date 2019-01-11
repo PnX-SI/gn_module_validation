@@ -1,34 +1,30 @@
 <!-- MODAL HEADER -->
-<div class="modal-header padding-md-all">
+<div class="modal-header">
 
   <div id="title">
     <h5 class="main-color "> {{ selectedObsTaxonDetail?.nom_vern }} - {{ selectedObsTaxonDetail?.nom_valide }} </h5>
-  </div>
 
   <div id="inpn">
+
     <a target="_blank " href="https://inpn.mnhn.fr/espece/cd_nom/{{ selectedObsTaxonDetail?.cd_nom }} ">
       <button type="button"  *ngIf="oneObsSynthese?.url_source" class="btn btn-light">
-        <img src="assets/images/logo_inpn.png" width="100">
-        <br>
-        Aller sur la fiche INPN du taxon
+        Voir la fiche INPN du taxon
       </button>
     </a>
-  </div>
 
-  <div id="navigButtons">
-    <button [disabled]="!isPrevButtonValid" class="btn btn-sm" (click)="decreaseObs()">
-      <i class="material-icons">navigate_before</i>
-    </button>
-
-    <button [disabled]="!isNextButtonValid" class="btn btn-sm" (click)="increaseObs()">
-      <i class="material-icons">navigate_next</i>
-    </button>
   </div>
 
 </div>
 
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+      <span aria-hidden="true">&times;</span>
+  </button>
+
+</div>
+
 <!-- MODAL BODY -->
-<div class="modal-body padding-md-all">
+
+<div class="modal-body">
 
   <p></p>
 
@@ -60,8 +56,9 @@
 
             <div style="padding-top:5px;">
               <button class="btn btn-sm btn-light" type="submit" data-dismiss="modal" (click)="cancel()">Annuler</button>
-              <button id="saveButton" (click)="onSubmit(statusForm.value)" data-toggle="modal" #content value="Enregistrer" type="button" [disabled]="!this.statusForm.valid" class="btn btn-sm btn-primary" data-dismiss="modal" #required>
-              Enregistrer
+              <button id="saveButton" (click)="onSubmit(statusForm.value)" data-toggle="modal" value="Enregistrer" type="button" [disabled]="!this.statusForm.valid" class="btn btn-sm btn-success" data-dismiss="modal" #required>
+
+                Enregistrer
               </button>
             </div>
 
@@ -72,7 +69,7 @@
           <p></p>
           <b> Statut de validation actuel : </b> {{selectedObs?.occurrence_detail.valid_status}}
           <button class="btn btn-sm btn-primary"(click)="getStatusNames()" [disabled]=edit>
-            <i class="material-icons"> edit </i>
+            <i class="material-icons"> edit </i> modifier le statut de validation
           </button>
           <br>
           <b> Observation de : </b> {{selectedObs?.observers}}
@@ -340,10 +337,18 @@
   </mat-tab-group>
 
 
-<div class="modal-footer padding-md-all">
+<!--<div class="modal-footer justify-content-between">-->
+<div class="modal-footer">
 
-  <button class="btn btn-sm btn-light" type="submit" data-dismiss="modal" (click)="closeModal()">Fermer</button>
-
+    <div id="navigButtons">
+        <button [disabled]="!isPrevButtonValid" class="btn btn-sm" (click)="decreaseObs()">
+          <i class="material-icons">navigate_before</i>
+        </button>
+    
+        <button [disabled]="!isNextButtonValid" class="btn btn-sm" (click)="increaseObs()">
+          <i class="material-icons">navigate_next</i>
+        </button>
+    </div>
 
 </div>
 

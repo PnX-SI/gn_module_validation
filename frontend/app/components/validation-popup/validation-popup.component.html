@@ -7,47 +7,56 @@
 <!-- Modal Validation Popup-->
 
       <!-- Modal content-->
-      <form [formGroup]="statusForm" class="modal-content">
 
-        <div class="modal-header" style="justify-content: center" >
-            <h4 class="modal-title">Choix du statut de validation</h4>
-        </div>
+        <form [formGroup]="statusForm" class="modal-content">
 
-        <div class="modal-body" id="bodyModal" style="padding-top:30px;">
 
-          <div> <span id="nbObs">{{this.observations.length}}</span> observations sélectionnées  </div>
-          <br>
+            <div class="modal-header" style="justify-content: center" >
+                <h4 class="modal-title">Modification du statut de validation</h4>
+                <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
 
-          <span *ngFor="let id of status_keys" id="validButtons">
-          <!-- Formulaire pour le choix des standards et des formats de téléchargement des fichiers -->
-            <div *ngIf="VALIDATION_CONFIG.STATUS_INFO[id].cat !== 'assessable'"> </div>
-            <div *ngIf="VALIDATION_CONFIG.STATUS_INFO[id].cat === 'notassessable'" style="padding-top:30px;"> </div>
+            <div class="modal-body" id="bodyModal" style="padding-top:30px;">
 
-            <label *ngIf="VALIDATION_CONFIG.STATUS_INFO[id].cat !== 'notassessed'" [ngStyle]="{'background-color': VALIDATION_CONFIG.STATUS_INFO[id].color}" role="button"  class="btn btn-success box-shadow waves-effect" aria-pressed="true">
-              <input type="radio" formControlName="statut" value="{{id}}">
-              {{status_names[id]}}</label>
+              <div> <span id="nbObs">{{this.observations.length}}</span> observation <a *ngIf="this.observations.length!=1">s</a> sélectionnée <a *ngIf="this.observations.length!=1">s</a>  </div>
+              <br>
 
-            <label *ngIf="VALIDATION_CONFIG.STATUS_INFO[id].cat === 'notassessed'" [ngStyle]="{'background-color': VALIDATION_CONFIG.STATUS_INFO[id].color}" role="button" class="btn btn-success box-shadow" aria-pressed="true">
-              <input type="radio" formControlName="statut" value="{{id}}">
-              {{status_names[id]}}</label>
-          </span>
+              <fieldset>
+                <legend> Choix du statut </legend>
 
-          <div class="md-form mb-0" style="padding-top:30px;">
-            <span> Commentaire : </span>
-            <textarea type="text" rows="1" class="form-control md-textarea" formControlName="comment"> </textarea>
-          </div>
+                <div>
+                  <span *ngFor="let id of status_keys" id="validButtons">
+                  <!-- Formulaire pour le choix des standards et des formats de téléchargement des fichiers -->
+                    <div *ngIf="VALIDATION_CONFIG.STATUS_INFO[id].cat !== 'assessable'"> </div>
+                    <div *ngIf="VALIDATION_CONFIG.STATUS_INFO[id].cat === 'notassessable'" style="padding-top:30px;"> </div>
 
-          <br>
+                    <label *ngIf="VALIDATION_CONFIG.STATUS_INFO[id].cat !== 'notassessed'" [ngStyle]="{'background-color': VALIDATION_CONFIG.STATUS_INFO[id].color}" role="button"  class="btn btn-success box-shadow waves-effect" aria-pressed="true">
+                      <input type="radio" formControlName="statut" value="{{id}}">
+                      {{status_names[id]}}</label>
 
-          <pnx-validation-definitions></pnx-validation-definitions>
+                    <label *ngIf="VALIDATION_CONFIG.STATUS_INFO[id].cat === 'notassessed'" [ngStyle]="{'background-color': VALIDATION_CONFIG.STATUS_INFO[id].color}" role="button" class="btn btn-success box-shadow" aria-pressed="true">
+                      <input type="radio" formControlName="statut" value="{{id}}">
+                      {{status_names[id]}}</label>
+                  </span>
+                </div>
+                <br>
+                <div id="def"><pnx-validation-definitions></pnx-validation-definitions></div>
 
-          <br>
-        </div>
+              </fieldset>
 
+
+                <div class="md-form mb-0" style="padding-top:30px;">
+                  <span> Commentaire : </span>
+                  <textarea type="text" rows="1" class="form-control md-textarea" formControlName="comment"> </textarea>
+                </div>
+
+            </div>
+          
         <!-- Bouton de fermeture de la modal pop-up ou envoi -->
         <div class="modal-footer" id="choicePopup">
-          <button type="submit" class="btn btn-sm btn-light" data-dismiss="modal" (click)="closeModal()">Fermer</button>
-          <button id="saveButton" (click)="onSubmit(statusForm.value)" data-toggle="modal" #content value="Enregistrer" type="button" [disabled]="!this.statusForm.valid" class="btn btn-sm btn-primary box-shadow" data-dismiss="modal" #required>
+          <button id="saveButton" (click)="onSubmit(statusForm.value)" data-toggle="modal" #content value="Enregistrer" type="button" [disabled]="!this.statusForm.valid" class="btn btn-sm btn-success box-shadow" data-dismiss="modal" #required>
             <!--<i class="material-icons">done</i> -->
             Enregistrer </button>
         </div>
