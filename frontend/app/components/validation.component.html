@@ -2,9 +2,11 @@
 
     <!-- Page Content  -->
     <div class="row row-sm page-content">
+
       <nav #navBar id="sidebar" class="collapse show" class="col-sm-12 col-md-2 padding-sm">
         <pnx-validation-search (searchClicked)="loadAndStoreData($event)"></pnx-validation-search>
       </nav>
+
       <div class="col-sm-12 col-md-5 padding-sm">
           <pnx-validation-synthese-list [inputSyntheseData]="_mapListService.tableData" [statusNames]="statusNames" [statusKeys]="statusKeys"></pnx-validation-synthese-list>
 

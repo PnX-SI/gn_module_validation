@@ -69,7 +69,7 @@
           <p></p>
           <b> Statut de validation actuel : </b> {{selectedObs?.occurrence_detail.valid_status}}
           <button class="btn btn-sm btn-primary"(click)="getStatusNames()" [disabled]=edit>
-            <i class="material-icons"> edit </i> modifier le statut de validation
+            <i class="material-icons" id="modify"> edit </i> modifier le statut de validation
           </button>
           <br>
           <b> Observation de : </b> {{selectedObs?.observers}}
@@ -96,19 +96,22 @@
 
         <thead>
           <tr>
-            <th class="table_status"> Statut </th>
             <th class="table_date"> Date de validation </th>
-            <th class="table_comment"> Commentaire </th>
+            <th class="table_status"> Statut </th>
             <th class="table_comment"> Validateur </th>
+            <th class="table_comment"> Commentaire </th>
           </tr>
         </thead>
 
         <tbody>
           <tr *ngFor="let row of validationHistory">
-            <td> {{row.status}} </td>
-            <td> {{row.date}} </td>
+            <td width="15%"> {{row.date}} </td>
+            <td width="20%"> <span class="validationCircle" [ngStyle]="{'background': VALIDATION_CONFIG.STATUS_INFO[row.id_status].color}"><i class="material-icons" id="auto" style="font-size: 13px;padding-top: 3px;padding-left:1px;" *ngIf="row.typeValidation == 'True'">computer</i></span>
+              <div class="statusName">
+                {{statusNames[row.id_status]}}
+              </div> </td>
+            <td width="20%"> <span> {{row.validator}} </span> </td>
             <td> {{row.comment}} </td>
-            <td> <span> {{row.validator}} </span> </td>
           </tr>
         </tbody>
 

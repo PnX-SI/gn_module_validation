@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter,ViewChild } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { DataService } from '../../services/data.service';
 import { DataFormService } from '@geonature_common/form/data-form.service';
 import { AppConfig } from '@geonature_config/app.config';
@@ -7,7 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import { MapListService } from '@geonature_common/map-list/map-list.service';
 import { ModuleConfig } from "../../module.config";
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { NgbModal, NgbActiveModal, ModalDismissReasons} from "@ng-bootstrap/ng-bootstrap";
+import { NgbModal, NgbActiveModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'pnx-validation-modal-info-obs',
@@ -35,6 +35,7 @@ export class ValidationModalInfoObsComponent implements OnInit {
   //public statusKeys2;
   public statusKeys;
   public statusNames;
+  public MapListService;
 
   @Input() inputSyntheseData: GeoJSON;
   @Input() oneObsSynthese: any;
@@ -42,7 +43,7 @@ export class ValidationModalInfoObsComponent implements OnInit {
   @ViewChild('table') table: DatatableComponent;
 
   constructor(
-    public mapListService: MapListService,
+    //public mapListService: MapListService,
     private _gnDataService: DataFormService,
     private _dataService: DataService,
     public activeModal: NgbActiveModal,
@@ -51,8 +52,8 @@ export class ValidationModalInfoObsComponent implements OnInit {
   ) {
     // form used for changing validation status
     this.statusForm = this._fb.group({
-      statut : ['', Validators.required],
-      comment : ['']
+      statut: ['', Validators.required],
+      comment: ['']
     });
   }
 
@@ -69,9 +70,7 @@ export class ValidationModalInfoObsComponent implements OnInit {
     this.isPrevButtonValid = true;
 
     // disable nextButton if last observation selected
-    console.log(this.filteredIds);
-    console.log(this.id_synthese);
-    if (this.filteredIds.indexOf(this.id_synthese) == this.filteredIds.length-1) {
+    if (this.filteredIds.indexOf(this.id_synthese) == this.filteredIds.length - 1) {
       this.isNextButtonValid = false;
     } else {
       this.isNextButtonValid = true;
@@ -111,9 +110,6 @@ export class ValidationModalInfoObsComponent implements OnInit {
   }
 
   loadOneSyntheseReleve(oneObsSynthese) {
-
-    console.log(this.mapListService);
-
 
     this._dataService.getOneSyntheseObservation(oneObsSynthese.id_synthese)
       .subscribe(
@@ -166,6 +162,7 @@ export class ValidationModalInfoObsComponent implements OnInit {
             // format validator
             if (this.validationHistory[row].typeValidation == 'True' {
               this.validationHistory[row].validator = 'Attribution automatique';
+              //this.mapListService.tableData[row]['validation_auto'] = '';
             }
           }
         },
@@ -187,16 +184,16 @@ export class ValidationModalInfoObsComponent implements OnInit {
 
   increaseObs() {
     // add 1 to find new position
-    this.position = this.filteredIds.indexOf(this.id_synthese)+1;
+    this.position = this.filteredIds.indexOf(this.id_synthese) + 1;
     // disable next button if last observation
-    if (this.position == this.filteredIds.length-1) {
+    if (this.position == this.filteredIds.length - 1) {
       this.isNextButtonValid = false;
     } else {
       this.isNextButtonValid = true;
     }
 
     // array value (=id_synthese) of the new position
-    this.id_synthese = this.filteredIds[this.filteredIds.indexOf(this.id_synthese)+1];
+    this.id_synthese = this.filteredIds[this.filteredIds.indexOf(this.id_synthese) + 1];
     this.loadOneSyntheseReleve(this.mapListService.tableData[this.position]);
     this.loadValidationHistory(this.id_synthese);
     this.isPrevButtonValid = true;
@@ -207,7 +204,7 @@ export class ValidationModalInfoObsComponent implements OnInit {
 
   decreaseObs() {
     // substract 1 to find new position
-    this.position = this.filteredIds.indexOf(this.id_synthese)-1;
+    this.position = this.filteredIds.indexOf(this.id_synthese) - 1;
     // disable previous button if first observation
     if (this.position == 0) {
       this.isPrevButtonValid = false;
@@ -216,7 +213,7 @@ export class ValidationModalInfoObsComponent implements OnInit {
     }
 
     // array value (=id_synthese) of the new position
-    this.id_synthese = this.filteredIds[this.filteredIds.indexOf(this.id_synthese)-1];
+    this.id_synthese = this.filteredIds[this.filteredIds.indexOf(this.id_synthese) - 1];
 
     this.loadOneSyntheseReleve(this.mapListService.tableData[this.position]);
     this.loadValidationHistory(this.id_synthese);
@@ -241,11 +238,11 @@ export class ValidationModalInfoObsComponent implements OnInit {
   onSubmit(value) {
     // post validation status form ('statusForm') for the current observation
     return this._dataService.postStatus(value, this.id_synthese).toPromise()
-    .then(
-      data => {
-        this.promiseResult = data as JSON;
-        //console.log('retour du post : ', this.promiseResult);
-        return new Promise((resolve, reject) => {
+      .then(
+        data => {
+          this.promiseResult = data as JSON;
+          //console.log('retour du post : ', this.promiseResult);
+          return new Promise((resolve, reject) => {
             // show success message indicating the number of observation(s) with modified validation status
             this.toastr.success('Nouveau statut de validation enregistré');
             this.update_status();
@@ -254,41 +251,41 @@ export class ValidationModalInfoObsComponent implements OnInit {
             // bind statut value with validation-synthese-list component
             this.statusForm.reset();
             resolve('data updated');
-        }
+          }
       })
-    .catch(
-      err => {
-        if (err.statusText === 'Unknown Error') {
-          // show error message if no connexion
-          this.toastr.error('ERROR: IMPOSSIBLE TO CONNECT TO SERVER (check your connexion)');
-        } else {
-          // show error message if other server error
-          this.toastr.error(err.error);
+      .catch(
+        err => {
+          if (err.statusText === 'Unknown Error') {
+            // show error message if no connexion
+            this.toastr.error('ERROR: IMPOSSIBLE TO CONNECT TO SERVER (check your connexion)');
+          } else {
+            // show error message if other server error
+            this.toastr.error(err.error);
+          }
+          reject();
         }
-        reject();
-      }
-    )
-    .then(
-      data => {
-        //console.log(data);
-        return new Promise((resolve, reject) => {
-          // close validation status popup
-          this.edit = false;
-          resolve('process finished');
-      }
+      )
+      .then(
+        data => {
+          //console.log(data);
+          return new Promise((resolve, reject) => {
+            // close validation status popup
+            this.edit = false;
+            resolve('process finished');
+          }
     })
-    .then(
-      data => {
-        //console.log(data);
-      }
-    );
+      .then(
+        data => {
+          //console.log(data);
+        }
+      );
   }
 
   update_status() {
     // send valstatus value to validation-synthese-list component
     this.modifiedStatus.emit({
-      id_synthese:this.id_synthese,
-      new_status:this.statusForm.controls['statut'].value
+      id_synthese: this.id_synthese,
+      new_status: this.statusForm.controls['statut'].value
     });
   }
 

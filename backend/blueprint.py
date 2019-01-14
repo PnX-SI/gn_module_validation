@@ -248,8 +248,8 @@ def get_hist(info_role,id_synthese):
     try:
         q = DB.session.execute(
             select([
-                VValidationsForWebApp.mnemonique,
-                func.DATE(VValidationsForWebApp.validation_date),
+                VValidationsForWebApp.id_nomenclature_valid_status,
+                VValidationsForWebApp.validation_date,
                 VValidationsForWebApp.validation_comment,
                 VValidationsForWebApp.validator,
                 VValidationsForWebApp.validation_auto])
@@ -260,7 +260,7 @@ def get_hist(info_role,id_synthese):
         history = []
         for row in q:
             line = {}
-            line.update({'status':str(row[0]),'date':str(row[1]),'comment':str(row[2]),'validator':str(row[3]),'typeValidation':str(row[4])})
+            line.update({'id_status':str(row[0]),'date':str(row[1]),'comment':str(row[2]),'validator':str(row[3]),'typeValidation':str(row[4])})
             history.append(line)
 
         history = sorted(history, key=itemgetter('date'),reverse=True)

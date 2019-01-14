@@ -2,7 +2,7 @@
   <div class="card search-wrapper">
     <div class="absolute">
       <fieldset class="absolute">
-        <legend> Quoi ?</legend>
+        <legend> Taxonomie </legend>
         <pnx-taxonomy label="{{'Taxon.Taxon' | translate }} " [parentFormControl]="formService.searchForm.controls.cd_nom"
           [idList]="500" [charNumber]="3" [listLength]="20" [apiEndPoint]="taxonApiEndPoint" (onChange)=formService.getCurrentTaxon($event)>
         </pnx-taxonomy>
@@ -20,29 +20,16 @@
           (Taxonomie)
         </button>
 
-        <button class="btn btn-xs btn-outline-secondary advanced" data-toggle="collapse" data-target="#OccAdvanved"
-          aria-expanded="false" aria-controls="OccAdvanved">
-          Avancé (Occurrence de taxon)
-        </button>
         <br>
         <span *ngIf="formService.selectedCdRefFromTree.length > 0">
           <b> {{formService.selectedCdRefFromTree.length}} taxons séléctionnés</b>
         </span>
 
-        <div class="collapse advanced" id="OccAdvanved">
-          <div class="card card-body padding-sm">
-            <small> Sélectionner un filtre </small>
-            <pnx-dynamic-form-generator [formGroup]="formService.searchForm" [formsDefinition]="formService.dynamycFormDef">
-            </pnx-dynamic-form-generator>
-
-          </div>
-        </div>
-
 
       </fieldset>
 
       <fieldset>
-        <legend> Quand ?</legend>
+        <legend> Dates</legend>
         <div class="row row-sm">
 
           <pnx-date label="Date min" [parentFormControl]="formService.searchForm.controls.date_min">
@@ -78,7 +65,7 @@
       </fieldset>
 
       <fieldset>
-        <legend> Où ?</legend>
+        <legend> Lieu</legend>
         <!-- <pnx-municipalities label="Communes" [searchBar]="true" [parentFormControl]="formService.searchForm.controls.municipalities"></pnx-municipalities> -->
 
         <div *ngIf="formService.formBuilded">
@@ -94,17 +81,10 @@
 
 
       <fieldset>
-        <legend> Qui ?</legend>
+        <legend> Source</legend>
 
         <pnx-observers-text label=" {{'Releve.Observer' | translate }} " [parentFormControl]="formService.searchForm.controls.observers">
         </pnx-observers-text>
-
-        <!-- TODO: Organisme -->
-      </fieldset>
-
-
-      <fieldset>
-        <legend> Comment ?</legend>
 
         <pnx-acquisition-frameworks [multiSelect]='true' [displayAll]="true" [parentFormControl]="formService.searchForm.controls.id_acquisition_frameworks"
           label="{{ 'MetaData.AcquisitionFramework' | translate}}">
@@ -118,6 +98,24 @@
 
       </fieldset>
 
+      <fieldset>
+        <legend> Filtres avancés </legend>
+
+        <button class="btn btn-xs btn-outline-secondary advanced" data-toggle="collapse" data-target="#OccAdvanved"
+          aria-expanded="false" aria-controls="OccAdvanved">
+          Ajouter un filtre
+        </button>
+
+        <div class="collapse advanced" id="OccAdvanved">
+          <div class="card card-body padding-sm">
+            <small> Sélectionner un filtre </small>
+            <pnx-dynamic-form-generator [formGroup]="formService.searchForm" [formsDefinition]="formService.dynamycFormDef">
+            </pnx-dynamic-form-generator>
+
+          </div>
+        </div>
+
+      </fieldset>
 
       <!-- <pre>form value: <br>{{formService.searchForm.controls.period_start.valid | json}}</pre> -->
       <div class="card-body">

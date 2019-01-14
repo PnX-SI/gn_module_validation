@@ -26,6 +26,7 @@ import { ValidationTaxonAdvancedStoreService } from './validation-taxon-advanced
 export class ValidationSearchComponent implements OnInit {
 
   public AppConfig = AppConfig;
+  public control_keys;
 
   public taxonApiEndPoint = `${AppConfig.API_ENDPOINT}/validation/taxons_autocomplete`;
   @Output() searchClicked = new EventEmitter();
@@ -50,7 +51,14 @@ export class ValidationSearchComponent implements OnInit {
   refreshFilters() {
     this.formService.selectedtaxonFromComponent = [];
     this.formService.selectedCdRefFromTree = [];
-    this.formService.searchForm.reset();
+    //this.formService.dynamycFormDef = [];
+    //this.formService.searchForm.reset();
+    this.control_keys = Object.keys(this.formService.searchForm.controls);
+    for (let key of this.control_keys) {
+      if (key !== 'id_nomenclature_valid_status') {
+        this.formService.searchForm.controls[key].setValue(null);
+      }
+    }
 
     // refresh taxon tree
     this._storeService.taxonTreeState = {};
