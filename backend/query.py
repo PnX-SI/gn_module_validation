@@ -178,6 +178,8 @@ def filter_query_all_filters(model, q, filters, user, allowed_datasets, config):
     # generic filters
     join_on_cor_area = False
     for colname, value in filters.items():
+        print(colname)
+        print(value)
         if colname.startswith('area'):
             if not join_on_cor_area:
                 q = q.join(
@@ -186,8 +188,6 @@ def filter_query_all_filters(model, q, filters, user, allowed_datasets, config):
                 )
             q = q.filter(CorAreaSynthese.id_area.in_(value))
             join_on_cor_area = True
-        elif colname == 'id_nomenclature_valid_status':
-            q = q.filter(model.id_nomenclature_valid_status == config["id_for_enAttenteDeValidation"])
         else:
             col = getattr(model.__table__.columns, colname)
             q = q.filter(col.in_(value))

@@ -11,6 +11,7 @@ import { ToastrService } from 'ngx-toastr'
 import { ModuleConfig } from '../module.config';
 import { ValidationSearchComponent } from './validation-search/validation-search.component'
 import { FormService } from '../services/form.service';
+import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 
 @Component({
@@ -26,6 +27,8 @@ export class ValidationComponent implements OnInit {
   public statusNames;
   public statusKeys;
   public VALIDATION_CONFIG = ModuleConfig;
+  public awaitingForm: FormGroup;
+
   //public syntheseConfig = AppConfig.SYNTHESE;
   @Output() searchClicked = new EventEmitter();
 
@@ -33,13 +36,18 @@ export class ValidationComponent implements OnInit {
     public _ds: DataService,
     private _mapListService: MapListService,
     private _commonService: CommonService,
-    private toastr: ToastrService
-    private _fs: FormService
-  ) {}
+    private toastr: ToastrService,
+    private _fs: FormService,
+    private _fb: FormBuilder,
+  ) {
+    // form used for changing validation status
+    this.awaitingForm = this._fb.group({
+      awaiting : true
+    });
+  }
 
   ngOnInit() {
     this.getStatusNames();
-    //console.log(this.syntheseConfig);
   }
 
   getStatusNames() {
@@ -60,8 +68,7 @@ export class ValidationComponent implements OnInit {
         }
       },
       () => {
-        //console.log(this.statusNames);
-        const initialData = { limit: this.VALIDATION_CONFIG.NB_MAX_OBS_MAP };
+        const initialData = { limit: this.VALIDATION_CONFIG.NB_MAX_OBS_MAP, 'id_nomenclature_valid_status': ModuleConfig.id_for_enAttenteDeValidation };
         this.loadAndStoreData(initialData);
       }
     );
@@ -69,6 +76,9 @@ export class ValidationComponent implements OnInit {
   }
 
   loadAndStoreData(formatedParams) {
+    if (typeof(formatedParams['id_nomenclature_valid_status']) == 'object') {
+      this.awaitingForm.controls['awaiting'].setValue(false);
+    }
     this._ds.dataLoaded = false;
     this._ds.getSyntheseData(formatedParams).subscribe(
       result => {
@@ -108,6 +118,15 @@ export class ValidationComponent implements OnInit {
   formatDate(unformatedDate) {
     const date = new Date(unformatedDate);
     return date.toLocaleDateString('fr-FR');
+  }
+
+  onAwaitingClick() {
+    if (this.awaitingForm.controls['awaiting'].value == true) {
+      let param = { limit: this.VALIDATION_CONFIG.NB_MAX_OBS_MAP, , 'id_nomenclature_valid_status': ModuleConfig.id_for_enAttenteDeValidation };
+    } else {
+      let param = { limit: this.VALIDATION_CONFIG.NB_MAX_OBS_MAP };
+    }
+    this.loadAndStoreData(param);
   }
 
   customColumns(feature) {

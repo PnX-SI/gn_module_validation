@@ -56,20 +56,16 @@ def get_synthese_data(info_role):
     """
 
     filters = {key: value.split(',') for key, value in dict(request.args).items()}
+    print(filters)
 
     if 'limit' in filters:
         result_limit = filters.pop('limit')[0]
-        onlyAwaiting = True
     else:
         result_limit = blueprint.config['NB_MAX_OBS_MAP']
-        onlyAwaiting = False
 
     allowed_datasets = TDatasets.get_user_datasets(info_role)
 
     q = DB.session.query(VLatestValidationForWebApp)
-
-    if onlyAwaiting:
-        q = DB.session.query(VLatestValidationForWebApp).filter(VLatestValidationForWebApp.id_nomenclature_valid_status == blueprint.config['id_for_enAttenteDeValidation'])
 
     q = filter_query_all_filters(VLatestValidationForWebApp, q, filters, info_role, allowed_datasets, blueprint.config)
 

@@ -14,8 +14,11 @@ import { ValidationTaxonAdvancedStoreService } from './validation-taxon-advanced
   providers: [DynamicFormService],
   styleUrls: ['./validation-taxon-advanced.component.scss']
 })
+
 export class ValidationTaxonAdvancedModalComponent implements OnInit, AfterContentInit {
+
   @ViewChild('tree') treeComponent: TreeComponent;
+
   public VALIDATION_CONFIG = ModuleConfig;
   public taxonsTree;
   public treeOptions;
@@ -24,6 +27,7 @@ export class ValidationTaxonAdvancedModalComponent implements OnInit, AfterConte
   public taxhubAttributes: any;
   public attributForm: FormGroup;
   public formBuilded = false;
+
   constructor(
     public activeModal: NgbActiveModal,
     public formService: FormService,

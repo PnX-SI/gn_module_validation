@@ -20,7 +20,6 @@ export class FormService {
     private _periodFormatter: NgbDatePeriodParserFormatter
   ) {
     this.searchForm = this._fb.group({
-      id_nomenclature_valid_status: true,
       cd_nom: null,
       observers: null,
       id_dataset: null,
