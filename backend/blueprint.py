@@ -27,7 +27,7 @@ from geonature.core.gn_synthese.models import (
 
 from geonature.core.gn_commons.models import BibTablesLocation
 
-from .query import filter_query_all_filters
+from geonature.core.gn_synthese.utils.query import filter_query_all_filters
 
 from geonature.utils.env import DB
 
@@ -67,7 +67,7 @@ def get_synthese_data(info_role):
 
     q = DB.session.query(VLatestValidationForWebApp)
 
-    q = filter_query_all_filters(VLatestValidationForWebApp, q, filters, info_role, allowed_datasets, blueprint.config)
+    q = filter_query_all_filters(VLatestValidationForWebApp, q, filters, info_role, allowed_datasets)
 
     q = q.order_by(
         VLatestValidationForWebApp.validation_date.desc()
