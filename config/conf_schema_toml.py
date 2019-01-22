@@ -3,8 +3,6 @@
 '''
 
 from marshmallow import Schema, fields
-from geonature.utils.config_schema import GnModuleProdConf
-
 
 #
 DEFAULT_COLUMNS_API_VALIDATION = [
@@ -84,7 +82,7 @@ AREA_FILTERS = [
 ]
 
 
-class GnModuleSchemaConf(GnModuleProdConf):
+class GnModuleSchemaConf(Schema):
     MANDATORY_COLUMNS = fields.List(fields.String(), missing=MANDATORY_COLUMNS)
     STATUS_INFO = fields.Dict(fields.Dict(), missing=STATUS_INFO)
     COLUMNS_API_VALIDATION_WEB_APP = fields.List(fields.String, missing=DEFAULT_COLUMNS_API_VALIDATION)
@@ -94,8 +92,6 @@ class GnModuleSchemaConf(GnModuleProdConf):
     ICON_FOR_AUTOMATIC_VALIDATION = fields.String(missing=ICON_FOR_AUTOMATIC_VALIDATION)
     ZOOM_SINGLE_POINT = fields.Integer(missing=ZOOM_SINGLE_POINT)
     id_for_enAttenteDeValidation = fields.Integer(missing=id_for_enAttenteDeValidation)
-    id_application = fields.Integer(required=True)
-    api_url = fields.String(required=True)
     DISPLAY_TAXON_TREE = fields.Boolean(missing=True)
     ID_ATTRIBUT_TAXHUB = fields.List(fields.Integer, missing=ID_ATTRIBUT_TAXHUB)
     AREA_FILTERS = fields.List(fields.Dict, missing=AREA_FILTERS)

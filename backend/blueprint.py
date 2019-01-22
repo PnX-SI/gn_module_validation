@@ -31,6 +31,9 @@ from geonature.core.gn_synthese.utils.query import filter_query_all_filters
 
 from geonature.utils.env import DB
 
+from geonature.core.gn_permissions import decorators as permissions
+
+
 from .models import (
     TValidations,
     VLatestValidationForWebApp,
@@ -39,14 +42,13 @@ from .models import (
 
 #from geonature.core.gn_synthese.utils import query as synthese_query
 
-from pypnusershub import routes as fnauth
 from pypnnomenclature.models import TNomenclatures
 
 blueprint = Blueprint('validation', __name__)
 
 
 @blueprint.route('', methods=['GET'])
-@fnauth.check_auth_cruved('R', True)
+@permissions.check_cruved_scope('R', True)
 @json_resp
 def get_synthese_data(info_role):
 
@@ -55,8 +57,7 @@ def get_synthese_data(info_role):
         Params must have same synthese fields names
     """
 
-    filters = {key: value.split(',') for key, value in dict(request.args).items()}
-    print(filters)
+    filters = dict(request.args)
 
     if 'limit' in filters:
         result_limit = filters.pop('limit')[0]
@@ -97,7 +98,7 @@ def get_synthese_data(info_role):
 
 
 @blueprint.route('/statusNames', methods=['GET'])
-@fnauth.check_auth_cruved('R', True)
+@permissions.check_cruved_scope('R', True)
 @json_resp
 def get_statusNames(info_role):
     try:
@@ -111,7 +112,7 @@ def get_statusNames(info_role):
 
 
 @blueprint.route('/<id_synthese>', methods=['GET','POST'])
-@fnauth.check_auth_cruved('C', True)
+@permissions.check_cruved_scope('C', True)
 @json_resp
 def post_status(info_role,id_synthese):
     try:
@@ -194,7 +195,7 @@ def post_status(info_role,id_synthese):
 
 
 @blueprint.route('/definitions', methods=['GET'])
-@fnauth.check_auth_cruved('R', True)
+@permissions.check_cruved_scope('R', True)
 @json_resp
 def get_definitions(info_role):
     """
@@ -237,7 +238,7 @@ def get_autocomplete_taxons_synthese():
 
 
 @blueprint.route('/history/<id_synthese>', methods=['GET'])
-@fnauth.check_auth_cruved('R', True)
+@permissions.check_cruved_scope('R', True)
 @json_resp
 def get_hist(info_role,id_synthese):
 

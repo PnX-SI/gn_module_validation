@@ -20,6 +20,7 @@ export const ModuleConfig = {
   1,
   2
  ],
+ "ID_MODULE": 18,
  "LIST_COLUMNS_FRONTEND": [
   {
    "max_width": 40,
@@ -67,6 +68,8 @@ export const ModuleConfig = {
    "weight": 3
   }
  },
+ "MODULE_CODE": "VALIDATION",
+ "MODULE_URL": "validation",
  "NB_MAX_OBS_MAP": 10000,
  "STATUS_INFO": {
   "318": {
@@ -95,7 +98,5 @@ export const ModuleConfig = {
   }
  },
  "ZOOM_SINGLE_POINT": 12,
- "api_url": "/validation",
- "id_application": 8,
  "id_for_enAttenteDeValidation": 466
 }
