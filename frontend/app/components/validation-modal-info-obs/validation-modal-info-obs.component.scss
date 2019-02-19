@@ -51,3 +51,24 @@ label:hover {
   border-radius: 6px;
   z-index: 1;
 }
+// a confirmer
+.edit{
+  display: flex;
+}
+
+.modal-body {
+  form{
+    #validButtons label {
+      color : #607D8B;
+    }
+    #validButtons label.waves-effect {
+      color : #fff;
+    }
+  }
+  #statusChange{
+    padding: 5px;
+  }
+  form.ng-invalid {
+    border-left: none !important;
+  }
+}

@@ -68,21 +68,31 @@ ngx-datatable {
 }
 
 
-:host /deep/ .datatable-body-row.active .datatable-row-group {
-  background-color: #1976D2 !important;
-}
-
-
-:host /deep/ .datatable-body-row {
+:host /deep/ .datatable-body-row{
   height: 30px !important;
-}
-
-:host /deep/ .datatable-body-cell {
-  font-size: 12px !important;
-  //padding: 5px 5px !important;
-  padding-bottom: 15px !important;
-  padding-top: 8px !important;
-  padding-left: 15px !important;
+  &.active .datatable-row-group {
+    background-color: #1976D2 !important;
+    .datatable-body-cell{
+      color: #fff;
+      button{
+        color:#fff !important;
+      }
+    }
+    button:focus{
+      outline: none;
+      box-shadow: none !important;
+    }
+  }
+  .datatable-body-cell {
+    font-size: 12px !important;
+    //padding: 5px 5px !important;
+    padding-bottom: 15px !important;
+    padding-top: 8px !important;
+    padding-left: 15px !important;
+  }
+  .datatable-footer-inner{
+    padding-top: 5px;
+  }
 }
 
 :host /deep/ .datatable-body-cell i {
@@ -105,3 +115,44 @@ button[disabled] {
   height: 20px !important;
   font-size: 10px !important;
 }
+
+/* pnx-validation-popup{
+  position: absolute;
+    bottom: -28px;
+    right: 5px;
+  p{
+    margin: 0;
+  }
+} */
+
+button:focus, button:active{
+  outline: none;
+  box-shadow: none !important;
+}
+
+
+@media screen and (max-width: 1260px){
+  :host /deep/ .datatable-footer-inner  {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: center;
+      width: 100%;
+      height: auto !important;
+      padding-top: 5px;
+      .datatable-pager{
+        width: fit-content;
+        flex: inherit !important;
+      }
+  }
+}
+
+/* @media screen and (min-width: 1340px) {
+  pnx-validation-popup{
+    bottom: -8px;
+  }
+} */

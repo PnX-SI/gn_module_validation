@@ -13,6 +13,10 @@ td,th {
   padding: 8px;
 }
 
+button#showDef, button#hideDef{
+  width: 100% !important;
+}
+
 /*
 tr:nth-child(even) {
   background-color: #dddddddd;

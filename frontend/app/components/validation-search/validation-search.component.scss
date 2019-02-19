@@ -66,20 +66,35 @@ legend {
 
 .search-btn {
   float: right;
-  margin-bottom: 15px;
+  //margin-bottom: 15px;
 }
 
 .search-wrapper {
-  max-height: 92vh;
-  overflow: auto;
+  //max-height: 92vh;
+  //overflow: auto;
+  height: 100%;
 }
 
 .relative {
   position: relative;
+  height: calc(100vh - 60px);
 }
 
-.absolute {
+.absolute:first-of-type {
   //position: absolute;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.fieldset-wrapper{
+  overflow-y: auto;
+}
+
+.card-body{
+  padding: 5px;
+  max-height: 50px;
 }
 
 :host /deep/ ngb-typeahead-window > button > span {
@@ -89,4 +104,10 @@ legend {
 
 :host /deep/ ngb-typeahead-window > button {
   padding-left: 5px;
+}
+
+@media screen and (max-width: 770px) {
+  .relative {
+    height: auto !important;
+  }
 }

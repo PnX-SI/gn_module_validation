@@ -106,6 +106,16 @@ export class ValidationComponent implements OnInit {
     );
   }
 
+  mooveButton() {
+    this.searchBarHidden = !this.searchBarHidden;
+    // const test = document.getElementById('sidebar');
+    // if (test.classList.contains('show')) {
+    //   this.marginButton = 0;
+    // } else {
+    //   this.marginButton = 248;
+    // }
+  }
+
   onSubmitForm() {
     // mark as dirty to avoid set limit=100 when download
     this._fs.searchForm.markAsDirty();

@@ -20,7 +20,7 @@ export const ModuleConfig = {
   1,
   2
  ],
- "ID_MODULE": 18,
+ "ID_MODULE": 6,
  "LIST_COLUMNS_FRONTEND": [
   {
    "max_width": 40,

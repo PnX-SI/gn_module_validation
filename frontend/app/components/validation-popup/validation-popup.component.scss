@@ -5,11 +5,6 @@
 
 }
 
-.modal-content {
-  background-color: #EAEAEA;
-  border:none;
-}
-
 label {
   text-align:left;
   color:#607D8B;
@@ -35,6 +30,20 @@ label:hover {
   border-bottom-width: 1px;
 }
 
+.modal-content {
+  background-color: #EAEAEA;
+  border:none;
+  &.ng-invalid{
+    border-left: none !important;
+  }
+}
+
+.modal-body{
+  #validButtons:not(:last-child) label {
+    color : #fff;
+  }
+}
+
 .modal-footer {
   //border-color:#0E4175;
   //border-top-width: 1px;
@@ -57,4 +66,21 @@ legend {
 
 #def {
   float: left;
+  width: 100%;
 }
+
+#hideDef{
+  width: 100%;
+}
+
+/* pnx-validation-popup{
+  position: absolute;
+    bottom: -28px;
+    right: 5px;
+}
+
+@media screen and (min-width: 1340px) {
+  pnx-validation-popup{
+    bottom: -8px;
+  }
+} */
