@@ -41,6 +41,8 @@ export class FormService {
       const control_name = 'area_' + area.id_type;
       this.searchForm.addControl(control_name, new FormControl(new Array()));
       const control = this.searchForm.controls[control_name];
+      console.log(control);
+      console.log(control_name);
       area['control'] = control;
     });
 
@@ -49,6 +51,7 @@ export class FormService {
     this.dynamycFormDef = DYNAMIC_FORM_DEF.filter(formDef => {
       return AppConfig.SYNTHESE.EXCLUDED_COLUMNS.indexOf(formDef.attribut_name) === -1;
     });
+    console.log(this.dynamycFormDef);
     this.formBuilded = true;
   }
 
@@ -64,6 +67,8 @@ export class FormService {
 
   formatParams() {
     const params = Object.assign({}, this.searchForm.value);
+    console.log("params: ")
+    console.log(params)
     const updatedParams = {};
     // tslint:disable-next-line:forin
     for (let key in params) {

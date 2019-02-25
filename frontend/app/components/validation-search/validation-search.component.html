@@ -2,6 +2,8 @@
   <div class="card search-wrapper">
     <div class="absolute">
       <div class="fieldset-wrapper">
+          <pnx-dynamic-form-generator [formGroup]="formService.searchForm" [formsDefinition]="formService.dynamycFormDef">
+            </pnx-dynamic-form-generator>
         <fieldset class="">
           <legend> Taxonomie </legend>
           <pnx-taxonomy label="{{'Taxon.Taxon' | translate }} " [parentFormControl]="formService.searchForm.controls.cd_nom"

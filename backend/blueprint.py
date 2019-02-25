@@ -57,44 +57,48 @@ def get_synthese_data(info_role):
         Params must have same synthese fields names
     """
 
-    filters = dict(request.args)
+    try:
+        filters = {key: request.args.getlist(key) for key, value in request.args.items()}
 
-    if 'limit' in filters:
-        result_limit = filters.pop('limit')[0]
-    else:
+        for key, value in filters.items():
+            if ',' in value[0]:
+                filters[key] = value[0].split(',')
+        
         result_limit = blueprint.config['NB_MAX_OBS_MAP']
 
-    allowed_datasets = TDatasets.get_user_datasets(info_role)
+        allowed_datasets = TDatasets.get_user_datasets(info_role)
 
-    q = DB.session.query(VLatestValidationForWebApp)
+        q = DB.session.query(VLatestValidationForWebApp)
 
-    q = filter_query_all_filters(VLatestValidationForWebApp, q, filters, info_role, allowed_datasets)
+        q = filter_query_all_filters(VLatestValidationForWebApp, q, filters, info_role, allowed_datasets)
 
-    q = q.order_by(
-        VLatestValidationForWebApp.validation_date.desc()
-    )
-
-    nb_total = 0
-
-    data = q.limit(result_limit)
-    columns = blueprint.config['COLUMNS_API_VALIDATION_WEB_APP'] + blueprint.config['MANDATORY_COLUMNS']
-
-
-    features = []
-
-    #DB.session.query(VValidation3ForWebApp).get(1).get_geofeature(columns=columns)
-    for d in data:
-        feature = d.get_geofeature(
-            columns=columns
+        q = q.order_by(
+            VLatestValidationForWebApp.validation_date.desc()
         )
-        feature['properties']['nom_vern_or_lb_nom'] = d.nom_vern if d.lb_nom is None else d.lb_nom
-        features.append(feature)
 
-    return {
-        'data': FeatureCollection(features),
-        'nb_obs_limited': nb_total == blueprint.config['NB_MAX_OBS_MAP'],
-        'nb_total': nb_total,
-    }
+        nb_total = 0
+
+        data = q.limit(result_limit)
+        columns = blueprint.config['COLUMNS_API_VALIDATION_WEB_APP'] + blueprint.config['MANDATORY_COLUMNS']
+
+
+        features = []
+
+        #DB.session.query(VValidation3ForWebApp).get(1).get_geofeature(columns=columns)
+        for d in data:
+            feature = d.get_geofeature(
+                columns=columns
+            )
+            feature['properties']['nom_vern_or_lb_nom'] = d.nom_vern if d.lb_nom is None else d.lb_nom
+            features.append(feature)
+
+        return {
+            'data': FeatureCollection(features),
+            'nb_obs_limited': nb_total == blueprint.config['NB_MAX_OBS_MAP'],
+            'nb_total': nb_total,
+        }
+    except Exception:
+        return 'INTERNAL SERVER ERROR ("get_synthese_data() error"): contactez l\'administrateur du site',500
 
 
 @blueprint.route('/statusNames', methods=['GET'])
@@ -116,7 +120,7 @@ def get_statusNames(info_role):
 @json_resp
 def post_status(info_role,id_synthese):
     try:
-        print('id_role = ', info_role.id_role)
+        #print('id_role = ', info_role.id_role)
 
         data = dict(request.get_json())
         validation_status = data['statut']
@@ -144,15 +148,12 @@ def post_status(info_role,id_synthese):
             synthese_id_source = select([Synthese.id_source]).where(Synthese.id_synthese == int(id))
             # get entity_source_pk_field value of the observation in TSources table with id_source value
             entity_source_pk_field = DB.session.execute(select([TSources.entity_source_pk_field]).where(TSources.id_source == synthese_id_source)).fetchone()[0]
-            # get id_table_location in BibTablesLocation by decomposition of entity_source_pk_field in schema_name and table_name values
-            id_table_loc = \
-            DB.session.query(BibTablesLocation.id_table_location).\
-                filter(BibTablesLocation.schema_name == str(entity_source_pk_field).split('.')[0],\
-                       BibTablesLocation.table_name == str(entity_source_pk_field).split('.')[1])
-
-            if DB.session.execute(id_table_loc).fetchone() == None:
-                return 'INTERNAL SERVER ERROR : problem in BibTablesLocation.schema_name or .table_name / contactez l\'administrateur du site', 500
-
+            name_schema = str(entity_source_pk_field).split('.')[0]
+            name_table = str(entity_source_pk_field).split('.')[1]
+            # get id_table_location
+            id_table_loc = DB.session.query(func.gn_commons.get_table_location_id(name_schema,name_table));
+            if DB.session.execute(id_table_loc).fetchone()[0] == None:
+                return 'INTERNAL SERVER ERROR : no id_table_location / contactez l\'administrateur du site', 500
             # t_validations.uuid_attached_row:
             uuid = DB.session.query(Synthese.unique_id_sinp).filter(Synthese.id_synthese == int(id))
 
@@ -191,7 +192,7 @@ def post_status(info_role,id_synthese):
         return data
 
     except Exception:
-        return 'INTERNAL SERVER ERROR : contactez l\'administrateur du site',500
+        return 'INTERNAL SERVER ERROR ("post_status() error"): contactez l\'administrateur du site',500
 
 
 @blueprint.route('/definitions', methods=['GET'])
@@ -201,12 +202,15 @@ def get_definitions(info_role):
     """
         return validation status definitions stored in t_nomenclatures
     """
-    definitions = []
-    for key in blueprint.config['STATUS_INFO'].keys():
-        nomenclature_statut = DB.session.execute(select([TNomenclatures.mnemonique]).where(TNomenclatures.id_nomenclature == int(key))).fetchone()
-        nomenclature_definitions = DB.session.execute(select([TNomenclatures.definition_default]).where(TNomenclatures.id_nomenclature == int(key))).fetchone()
-        definitions.append({"status_id":key,"status":nomenclature_statut[0],"definition":nomenclature_definitions[0]})
-    return definitions
+    try:
+        definitions = []
+        for key in blueprint.config['STATUS_INFO'].keys():
+            nomenclature_statut = DB.session.execute(select([TNomenclatures.mnemonique]).where(TNomenclatures.id_nomenclature == int(key))).fetchone()
+            nomenclature_definitions = DB.session.execute(select([TNomenclatures.definition_default]).where(TNomenclatures.id_nomenclature == int(key))).fetchone()
+            definitions.append({"status_id":key,"status":nomenclature_statut[0],"definition":nomenclature_definitions[0]})
+        return definitions
+    except Exception:
+        return 'INTERNAL SERVER ERROR ("get_definitions() error") : contactez l\'administrateur du site',500
 
 
 @blueprint.route('/taxons_autocomplete', methods=['GET'])

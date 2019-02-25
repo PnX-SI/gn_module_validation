@@ -11,7 +11,6 @@ import { ToastrService } from 'ngx-toastr'
 import { ModuleConfig } from '../module.config';
 import { ValidationSearchComponent } from './validation-search/validation-search.component'
 import { FormService } from '../services/form.service';
-import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 
 @Component({
@@ -27,7 +26,6 @@ export class ValidationComponent implements OnInit {
   public statusNames;
   public statusKeys;
   public VALIDATION_CONFIG = ModuleConfig;
-  public awaitingForm: FormGroup;
 
   //public syntheseConfig = AppConfig.SYNTHESE;
   @Output() searchClicked = new EventEmitter();
@@ -38,13 +36,7 @@ export class ValidationComponent implements OnInit {
     private _commonService: CommonService,
     private toastr: ToastrService,
     private _fs: FormService,
-    private _fb: FormBuilder,
-  ) {
-    // form used for changing validation status
-    this.awaitingForm = this._fb.group({
-      awaiting : true
-    });
-  }
+  ) {}
 
   ngOnInit() {
     this.getStatusNames();
@@ -68,7 +60,8 @@ export class ValidationComponent implements OnInit {
         }
       },
       () => {
-        const initialData = { limit: this.VALIDATION_CONFIG.NB_MAX_OBS_MAP, 'id_nomenclature_valid_status': ModuleConfig.id_for_enAttenteDeValidation };
+        //const initialData = { limit: this.VALIDATION_CONFIG.NB_MAX_OBS_MAP };
+        const initialData = {}
         this.loadAndStoreData(initialData);
       }
     );
@@ -76,9 +69,11 @@ export class ValidationComponent implements OnInit {
   }
 
   loadAndStoreData(formatedParams) {
+    /*
     if (typeof(formatedParams['id_nomenclature_valid_status']) == 'object') {
       this.awaitingForm.controls['awaiting'].setValue(false);
     }
+    */
     this._ds.dataLoaded = false;
     this._ds.getSyntheseData(formatedParams).subscribe(
       result => {
@@ -116,20 +111,23 @@ export class ValidationComponent implements OnInit {
     // }
   }
 
+  /*
   onSubmitForm() {
     // mark as dirty to avoid set limit=100 when download
-    this._fs.searchForm.markAsDirty();
+    //this._fs.searchForm.markAsDirty();
     const updatedParams = this._fs.formatParams();
-    this.searchClicked.emit(updatedParams);
+    //this.searchClicked.emit(updatedParams);
     this.loadAndStoreData(updatedParams);
     this.selectedObs = [];
   }
+  */
 
   formatDate(unformatedDate) {
     const date = new Date(unformatedDate);
     return date.toLocaleDateString('fr-FR');
   }
 
+  /*
   onAwaitingClick() {
     if (this.awaitingForm.controls['awaiting'].value == true) {
       let param = { limit: this.VALIDATION_CONFIG.NB_MAX_OBS_MAP, , 'id_nomenclature_valid_status': ModuleConfig.id_for_enAttenteDeValidation };
@@ -138,6 +136,7 @@ export class ValidationComponent implements OnInit {
     }
     this.loadAndStoreData(param);
   }
+  */
 
   customColumns(feature) {
     // function pass to the LoadTableData maplist service function to format date

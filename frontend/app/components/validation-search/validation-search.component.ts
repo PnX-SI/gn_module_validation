@@ -43,8 +43,10 @@ export class ValidationSearchComponent implements OnInit {
 
   onSubmitForm() {
     // mark as dirty to avoid set limit=100 when download
-    this.formService.searchForm.markAsDirty();
+    //this.formService.searchForm.markAsDirty();
+    //console.log(this.formService.searchForm);
     const updatedParams = this.formService.formatParams();
+    console.log(updatedParams);
     this.searchClicked.emit(updatedParams);
   }
 
