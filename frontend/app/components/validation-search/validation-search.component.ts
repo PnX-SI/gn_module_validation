@@ -1,4 +1,5 @@
-import { Component, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { DataService } from '../../services/data.service';
 import { FormService } from '../../services/form.service';
@@ -15,6 +16,9 @@ import {
 } from 'angular-tree-component';
 import { ValidationTaxonAdvancedModalComponent } from './validation-taxon-advanced/validation-taxon-advanced.component';
 import { ValidationTaxonAdvancedStoreService } from './validation-taxon-advanced/validation-taxon-advanced-store.service';
+import { NomenclatureComponent } from '@geonature_common/form/nomenclature/nomenclature.component';
+import { DataFormService } from '@geonature_common/form/data-form.service';
+
 
 @Component({
   selector: 'pnx-validation-search',
@@ -24,21 +28,28 @@ import { ValidationTaxonAdvancedStoreService } from './validation-taxon-advanced
 })
 
 export class ValidationSearchComponent implements OnInit {
-
   public AppConfig = AppConfig;
   public control_keys;
   public taxonApiEndPoint = `${AppConfig.API_ENDPOINT}/validation/taxons_autocomplete`;
   @Output() searchClicked = new EventEmitter();
+  public values;
 
   constructor(
     public dataService: DataService,
     public formService: FormService,
     public ngbModal: NgbModal,
     public mapService: MapService,
-    private _storeService: ValidationTaxonAdvancedStoreService
-  ) {}
+    private _storeService: ValidationTaxonAdvancedStoreService,
+    public nomenclat: NomenclatureComponent,
+    private _dfs: DataFormService
+  ) {
+  }
 
   ngOnInit() {
+    
+    this._dfs.getNomenclatures('STATUT_VALID').subscribe(data => {
+      this.values = data[0].values;
+    });
   }
 
   onSubmitForm() {
@@ -53,7 +64,7 @@ export class ValidationSearchComponent implements OnInit {
   refreshFilters() {
     this.formService.selectedtaxonFromComponent = [];
     this.formService.selectedCdRefFromTree = [];
-    this.formService.dynamycFormDef = [];
+    //this.formService.dynamycFormDef = [];
     this.formService.searchForm.reset();
 
     // refresh taxon tree

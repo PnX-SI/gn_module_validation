@@ -1,9 +1,21 @@
+<h3> FILTRES </h3>
 <div class="relative">
   <div class="card search-wrapper">
     <div class="absolute">
       <div class="fieldset-wrapper">
-          <pnx-dynamic-form-generator [formGroup]="formService.searchForm" [formsDefinition]="formService.dynamycFormDef">
-            </pnx-dynamic-form-generator>
+
+        <fieldset class="">
+            <legend> Statut de validation </legend>
+          
+          <div>
+              <pnx-multiselect [values]="values" [parentFormControl]="formService.searchForm.controls.id_nomenclature_valid_status" keyLabel="label_fr"
+                keyValue="id_nomenclature" [label]="label" debounceTime="500" [searchBar]="searchBar" [disabled]="disabled"
+                [displayAll]="displayAll" [bindAllItem]="bindAllItem">
+              </pnx-multiselect>
+          </div>
+
+        </fieldset>
+
         <fieldset class="">
           <legend> Taxonomie </legend>
           <pnx-taxonomy label="{{'Taxon.Taxon' | translate }} " [parentFormControl]="formService.searchForm.controls.cd_nom"
@@ -102,7 +114,7 @@
         </fieldset>
 
         <fieldset>
-          <legend> Filtres avancés </legend>
+          <legend> Autres filtres </legend>
 
           <button class="btn btn-xs btn-outline-secondary advanced" data-toggle="collapse" data-target="#OccAdvanved"
             aria-expanded="false" aria-controls="OccAdvanved">

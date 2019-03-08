@@ -24,6 +24,7 @@ export class FormService {
       observers: null,
       id_dataset: null,
       id_acquisition_frameworks: null,
+      id_nomenclature_valid_status: null,
       date_min: null,
       date_max: null,
       period_start: null,

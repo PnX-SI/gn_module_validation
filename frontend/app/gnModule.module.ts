@@ -18,6 +18,7 @@ import { DataService } from "./services/data.service";
 import { FormService } from "./services/form.service";
 import { HttpClient } from '@angular/common/http';
 import { MatTabsModule } from '@angular/material/tabs';
+import { NomenclatureComponent } from '@geonature_common/form/nomenclature/nomenclature.component';
 
 // my module routing
 const routes: Routes = [
@@ -37,7 +38,7 @@ const routes: Routes = [
   ],
   imports: [GN2CommonModule, RouterModule.forChild(routes), CommonModule, TreeModule,MatTabsModule],
   entryComponents: [ValidationTaxonAdvancedModalComponent,ValidationModalInfoObsComponent],
-  providers: [DataService,FormService,ValidationTaxonAdvancedStoreService,DynamicFormService],
+  providers: [DataService,FormService,ValidationTaxonAdvancedStoreService,DynamicFormService,NomenclatureComponent],
   bootstrap: []
 })
 export class GeonatureModule {}

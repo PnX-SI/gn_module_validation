@@ -130,14 +130,6 @@ export const DYNAMIC_FORM_DEF = [
   },
   {
     type_widget: 'nomenclature',
-    attribut_label: 'Statut de validation',
-    attribut_name: 'id_nomenclature_valid_status',
-    code_nomenclature_type: 'STATUT_VALID',
-    required: false,
-    multi_select: true
-  },
-  {
-    type_widget: 'nomenclature',
     attribut_label: "Type d'objet géographique",
     attribut_name: 'id_nomenclature_geo_object_nature',
     code_nomenclature_type: 'NAT_OBJ_GEO',

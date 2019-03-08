@@ -30,6 +30,7 @@ export class ValidationDefinitionsComponent implements OnInit {
 
   constructor(
     public searchService: DataService,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit() {
@@ -49,7 +50,7 @@ export class ValidationDefinitionsComponent implements OnInit {
           // show error message if other server error
           this.toastr.error(err.error);
         }
-      },
+      });
   }
 
 }

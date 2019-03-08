@@ -77,14 +77,6 @@ export class ValidationComponent implements OnInit {
     this._ds.dataLoaded = false;
     this._ds.getSyntheseData(formatedParams).subscribe(
       result => {
-        if (result['nb_obs_limited']) {
-          const modalRef = this._modalService.open(SyntheseModalDownloadComponent, {
-            size: 'lg'
-          });
-          const formatedParams = this._fs.formatParams();
-          modalRef.componentInstance.queryString = this.searchService.buildQueryUrl(formatedParams);
-          modalRef.componentInstance.tooManyObs = true;
-        }
         this._mapListService.geojsonData = result['data'];
         this._mapListService.loadTableData(result['data'], this.customColumns.bind(this));
         this._mapListService.idName = 'id_synthese';
@@ -92,10 +84,13 @@ export class ValidationComponent implements OnInit {
         this._ds.dataLoaded = true;
         this.serverData = result['data'];
       },
-      error => {
-        this._ds.dataLoaded = true;
-        if (error.status !== 403) {
-          this._commonService.translateToaster('error', 'ErrorMessage');
+      err => {
+        if (err.statusText === 'Unknown Error') {
+          // show error message if no connexion
+          this.toastr.error('ERROR: IMPOSSIBLE TO CONNECT TO SERVER (check your connexion)');
+        } else {
+          // show error message if other server error
+          this.toastr.error(err.error);
         }
       }
     );
@@ -111,32 +106,12 @@ export class ValidationComponent implements OnInit {
     // }
   }
 
-  /*
-  onSubmitForm() {
-    // mark as dirty to avoid set limit=100 when download
-    //this._fs.searchForm.markAsDirty();
-    const updatedParams = this._fs.formatParams();
-    //this.searchClicked.emit(updatedParams);
-    this.loadAndStoreData(updatedParams);
-    this.selectedObs = [];
-  }
-  */
 
   formatDate(unformatedDate) {
     const date = new Date(unformatedDate);
     return date.toLocaleDateString('fr-FR');
   }
 
-  /*
-  onAwaitingClick() {
-    if (this.awaitingForm.controls['awaiting'].value == true) {
-      let param = { limit: this.VALIDATION_CONFIG.NB_MAX_OBS_MAP, , 'id_nomenclature_valid_status': ModuleConfig.id_for_enAttenteDeValidation };
-    } else {
-      let param = { limit: this.VALIDATION_CONFIG.NB_MAX_OBS_MAP };
-    }
-    this.loadAndStoreData(param);
-  }
-  */
 
   customColumns(feature) {
     // function pass to the LoadTableData maplist service function to format date
