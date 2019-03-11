@@ -53,6 +53,7 @@ export class ValidationPopupComponent implements OnInit {
 
   ngOnInit() {
   }
+  
 
   onSubmit(value) {
     // post validation status form ('statusForm') for one or several observation(s) to backend/routes

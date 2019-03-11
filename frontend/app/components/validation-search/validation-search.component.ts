@@ -57,7 +57,6 @@ export class ValidationSearchComponent implements OnInit {
     //this.formService.searchForm.markAsDirty();
     //console.log(this.formService.searchForm);
     const updatedParams = this.formService.formatParams();
-    console.log(updatedParams);
     this.searchClicked.emit(updatedParams);
   }
 
@@ -71,7 +70,9 @@ export class ValidationSearchComponent implements OnInit {
     this._storeService.taxonTreeState = {};
 
     // remove layers draw in the map
-    this.mapService.removeAllLayers(this.mapService.map, this.mapService.releveFeatureGroup);
+    if (this.mapService.releveFeatureGroup != undefined) {
+      this.mapService.removeAllLayers(this.mapService.map, this.mapService.releveFeatureGroup);
+    }
   }
 
   openModal() {

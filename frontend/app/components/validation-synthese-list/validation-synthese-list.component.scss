@@ -28,6 +28,17 @@
   color:#212121;
 }
 
+.modified_data:hover .modif_data{
+  position: absolute;
+  visibility: visible;
+  color: black;
+}
+
+.modif_data {
+  visibility: hidden;
+  z-index: 1;
+}
+
 .material-icons{
   padding-top: 3px;
 }

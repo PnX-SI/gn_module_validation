@@ -60,7 +60,6 @@ export class ValidationComponent implements OnInit {
         }
       },
       () => {
-        //const initialData = { limit: this.VALIDATION_CONFIG.NB_MAX_OBS_MAP };
         const initialData = {}
         this.loadAndStoreData(initialData);
       }
@@ -69,14 +68,10 @@ export class ValidationComponent implements OnInit {
   }
 
   loadAndStoreData(formatedParams) {
-    /*
-    if (typeof(formatedParams['id_nomenclature_valid_status']) == 'object') {
-      this.awaitingForm.controls['awaiting'].setValue(false);
-    }
-    */
     this._ds.dataLoaded = false;
     this._ds.getSyntheseData(formatedParams).subscribe(
       result => {
+        console.log(result);
         this._mapListService.geojsonData = result['data'];
         this._mapListService.loadTableData(result['data'], this.customColumns.bind(this));
         this._mapListService.idName = 'id_synthese';

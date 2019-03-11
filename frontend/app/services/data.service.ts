@@ -57,4 +57,9 @@ export class DataService {
     return this._http.get<GeoJSON>(`${AppConfig.API_ENDPOINT}/synthese/vsynthese/${id_synthese}`);
   }
 
+  getObservatorEmail(id_synthese) {
+    return this._http.get<GeoJSON>(`${AppConfig.API_ENDPOINT}/validation/email/${id_synthese}`, {
+    });  
+  }
+
 }

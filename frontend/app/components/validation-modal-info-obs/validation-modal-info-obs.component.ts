@@ -1,3 +1,4 @@
+import { stringify } from 'wellknown';
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { DataService } from '../../services/data.service';
 import { DataFormService } from '@geonature_common/form/data-form.service';
@@ -36,6 +37,8 @@ export class ValidationModalInfoObsComponent implements OnInit {
   public statusKeys;
   public statusNames;
   public MapListService;
+  public email;
+  public mailto: String;
 
   @Input() inputSyntheseData: GeoJSON;
   @Input() oneObsSynthese: any;
@@ -61,6 +64,7 @@ export class ValidationModalInfoObsComponent implements OnInit {
     this.id_synthese = this.oneObsSynthese.id_synthese;
     this.loadOneSyntheseReleve(this.oneObsSynthese);
     this.loadValidationHistory(this.id_synthese);
+    this.loadObservatorEmail(this.id_synthese);
     // get all id_synthese of the filtered observations:
     this.filteredIds = [];
     for (let id in this.mapListService.tableData) {
@@ -182,6 +186,29 @@ export class ValidationModalInfoObsComponent implements OnInit {
       );
   }
 
+  loadObservatorEmail(id) {
+    this._dataService.getObservatorEmail(id)
+      .subscribe(
+        data => {
+          this.email = data;
+          console.log(this.email);
+        },
+        err => {
+          console.log(err.error);
+          if (err.statusText === 'Unknown Error') {
+            // show error message if no connexion
+            this.toastr.error('ERROR: IMPOSSIBLE TO CONNECT TO SERVER (check your connexion)');
+          } else {
+            // show error message if other server error
+            this.toastr.error(err.error);
+          }
+        },
+        () => {
+          this.mailto = this.build_mailto(this.email);
+        }
+      );
+  }
+
   increaseObs() {
     // add 1 to find new position
     this.position = this.filteredIds.indexOf(this.id_synthese) + 1;
@@ -196,6 +223,7 @@ export class ValidationModalInfoObsComponent implements OnInit {
     this.id_synthese = this.filteredIds[this.filteredIds.indexOf(this.id_synthese) + 1];
     this.loadOneSyntheseReleve(this.mapListService.tableData[this.position]);
     this.loadValidationHistory(this.id_synthese);
+    this.loadObservatorEmail(this.id_synthese);
     this.isPrevButtonValid = true;
     this.statusForm.reset();
     this.edit = false;
@@ -217,6 +245,7 @@ export class ValidationModalInfoObsComponent implements OnInit {
 
     this.loadOneSyntheseReleve(this.mapListService.tableData[this.position]);
     this.loadValidationHistory(this.id_synthese);
+    this.loadObservatorEmail(this.id_synthese);
     this.isNextButtonValid = true;
     this.statusForm.reset();
     this.edit = false;
@@ -233,6 +262,10 @@ export class ValidationModalInfoObsComponent implements OnInit {
     link.href = url_source + '/' + id_pk_source;
     link.setAttribute('visibility', 'hidden');
     link.click();
+  }
+
+  build_mailto(email) {
+    return stringify("mailto:" + email);
   }
 
   onSubmit(value) {

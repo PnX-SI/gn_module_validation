@@ -1,17 +1,25 @@
-<h3> FILTRES </h3>
 <div class="relative">
   <div class="card search-wrapper">
     <div class="absolute">
       <div class="fieldset-wrapper">
 
+          <h4> FILTRES </h4>
+
+
         <fieldset class="">
-            <legend> Statut de validation </legend>
+            <legend> Validation </legend>
           
           <div>
+              <small> Statut de validation</small>
               <pnx-multiselect [values]="values" [parentFormControl]="formService.searchForm.controls.id_nomenclature_valid_status" keyLabel="label_fr"
                 keyValue="id_nomenclature" [label]="label" debounceTime="500" [searchBar]="searchBar" [disabled]="disabled"
                 [displayAll]="displayAll" [bindAllItem]="bindAllItem">
               </pnx-multiselect>
+          </div>
+
+          <div id="modif" [formGroup]="formService.searchForm">
+              <input id="modif_checkbox" value="true" formControlName="modif_since_validation" type="checkbox" checked/>
+              <label for="modif_checkbox"> <small>données modifiées depuis la dernière validation</small> </label>
           </div>
 
         </fieldset>

@@ -55,6 +55,7 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
   private _latestWidth: number;
   public id_same_coordinates = []; // list of observation ids having same geographic coordinates
   public validationStatus;
+  public modif_text = 'Attention données modifiées depuis la dernière validation';
 
   @Input() inputSyntheseData: GeoJSON;
   @Input() statusNames: any;
@@ -82,6 +83,7 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
     this.group = new L.featureGroup();
     this.onMapClick();
     this.onTableClick();
+    console.log(this.mapListService.tableData);
   }
 
   onMapClick() {
@@ -285,11 +287,13 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
     modalRef.componentInstance.oneObsSynthese = row;
     modalRef.componentInstance.statusNames = this.statusNames;
     modalRef.componentInstance.mapListService = this.mapListService;
-    modalRef.componentInstance.modifiedStatus.subscribe((modifiedStatus) => {
-      for (let obs in this.mapListService.tableData) {
-        if (this.mapListService.tableData[obs].id_synthese == modifiedStatus.id_synthese) {
-          this.mapListService.tableData[obs].id_nomenclature_valid_status = modifiedStatus.new_status;
-          this.mapListService.tableData[obs].validation_auto = '';
+    modalRef.componentInstance.modifiedStatus.subscribe(
+      (modifiedStatus) => {
+        for (let obs in this.mapListService.tableData) {
+          if (this.mapListService.tableData[obs].id_synthese == modifiedStatus.id_synthese) {
+            this.mapListService.tableData[obs].id_nomenclature_valid_status = modifiedStatus.new_status;
+            this.mapListService.tableData[obs].validation_auto = '';
+            //this.mapListService.tableData[obs].validation_date = modifiedStatus.validation_date;
         }
       }
     });

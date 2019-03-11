@@ -12,7 +12,8 @@ export const ModuleConfig = {
   "date_min",
   "observers",
   "nom_valide",
-  "dataset_name"
+  "dataset_name",
+  "validation_date"
  ],
  "DISPLAY_TAXON_TREE": true,
  "ICON_FOR_AUTOMATIC_VALIDATION": "computer",
@@ -46,12 +47,13 @@ export const ModuleConfig = {
    "max_width": 200,
    "name": "Observateur",
    "prop": "observers"
-  }
+  },
  ],
  "MANDATORY_COLUMNS": [
   "entity_source_pk_value",
   "url_source",
-  "cd_nom"
+  "cd_nom",
+  "meta_update_date"
  ],
  "MAP_POINT_STYLE": {
   "originStyle": {

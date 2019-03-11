@@ -1,5 +1,3 @@
-<h3> OBSERVATIONS </h3>
-
 <!--Table-->
 <ngx-datatable (window:resize)="onResize($event)" #table class="material striped margin-top-xs table-size expandable"
   [rows]="mapListService.tableData" [columns]="VALIDATION_CONFIG.LIST_COLUMNS_FRONTEND" [columnMode]="'force'"
@@ -12,6 +10,20 @@
 
   <!-- DATA COLOMNS -->
   <ngx-datatable-column [checkboxable]="true" [maxWidth]="10"></ngx-datatable-column>
+
+  <ngx-datatable-column maxWidth="5">
+      <ng-template let-column="column" ngx-datatable-header-template>
+        <span></span>
+      </ng-template>
+       <ng-template let-row="row" ngx-datatable-cell-template>
+         <div class="modified_data">
+          <span *ngIf="row.meta_update_date > row.validation_date">
+            <i class="material-icons">warning</i>
+          </span>
+          <span [ngStyle]="{'background': 'white'}" *ngIf="row.meta_update_date > row.validation_date" class="modif_data">{{modif_text}}</span>
+        </div>
+       </ng-template>
+    </ngx-datatable-column>
 
   <ngx-datatable-column *ngFor="let col of VALIDATION_CONFIG.LIST_COLUMNS_FRONTEND" name="{{col.name}}" prop="{{col.prop}}"
     maxWidth="{{col.max_width}}">

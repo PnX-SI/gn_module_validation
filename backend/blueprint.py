@@ -27,7 +27,7 @@ from geonature.core.gn_synthese.models import (
 
 from geonature.core.gn_commons.models import BibTablesLocation
 
-from geonature.core.gn_synthese.utils.query import filter_query_all_filters
+from .query import filter_query_all_filters
 
 from geonature.utils.env import DB
 
@@ -269,3 +269,18 @@ def get_hist(info_role,id_synthese):
 
     except(Exception):
         return 'INTERNAL SERVER ERROR ("get_hist() error"): contactez l\'administrateur du site',500
+
+
+@blueprint.route('/email/<id_synthese>', methods=['GET'])
+@json_resp
+def get_observator_email(id_synthese):
+    """
+        Retourne un l'email de l'observateur
+        pour l'observation id_synthese
+    """
+    try:
+        q = DB.session.query(func.gn_commons.get_observator_email(id_synthese));
+        data = q.one()
+        return str(data[0])
+    except(Exception):
+        return 'INTERNAL SERVER ERROR ("get_observator_email(id_synthese) error"): contactez l\'administrateur du site',500

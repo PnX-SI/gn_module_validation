@@ -12,15 +12,17 @@ DEFAULT_COLUMNS_API_VALIDATION = [
     'date_min',
     'observers',
     'nom_valide',
-    'dataset_name'
+    'dataset_name',
+    'validation_date'
 ]
 
-# Colonnes renvoyer par l'API synthese qui sont obligatoires pour que les fonctionnalités
-#  front foncitonnent
+# Colonnes renvoyees par l'API synthese qui sont obligatoires pour que les fonctionnalités
+#  front fonctionnent
 MANDATORY_COLUMNS = [
     'entity_source_pk_value',
     'url_source',
-    'cd_nom'
+    'cd_nom',
+    'meta_update_date'
 ]
 
 # CONFIG MAP-LIST
