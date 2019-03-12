@@ -11,12 +11,13 @@ import {
   OnDestroy
 } from '@angular/core';
 
-import { Map,
-         GeoJSON,
-         Layer,
-         FeatureGroup,
-         Marker,
-         LatLng
+import {
+  Map,
+  GeoJSON,
+  Layer,
+  FeatureGroup,
+  Marker,
+  LatLng
 } from 'leaflet';
 
 import { MapListService } from '@geonature_common/map-list/map-list.service';
@@ -47,7 +48,7 @@ import { ToastrService } from 'ngx-toastr'
 export class ValidationSyntheseListComponent implements OnInit, OnChanges, AfterContentChecked {
 
   public VALIDATION_CONFIG = ModuleConfig;
-  selectedObs : Array<number> = []; // list of id_synthese values for selected rows
+  selectedObs: Array<number> = []; // list of id_synthese values for selected rows
   coordinates_list = []; // list of coordinates for selected rows
   group: featureGroup;
   marker: marker;
@@ -74,7 +75,7 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
     private _ms: MapService,
     public formService: FormService,
     private toastr: ToastrService
-  ) {}
+  ) { }
 
   ngOnInit() {
     // get wiewport height to set the number of rows in the tabl
@@ -83,7 +84,7 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
     this.group = new L.featureGroup();
     this.onMapClick();
     this.onTableClick();
-    console.log(this.mapListService.tableData);
+    //console.log(this.mapListService.tableData);
   }
 
   onMapClick() {
@@ -130,7 +131,7 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
         }
       },
       () => {
-        //console.log(this.statusNames);
+        this.deselectAll();
       }
     );
 
@@ -153,7 +154,6 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
     if (this.table && this.table.element.clientWidth !== this._latestWidth) {
       this._latestWidth = this.table.element.clientWidth;
     }
-
   }
 
   setOriginStyleToAll() {
@@ -198,14 +198,14 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
       if (this.mapListService.layerDict[obs].feature.geometry.type === 'Polygon') {
         let coordinates = this.mapListService.layerDict[obs].feature.geometry.coordinates[0];
         for (let coord of coordinates) {
-          this.marker = new L.marker([coord[1],coord[0]);
+          this.marker = new L.marker([coord[1], coord[0]);
           this.marker.addTo(this.group);
           this.coordinates_list.push(JSON.stringify(coord));
         }
       } else {
         let coordinates = this.mapListService.layerDict[obs].feature.geometry.coordinates;
         if (this.coordinates_list.indexOf(JSON.stringify(coordinates)) == -1) {
-          this.marker = new L.marker([coordinates[1],coordinates[0]);
+          this.marker = new L.marker([coordinates[1], coordinates[0]);
           this.marker.addTo(this.group);
           this.coordinates_list.push(JSON.stringify(coordinates));
         }
@@ -294,9 +294,9 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
             this.mapListService.tableData[obs].id_nomenclature_valid_status = modifiedStatus.new_status;
             this.mapListService.tableData[obs].validation_auto = '';
             //this.mapListService.tableData[obs].validation_date = modifiedStatus.validation_date;
+          }
         }
-      }
-    });
+      });
   }
 
 }

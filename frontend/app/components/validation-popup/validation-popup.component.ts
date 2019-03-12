@@ -28,6 +28,7 @@ export class ValidationPopupComponent implements OnInit {
   public statusForm: FormGroup;
   public VALIDATION_CONFIG = ModuleConfig;
   public status;
+  public pluriel;
 
   @Input() observations : Array<number>;
   @Input() nbTotalObservation : number;
@@ -52,6 +53,7 @@ export class ValidationPopupComponent implements OnInit {
 
 
   ngOnInit() {
+
   }
   
 
@@ -103,6 +105,14 @@ export class ValidationPopupComponent implements OnInit {
     this.valStatus.emit(this.statusForm.controls['statut'].value);
   }
 
+  definePluriel() {
+    if (this.observations.length === 1) {
+      return '';
+    } else {
+      return 's';
+    }
+  }
+
   isAccess() {
     // disable access validation button if no row is checked
     if (this.observations.length === 0) {
@@ -117,6 +127,7 @@ export class ValidationPopupComponent implements OnInit {
       this.modalRef = this.modalService.open(content, {
         centered: true, size: "lg", backdrop: 'static', windowClass: 'dark-modal'
       });
+      this.pluriel = this.definePluriel();
   }
 
   closeModal() {

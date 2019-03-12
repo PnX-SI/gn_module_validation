@@ -47,7 +47,7 @@ export class ValidationModalInfoObsComponent implements OnInit {
   @ViewChild('table') table: DatatableComponent;
 
   constructor(
-    //public mapListService: MapListService,
+    public mapListService: MapListService,
     private _gnDataService: DataFormService,
     private _dataService: DataService,
     public activeModal: NgbActiveModal,

@@ -71,7 +71,7 @@ export class ValidationComponent implements OnInit {
     this._ds.dataLoaded = false;
     this._ds.getSyntheseData(formatedParams).subscribe(
       result => {
-        console.log(result);
+        //console.log(result);
         this._mapListService.geojsonData = result['data'];
         this._mapListService.loadTableData(result['data'], this.customColumns.bind(this));
         this._mapListService.idName = 'id_synthese';
