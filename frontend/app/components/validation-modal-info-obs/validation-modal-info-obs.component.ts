@@ -39,6 +39,7 @@ export class ValidationModalInfoObsComponent implements OnInit {
   public MapListService;
   public email;
   public mailto: String;
+  public showEmail;
 
   @Input() inputSyntheseData: GeoJSON;
   @Input() oneObsSynthese: any;
@@ -87,6 +88,7 @@ export class ValidationModalInfoObsComponent implements OnInit {
     }
 
     this.edit = false;
+    this.showEmail = false;
   }
 
   getStatusNames() {
@@ -210,6 +212,7 @@ export class ValidationModalInfoObsComponent implements OnInit {
   }
 
   increaseObs() {
+    this.showEmail = false;
     // add 1 to find new position
     this.position = this.filteredIds.indexOf(this.id_synthese) + 1;
     // disable next button if last observation
@@ -231,6 +234,7 @@ export class ValidationModalInfoObsComponent implements OnInit {
   }
 
   decreaseObs() {
+    this.showEmail = false;
     // substract 1 to find new position
     this.position = this.filteredIds.indexOf(this.id_synthese) - 1;
     // disable previous button if first observation
@@ -252,7 +256,13 @@ export class ValidationModalInfoObsComponent implements OnInit {
 
   }
 
+  isEmail() {
+    this.showEmail = true;
+    return this.showEmail;
+  }
+
   closeModal() {
+    this.showEmail = false;
     this.activeModal.close();
   }
 

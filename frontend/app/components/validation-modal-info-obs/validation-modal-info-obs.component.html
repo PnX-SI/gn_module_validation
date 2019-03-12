@@ -73,6 +73,17 @@
           </button>
           <br>
           <b> Observation de : </b> {{selectedObs?.observers}}
+          <span><button (click)="isEmail()" class="btn-xs">Afficher l'email de l'observateur</button>
+          
+            <span *ngIf="showEmail">
+              <span *ngIf="email !== 'None'; else elseBlock2">
+                  <a href="'mailto:'+ email">{{email}}</a>
+              </span>
+              <ng-template #elseBlock2>
+                  <span>Aucun email disponible pour l'observateur</span>
+              </ng-template>
+            </span>
+          </span>
           <br>
 
           <span *ngIf="selectedObs?.date_min != selectedObs?.date_max; else elseBlock">
@@ -82,16 +93,6 @@
             <b> Date : </b>{{selectedObs?.date_min}}
           </ng-template>
           <br>
-
-          <div>
-              <A HREF="'mailto:'+ email">{{email}}</A>
-          </div>
-          <div>
-              <span>Aucun email disponible pour l'observateur</span>
-          </div>
-          
-
-
 
         </span>
 
