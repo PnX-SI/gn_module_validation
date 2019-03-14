@@ -19,6 +19,7 @@ import { FormService } from '../services/form.service';
   templateUrl: 'validation.component.html'
 })
 
+
 export class ValidationComponent implements OnInit {
 
   public serverData;
@@ -30,6 +31,7 @@ export class ValidationComponent implements OnInit {
   //public syntheseConfig = AppConfig.SYNTHESE;
   @Output() searchClicked = new EventEmitter();
 
+
   constructor(
     public _ds: DataService,
     private _mapListService: MapListService,
@@ -38,9 +40,11 @@ export class ValidationComponent implements OnInit {
     private _fs: FormService,
   ) {}
 
+
   ngOnInit() {
     this.getStatusNames();
   }
+
 
   getStatusNames() {
 
@@ -67,6 +71,7 @@ export class ValidationComponent implements OnInit {
 
   }
 
+
   loadAndStoreData(formatedParams) {
     this._ds.dataLoaded = false;
     this._ds.getSyntheseData(formatedParams).subscribe(
@@ -90,6 +95,7 @@ export class ValidationComponent implements OnInit {
       }
     );
   }
+
 
   mooveButton() {
     this.searchBarHidden = !this.searchBarHidden;
@@ -124,4 +130,6 @@ export class ValidationComponent implements OnInit {
     }
     return feature;
   }
+  
 }
+

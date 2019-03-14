@@ -36,9 +36,29 @@ const routes: Routes = [
     ValidationTaxonAdvancedModalComponent,
     ValidationModalInfoObsComponent
   ],
-  imports: [GN2CommonModule, RouterModule.forChild(routes), CommonModule, TreeModule,MatTabsModule],
-  entryComponents: [ValidationTaxonAdvancedModalComponent,ValidationModalInfoObsComponent],
-  providers: [DataService,FormService,ValidationTaxonAdvancedStoreService,DynamicFormService,NomenclatureComponent],
+
+  imports: [
+    GN2CommonModule, 
+    RouterModule.forChild(routes), 
+    CommonModule, 
+    TreeModule,
+    MatTabsModule
+  ],
+
+  entryComponents: [
+    ValidationTaxonAdvancedModalComponent,
+    ValidationModalInfoObsComponent
+  ],
+
+  providers: [
+    DataService,
+    FormService,
+    ValidationTaxonAdvancedStoreService,
+    DynamicFormService,
+    NomenclatureComponent
+  ],
+
   bootstrap: []
 })
+
 export class GeonatureModule {}

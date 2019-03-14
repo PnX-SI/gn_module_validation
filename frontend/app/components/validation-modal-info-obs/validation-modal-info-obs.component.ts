@@ -66,6 +66,7 @@ export class ValidationModalInfoObsComponent implements OnInit {
     this.loadOneSyntheseReleve(this.oneObsSynthese);
     this.loadValidationHistory(this.id_synthese);
     this.loadObservatorEmail(this.id_synthese);
+
     // get all id_synthese of the filtered observations:
     this.filteredIds = [];
     for (let id in this.mapListService.tableData) {
@@ -80,6 +81,7 @@ export class ValidationModalInfoObsComponent implements OnInit {
     } else {
       this.isNextButtonValid = true;
     }
+
     // disable previousButton if first observation selected
     if (this.filteredIds.indexOf(this.id_synthese) == 0) {
       this.isPrevButtonValid = false;
@@ -92,7 +94,6 @@ export class ValidationModalInfoObsComponent implements OnInit {
   }
 
   getStatusNames() {
-
     this._dataService.getStatusNames().subscribe(
       result => {
         // get status names
@@ -112,11 +113,9 @@ export class ValidationModalInfoObsComponent implements OnInit {
         this.edit = true;
       }
     );
-
   }
 
   loadOneSyntheseReleve(oneObsSynthese) {
-
     this._dataService.getOneSyntheseObservation(oneObsSynthese.id_synthese)
       .subscribe(
         data => {
@@ -230,7 +229,6 @@ export class ValidationModalInfoObsComponent implements OnInit {
     this.isPrevButtonValid = true;
     this.statusForm.reset();
     this.edit = false;
-
   }
 
   decreaseObs() {
@@ -253,7 +251,6 @@ export class ValidationModalInfoObsComponent implements OnInit {
     this.isNextButtonValid = true;
     this.statusForm.reset();
     this.edit = false;
-
   }
 
   isEmail() {
@@ -275,7 +272,7 @@ export class ValidationModalInfoObsComponent implements OnInit {
   }
 
   build_mailto(email) {
-    return stringify("mailto:" + email);
+    return String("mailto:" + email);
   }
 
   onSubmit(value) {

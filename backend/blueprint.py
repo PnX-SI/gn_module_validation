@@ -284,3 +284,17 @@ def get_observator_email(id_synthese):
         return str(data[0])
     except(Exception):
         return 'INTERNAL SERVER ERROR ("get_observator_email(id_synthese) error"): contactez l\'administrateur du site',500
+
+
+@blueprint.route('/date/<id>', methods=['GET'])
+@json_resp
+def get_validation_date(id):
+    """
+        Retourne la date de validation
+        pour l'observation id_synthese
+    """
+    try:
+        date =  DB.session.execute(select([VLatestValidationForWebApp.validation_date]).where(VLatestValidationForWebApp.id_synthese == id)).fetchone()[0]
+        return str(date)
+    except(Exception):
+        return 'INTERNAL SERVER ERROR ("get_validation_date(id_synthese) error"): contactez l\'administrateur du site',500

@@ -21,8 +21,9 @@
             <div class="modal-body" id="bodyModal" style="padding-top:30px;">
 
               <div> <span id="nbObs">{{this.observations.length}}</span> observation{{pluriel}} sélectionnée{{pluriel}}  </div>
-              <br>
+              <div *ngIf="nbOffPage !== 0"> <i id="attention" class="material-icons">warning</i> Attention {{nbOffPage}} observation{{pluriel}} non-visible{{pluriel}} (hors de la page courante) sélectionnée{{pluriel}} </div>
 
+              <br>
               <fieldset>
                 <legend> Choix du statut </legend>
 
@@ -62,4 +63,5 @@
         </div>
 
       </form>
+      
 </ng-template>

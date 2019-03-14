@@ -75,6 +75,8 @@ ZOOM_SINGLE_POINT = 12
 
 id_for_enAttenteDeValidation = 466
 
+ngxObservationNb = "3"
+
 DISPLAY_TAXON_TREE = True
 
 ID_ATTRIBUT_TAXHUB = [1, 2]

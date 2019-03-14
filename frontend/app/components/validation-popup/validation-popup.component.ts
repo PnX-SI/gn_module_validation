@@ -29,12 +29,17 @@ export class ValidationPopupComponent implements OnInit {
   public VALIDATION_CONFIG = ModuleConfig;
   public status;
   public pluriel;
+  public nbOffPage;
+  public validationDate;
 
   @Input() observations : Array<number>;
+  @Input() selectedPages : Array<number>;
   @Input() nbTotalObservation : number;
+  @Input() currentPage : any;
   @Input() status_names : any;
   @Input() status_keys : any;
   @Output() valStatus = new EventEmitter();
+  @Output() valDate = new EventEmitter();
 
   constructor(
     private modalService: NgbModal,
@@ -42,7 +47,8 @@ export class ValidationPopupComponent implements OnInit {
     private _router: Router,
     private _fb: FormBuilder,
     public dataService: DataService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private mapListService: MapListService
     ) {
       // form used for changing validation status
       this.statusForm = this._fb.group({
@@ -53,7 +59,6 @@ export class ValidationPopupComponent implements OnInit {
 
 
   ngOnInit() {
-
   }
   
 
@@ -69,6 +74,7 @@ export class ValidationPopupComponent implements OnInit {
             this.toastr.success('Vous avez modifié le statut de validation de ' + this.observations.length + ' observation(s)');
             // bind statut value with validation-synthese-list component
             this.update_status();
+            this.getValidationDate(this.observations[0]);
             resolve('data updated');
         }
       })
@@ -106,7 +112,7 @@ export class ValidationPopupComponent implements OnInit {
   }
 
   definePluriel() {
-    if (this.observations.length === 1) {
+    if (this.observations.length == 1 || this.nbOffPage <= 1) {
       return '';
     } else {
       return 's';
@@ -127,7 +133,17 @@ export class ValidationPopupComponent implements OnInit {
       this.modalRef = this.modalService.open(content, {
         centered: true, size: "lg", backdrop: 'static', windowClass: 'dark-modal'
       });
+      this.getObsNboffPage();
       this.pluriel = this.definePluriel();
+  }
+
+  getObsNboffPage() {
+    this.nbOffPage = 0;
+    for (let page of this.selectedPages) {
+      if (page != this.currentPage) {
+        this.nbOffPage = this.nbOffPage +1;
+      } 
+    }
   }
 
   closeModal() {
@@ -135,5 +151,27 @@ export class ValidationPopupComponent implements OnInit {
     this.statusForm.reset();
     this.modalRef.close();
   }
+
+  getValidationDate(id) {
+    this.dataService.getValidationDate(id).subscribe(
+      result => {
+        // get status names
+        this.validationDate = result;
+      },
+      err => {
+        if (err.statusText === 'Unknown Error') {
+          // show error message if no connexion
+          this.toastr.error('ERROR: IMPOSSIBLE TO CONNECT TO SERVER (check your connexion)');
+        } else {
+          // show error message if other server error
+          this.toastr.error(err.error);
+        }
+      },
+      () => {
+        this.valDate.emit(this.validationDate);
+      }
+    );
+  }
+
 
 }

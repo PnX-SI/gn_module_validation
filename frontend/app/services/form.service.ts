@@ -54,15 +54,18 @@ export class FormService {
     this.formBuilded = true;
   }
 
+
   getCurrentTaxon($event) {
     this.selectedtaxonFromComponent.push($event.item);
     $event.preventDefault();
     this.searchForm.controls.cd_nom.reset();
   }
 
+
   removeTaxon(index) {
     this.selectedtaxonFromComponent.splice(index, 1);
   }
+
 
   formatParams() {
     const params = Object.assign({}, this.searchForm.value);
@@ -88,6 +91,7 @@ export class FormService {
         }
       }
     }
+    
     if (this.selectedtaxonFromComponent.length > 0 || this.selectedCdRefFromTree.length > 0) {
       // search on cd_ref to include synonyme from the synthese searchs
       updatedParams['cd_ref'] = [

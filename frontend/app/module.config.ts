@@ -100,5 +100,6 @@ export const ModuleConfig = {
   }
  },
  "ZOOM_SINGLE_POINT": 12,
- "id_for_enAttenteDeValidation": 466
+ "id_for_enAttenteDeValidation": 466,
+ "ngxObservationNb": "3"
 }

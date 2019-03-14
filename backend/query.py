@@ -13,8 +13,6 @@ from geonature.core.gn_synthese.models import (
 )
 from geonature.core.gn_meta.models import TDatasets, TAcquisitionFramework
 
-import pdb
-
 
 def filter_query_with_cruved(model, q, user, allowed_datasets):
     """

@@ -46,7 +46,6 @@ export class ValidationSearchComponent implements OnInit {
   }
 
   ngOnInit() {
-    
     this._dfs.getNomenclatures('STATUT_VALID').subscribe(data => {
       this.values = data[0].values;
     });

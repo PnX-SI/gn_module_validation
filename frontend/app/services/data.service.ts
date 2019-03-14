@@ -45,6 +45,10 @@ export class DataService {
     return this._http.get<GeoJSON>(`${AppConfig.API_ENDPOINT}/validation/definitions`);
   }
 
+  getValidationDate(id) {
+    return this._http.get<GeoJSON>(`${AppConfig.API_ENDPOINT}/validation/date/${id}`);
+  }
+
   getStatusNames() {
     return this._http.get<GeoJSON>(`${AppConfig.API_ENDPOINT}/validation/statusNames`);
   }

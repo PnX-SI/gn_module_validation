@@ -3,6 +3,7 @@ import {
   Component,
   OnInit,
   Input,
+  Output,
   ViewChild,
   HostListener,
   AfterContentChecked,
@@ -36,7 +37,7 @@ import { ValidationModalInfoObsComponent } from '../validation-modal-info-obs/va
 import { ValidationComponent } from '../validation.component'
 import { Subscription } from 'rxjs';
 import { FormService } from '../../services/form.service';
-import { ToastrService } from 'ngx-toastr'
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -49,6 +50,8 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
 
   public VALIDATION_CONFIG = ModuleConfig;
   selectedObs: Array<number> = []; // list of id_synthese values for selected rows
+  selectedIndex: Array<number> = [];
+  selectedPages = [];
   coordinates_list = []; // list of coordinates for selected rows
   group: featureGroup;
   marker: marker;
@@ -57,12 +60,13 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
   public id_same_coordinates = []; // list of observation ids having same geographic coordinates
   public validationStatus;
   public modif_text = 'Attention données modifiées depuis la dernière validation';
+  public npage;
 
   @Input() inputSyntheseData: GeoJSON;
   @Input() statusNames: any;
   @Input() statusKeys: any;
   @ViewChild('table') table: DatatableComponent;
-
+  @Output() pageChange: EventEmitter<number>;
 
   constructor(
     public mapListService: MapListService,
@@ -81,15 +85,18 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
     // get wiewport height to set the number of rows in the tabl
     const h = document.documentElement.clientHeight;
     this.rowNumber = Math.trunc(h / 37);
+
     this.group = new L.featureGroup();
     this.onMapClick();
     this.onTableClick();
     //console.log(this.mapListService.tableData);
   }
 
+
   onMapClick() {
     this.mapListService.onMapClik$.subscribe(
       id => {
+
         // create list of observation ids having coordinates = to id value
         const selected_id_coordinates = this.mapListService.layerDict[id].feature.geometry.coordinates;
         this.id_same_coordinates = [];
@@ -98,6 +105,7 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
             this.id_same_coordinates.push(parseInt(this.mapListService.geojsonData.features[obs].id));
           }
         }
+
         // select rows having id_synthese = to one of the id_same_coordinates values
         this.mapListService.selectedRow = [];
         for (let id of this.id_same_coordinates) {
@@ -138,6 +146,7 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
   }
 
 
+
   onTableClick() {
     this.setSelectedObs();
     this.mapListService.onTableClick$.subscribe(
@@ -154,7 +163,9 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
     if (this.table && this.table.element.clientWidth !== this._latestWidth) {
       this._latestWidth = this.table.element.clientWidth;
     }
+    this.npage = this.getCurPage();
   }
+
 
   setOriginStyleToAll() {
     for (let obs in this.mapListService.layerDict) {
@@ -162,11 +173,13 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
     }
   }
 
+
   setSelectedSyleToSelectedRows() {
     for (let obs of this.selectedObs) {
       this.mapListService.layerDict[obs].setStyle(this.VALIDATION_CONFIG.MAP_POINT_STYLE.selectedStyle);
     }
   }
+
 
   selectAll() {
     this.mapListService.selectedRow = [...this.mapListService.tableData];
@@ -175,6 +188,7 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
     this.setSelectedSyleToSelectedRows();
   }
 
+
   deselectAll() {
     this.mapListService.selectedRow = [];
     this.setSelectedObs();
@@ -182,6 +196,7 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
       this.setOriginStyleToAll();
     }
   }
+
 
   onActivate(event) {
     if (event.type == 'checkbox' || event.type == 'click') {
@@ -192,6 +207,7 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
       }
     }
   }
+
 
   setFeatureGroup(observations) {
     for (let obs of observations) {
@@ -213,6 +229,7 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
     }
   }
 
+
   setView() {
     if (this.coordinates_list.length > 1) {
       this._ms.getMap().fitBounds(this.group.getBounds());
@@ -221,6 +238,7 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
     }
   }
 
+
   viewFitList(observations) {
     this.setFeatureGroup(observations);
     this.setView();
@@ -228,9 +246,12 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
     this.coordinates_list = [];
   }
 
+
   setSelectedObs() {
     // array of id_sythese values of selected observations
     this.selectedObs = [];
+    this.selectedIndex = [];
+    this.selectedPages = [];
     if (this.mapListService.selectedRow.length === 0) {
       this.selectedObs = [];
     } else {
@@ -239,7 +260,19 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
       }
     }
 
+    for (let obs of this.selectedObs) {
+      // find position of selected observations in the ngxtable from id_synthese of selected observations
+      this.selectedIndex.push(this.mapListService.tableData.findIndex(i => i.id_synthese === obs));
+    }
+
+    // find page from an ngxindex
+    for (let ind of this.selectedIndex) {
+      let PageIndex = (ind+1) / parseInt(this.VALIDATION_CONFIG.ngxObservationNb);
+      this.selectedPages.push(Math.ceil(PageIndex));
+    }
+
   }
+
 
   onStatusChange(status) {
     //console.log('status change : ' + status);
@@ -250,11 +283,20 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
     this.mapListService.selectedRow = [...this.mapListService.selectedRow];
   }
 
+  onValidationDateChange(date) {
+    for (let obs in this.mapListService.selectedRow) {
+      this.mapListService.selectedRow[obs]['validation_date'] = date;
+    }
+    this.mapListService.selectedRow = [...this.mapListService.selectedRow];
+  }
+
+
   // update the number of row per page when resize the window
   @HostListener('window:resize', ['$event'])
   onResize(event) {
     this.rowNumber = Math.trunc(event.target.innerHeight / 37);
   }
+
 
   backToModule(url_source, id_pk_source) {
     const link = document.createElement('a');
@@ -266,9 +308,11 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
     link.remove();
   }
 
+
   getRowClass() {
     return 'row-sm clickable';
   }
+
 
   ngOnChanges(changes) {
     if (changes.inputSyntheseData && changes.inputSyntheseData.currentValue) {
@@ -278,6 +322,7 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
     this.statusNames = [];
     this.getStatusNames();
   }
+
 
   openInfoModal(row) {
     const modalRef = this.ngbModal.open(ValidationModalInfoObsComponent, {
@@ -298,5 +343,11 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
         }
       });
   }
+
+
+  getCurPage(): number {
+    return this.table.offset + 1;
+  }
+  
 
 }
