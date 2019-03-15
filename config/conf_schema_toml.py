@@ -75,7 +75,7 @@ ZOOM_SINGLE_POINT = 12
 
 id_for_enAttenteDeValidation = 466
 
-ngxObservationNb = "3"
+ngxObservationNb = "10"
 
 DISPLAY_TAXON_TREE = True
 
@@ -96,6 +96,7 @@ class GnModuleSchemaConf(Schema):
     ICON_FOR_AUTOMATIC_VALIDATION = fields.String(missing=ICON_FOR_AUTOMATIC_VALIDATION)
     ZOOM_SINGLE_POINT = fields.Integer(missing=ZOOM_SINGLE_POINT)
     id_for_enAttenteDeValidation = fields.Integer(missing=id_for_enAttenteDeValidation)
+    ngxObservationNb = fields.String(missing=ngxObservationNb)
     DISPLAY_TAXON_TREE = fields.Boolean(missing=True)
     ID_ATTRIBUT_TAXHUB = fields.List(fields.Integer, missing=ID_ATTRIBUT_TAXHUB)
     AREA_FILTERS = fields.List(fields.Dict, missing=AREA_FILTERS)
