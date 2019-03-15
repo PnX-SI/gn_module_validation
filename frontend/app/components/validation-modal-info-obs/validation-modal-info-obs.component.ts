@@ -40,10 +40,13 @@ export class ValidationModalInfoObsComponent implements OnInit {
   public email;
   public mailto: String;
   public showEmail;
+  public validationDate;
+
 
   @Input() inputSyntheseData: GeoJSON;
   @Input() oneObsSynthese: any;
   @Output() modifiedStatus = new EventEmitter();
+  @Output() valDate = new EventEmitter();
   @ViewChild('table') table: DatatableComponent;
 
   constructor(
@@ -192,7 +195,6 @@ export class ValidationModalInfoObsComponent implements OnInit {
       .subscribe(
         data => {
           this.email = data;
-          console.log(this.email);
         },
         err => {
           console.log(err.error);
@@ -286,6 +288,7 @@ export class ValidationModalInfoObsComponent implements OnInit {
             // show success message indicating the number of observation(s) with modified validation status
             this.toastr.success('Nouveau statut de validation enregistré');
             this.update_status();
+            this.getValidationDate(this.id_synthese);
             this.loadOneSyntheseReleve(this.oneObsSynthese);
             this.loadValidationHistory(this.id_synthese);
             // bind statut value with validation-synthese-list component
@@ -332,6 +335,27 @@ export class ValidationModalInfoObsComponent implements OnInit {
   cancel() {
     this.statusForm.reset();
     this.edit = false;
+  }
+
+  getValidationDate(id) {
+    this._dataService.getValidationDate(id).subscribe(
+      result => {
+        // get status names
+        this.validationDate = result;
+      },
+      err => {
+        if (err.statusText === 'Unknown Error') {
+          // show error message if no connexion
+          this.toastr.error('ERROR: IMPOSSIBLE TO CONNECT TO SERVER (check your connexion)');
+        } else {
+          // show error message if other server error
+          this.toastr.error(err.error);
+        }
+      },
+      () => {
+        this.valDate.emit(this.validationDate);
+      }
+    );
   }
 
 }

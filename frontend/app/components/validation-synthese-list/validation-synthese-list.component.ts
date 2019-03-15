@@ -338,9 +338,15 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
           if (this.mapListService.tableData[obs].id_synthese == modifiedStatus.id_synthese) {
             this.mapListService.tableData[obs].id_nomenclature_valid_status = modifiedStatus.new_status;
             this.mapListService.tableData[obs].validation_auto = '';
-            //this.mapListService.tableData[obs].validation_date = modifiedStatus.validation_date;
           }
         }
+      });
+    modalRef.componentInstance.valDate.subscribe(
+      (data) => {
+        for (let obs in this.mapListService.selectedRow) {
+          this.mapListService.selectedRow[obs]['validation_date'] = data;
+        }
+        this.mapListService.selectedRow = [...this.mapListService.selectedRow];
       });
   }
 

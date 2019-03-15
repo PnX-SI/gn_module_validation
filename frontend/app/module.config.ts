@@ -21,7 +21,7 @@ export const ModuleConfig = {
   1,
   2
  ],
- "ID_MODULE": 6,
+ "ID_MODULE": 5,
  "LIST_COLUMNS_FRONTEND": [
   {
    "max_width": 40,
@@ -47,7 +47,7 @@ export const ModuleConfig = {
    "max_width": 200,
    "name": "Observateur",
    "prop": "observers"
-  },
+  }
  ],
  "MANDATORY_COLUMNS": [
   "entity_source_pk_value",
@@ -101,5 +101,5 @@ export const ModuleConfig = {
  },
  "ZOOM_SINGLE_POINT": 12,
  "id_for_enAttenteDeValidation": 466,
- "ngxObservationNb": "3"
+ "ngxObservationNb": "10"
 }
