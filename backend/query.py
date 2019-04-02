@@ -18,7 +18,7 @@ from geonature.core.gn_synthese.utils.query import (
     filter_taxonomy
     )
 
-def filter_query_all_filters(model, q, filters, user, allowed_datasets):
+def filter_query_all_filters(model, q, filters, user):
     """
     Return a query filtered with the cruved and all
     the filters available in the synthese form

@@ -129,6 +129,7 @@ export class ValidationModalInfoObsComponent implements OnInit {
           this.selectedObs.date_min = date_min.toLocaleDateString('fr-FR');
           const date_max = new Date(this.selectedObs.date_max);
           this.selectedObs.date_max = date_max.toLocaleDateString('fr-FR');
+          /*
           this.selectedObs.areas.forEach(area => {
             if (area.id_type === AppConfig.BDD.id_area_type_municipality) {
               this.selectedObs['municipalities'].push(area);
@@ -136,6 +137,7 @@ export class ValidationModalInfoObsComponent implements OnInit {
               this.selectedObs['other_areas'].push(area);
             }
           });
+          */
         }
       );
 

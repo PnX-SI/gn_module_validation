@@ -28,20 +28,20 @@
                 <legend> Choix du statut </legend>
 
                 <div>
-                  <span *ngFor="let id of status_keys" id="validButtons">
-                  <!-- Formulaire pour le choix des standards et des formats de téléchargement des fichiers -->
-                    <div *ngIf="VALIDATION_CONFIG.STATUS_INFO[id].cat !== 'assessable'"> </div>
-                    <div *ngIf="VALIDATION_CONFIG.STATUS_INFO[id].cat === 'notassessable'" style="padding-top:30px;"> </div>
-
-                    <label *ngIf="VALIDATION_CONFIG.STATUS_INFO[id].cat !== 'notassessed'" [ngStyle]="{'background-color': VALIDATION_CONFIG.STATUS_INFO[id].color}" role="button"  class="btn btn-success box-shadow waves-effect" aria-pressed="true">
-                      <input type="radio" formControlName="statut" value="{{id}}">
-                      {{status_names[id]}}</label>
-
-                    <label *ngIf="VALIDATION_CONFIG.STATUS_INFO[id].cat === 'notassessed'" [ngStyle]="{'background-color': VALIDATION_CONFIG.STATUS_INFO[id].color}" role="button" class="btn btn-success box-shadow" aria-pressed="true">
-                      <input type="radio" formControlName="statut" value="{{id}}">
-                      {{status_names[id]}}</label>
-                  </span>
-                </div>
+                    <span *ngFor="let id of status_keys" id="validButtons">
+                    <!-- Formulaire pour le choix des standards et des formats de téléchargement des fichiers -->
+                      <div *ngIf="VALIDATION_CONFIG.STATUS_INFO[id].cat !== 'assessable'"> </div>
+                      <div *ngIf="VALIDATION_CONFIG.STATUS_INFO[id].cat === 'notassessable'" style="padding-top:30px;"> </div>
+  
+                      <label *ngIf="VALIDATION_CONFIG.STATUS_INFO[id].cat !== 'notassessed'" [ngStyle]="{'background-color': VALIDATION_CONFIG.STATUS_INFO[id].color}" role="button"  class="btn btn-success box-shadow waves-effect" aria-pressed="true">
+                        <input type="radio" formControlName="statut" value="{{id}}">
+                        {{status_names[id]}}</label>
+  
+                      <label *ngIf="VALIDATION_CONFIG.STATUS_INFO[id].cat === 'notassessed'" [ngStyle]="{'background-color': VALIDATION_CONFIG.STATUS_INFO[id].color}" role="button" class="btn btn-success box-shadow" aria-pressed="true">
+                        <input type="radio" formControlName="statut" value="{{id}}">
+                        {{status_names[id]}}</label>
+                    </span>
+                  </div>
                 <br>
                 <div id="def"><pnx-validation-definitions></pnx-validation-definitions></div>
 

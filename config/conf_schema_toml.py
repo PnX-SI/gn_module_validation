@@ -36,27 +36,27 @@ DEFAULT_LIST_COLUMN = [
 
 # id_nomenclature_valid_status used for validation module
 STATUS_INFO = {
-  "318" : {
+  "317" : {
     "cat":"assessable",
     "color":"#8BC34A"
   },
-  "319" : {
+  "318" : {
     "cat":"assessable",
     "color":"#CDDC39"
   },
-  "320" : {
+  "319" : {
     "cat":"assessable",
     "color":"#FF9800"
   },
-  "321" : {
+  "320" : {
     "cat":"assessable",
     "color":"#FF5722"
   },
-  "322" : {
+  "321" : {
     "cat":"notassessable",
     "color":"#BDBDBD"
   },
-  "466" : {
+  "465" : {
     "cat":"notassessed",
     "color":"#FFFFFF"
   }
@@ -73,7 +73,7 @@ ICON_FOR_AUTOMATIC_VALIDATION = "computer"
 
 ZOOM_SINGLE_POINT = 12
 
-id_for_enAttenteDeValidation = 466
+id_for_enAttenteDeValidation = 465
 
 ngxObservationNb = "10"
 

@@ -108,14 +108,13 @@ join
 	GROUP BY id_synthese
 ) v2 on v1.validation_date = v2.max AND v1.id_synthese = v2.id_synthese;
 
+
+
 -- Function: gn_commons.get_observator_email(integer)
 
 -- DROP FUNCTION gn_commons.get_observator_email(integer);
 
-
-CREATE OR REPLACE FUNCTION gn_commons.get_observator_email(
-    id_synthese_value integer
-    )
+CREATE OR REPLACE FUNCTION gn_commons.get_observator_email(id_synthese_value integer)
   RETURNS text AS
 $BODY$
     DECLARE
@@ -131,3 +130,5 @@ $BODY$
 		WHERE id_synthese = id_synthese_value);
     RETURN emailvalue;
   END;
+$BODY$
+  LANGUAGE plpgsql IMMUTABLE

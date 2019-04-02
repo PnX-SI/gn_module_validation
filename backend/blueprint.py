@@ -11,8 +11,9 @@ import pdb
 import re
 
 from sqlalchemy import select, desc, cast, DATE, func
-import pdb
+
 import datetime
+
 from geojson import FeatureCollection
 
 from geonature.utils.utilssqlalchemy import json_resp
@@ -68,6 +69,8 @@ def get_synthese_data(info_role):
 
         #allowed_datasets = TDatasets.get_user_datasets(info_role)
 
+        #pdb.set_trace()
+
         q = DB.session.query(VLatestValidationForWebApp)
 
         q = filter_query_all_filters(VLatestValidationForWebApp, q, filters, info_role)
@@ -81,10 +84,12 @@ def get_synthese_data(info_role):
         data = q.limit(result_limit)
         columns = blueprint.config['COLUMNS_API_VALIDATION_WEB_APP'] + blueprint.config['MANDATORY_COLUMNS']
 
-
         features = []
 
-        #DB.session.query(VValidation3ForWebApp).get(1).get_geofeature(columns=columns)
+        #DB.session.execute(select([VLatestValidationForWebApp.id_synthese])).fetchone()[0]
+
+
+        #DB.session.query(VLatestValidationForWebApp).get(1).get_geofeature(columns=columns)
         for d in data:
             feature = d.get_geofeature(
                 columns=columns

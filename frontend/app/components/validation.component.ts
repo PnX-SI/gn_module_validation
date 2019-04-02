@@ -92,6 +92,8 @@ export class ValidationComponent implements OnInit {
           // show error message if other server error
           this.toastr.error(err.error);
         }
+      },
+      () => {
       }
     );
   }

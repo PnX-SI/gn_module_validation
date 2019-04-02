@@ -82,6 +82,7 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
   ) { }
 
   ngOnInit() {
+    //console.log(this.VALIDATION_CONFIG.STATUS_INFO[318].color);
     // get wiewport height to set the number of rows in the tabl
     const h = document.documentElement.clientHeight;
     this.rowNumber = Math.trunc(h / 37);
@@ -90,6 +91,7 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
     this.onMapClick();
     this.onTableClick();
     //console.log(this.mapListService.tableData);
+
   }
 
 
@@ -120,6 +122,7 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
     );
   }
 
+
   getStatusNames() {
 
     this._ds.getStatusNames().subscribe(
@@ -127,7 +130,6 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
         // get status names
         this.statusNames = result;
         this.statusKeys = Object.keys(this.VALIDATION_CONFIG.STATUS_INFO);
-
       },
       err => {
         if (err.statusText === 'Unknown Error') {
