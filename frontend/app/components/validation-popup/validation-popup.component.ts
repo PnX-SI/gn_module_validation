@@ -28,7 +28,8 @@ export class ValidationPopupComponent implements OnInit {
   public statusForm: FormGroup;
   public VALIDATION_CONFIG = ModuleConfig;
   public status;
-  public pluriel;
+  public plurielObservations;
+  public plurielNbOffPage;
   public nbOffPage;
   public validationDate;
 
@@ -111,8 +112,17 @@ export class ValidationPopupComponent implements OnInit {
     this.valStatus.emit(this.statusForm.controls['statut'].value);
   }
 
-  definePluriel() {
-    if (this.observations.length == 1 || this.nbOffPage <= 1) {
+
+  definePlurielObservations() {
+    if (this.observations.length == 1) {
+      return '';
+    } else {
+      return 's';
+    }
+  }
+
+  definePlurielNbOffPage() {
+    if (this.nbOffPage <= 1) {
       return '';
     } else {
       return 's';
@@ -134,7 +144,8 @@ export class ValidationPopupComponent implements OnInit {
         centered: true, size: "lg", backdrop: 'static', windowClass: 'dark-modal'
       });
       this.getObsNboffPage();
-      this.pluriel = this.definePluriel();
+      this.plurielObservations = this.definePlurielObservations();
+      this.plurielNbOffPage = this.definePlurielNbOffPage();
   }
 
   getObsNboffPage() {
