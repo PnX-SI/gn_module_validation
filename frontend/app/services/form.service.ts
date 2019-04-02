@@ -23,7 +23,7 @@ export class FormService {
       cd_nom: null,
       observers: null,
       id_dataset: null,
-      id_acquisition_frameworks: null,
+      id_acquisition_framework: null,
       id_nomenclature_valid_status: null,
       modif_since_validation: false,
       date_min: null,

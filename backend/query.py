@@ -29,7 +29,7 @@ def filter_query_all_filters(model, q, filters, user, allowed_datasets):
         - allowed datasets (List<int>): an array of ID dataset where the users have autorization
 
     """
-    q = filter_query_with_cruved(model, q, user, allowed_datasets)
+    q = filter_query_with_cruved(model, q, user)
 
     if 'observers' in filters:
         q = q.filter(model.observers.ilike('%'+filters.pop('observers')[0]+'%'))

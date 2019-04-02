@@ -48,7 +48,7 @@ blueprint = Blueprint('validation', __name__)
 
 
 @blueprint.route('', methods=['GET'])
-@permissions.check_cruved_scope('R', True)
+@permissions.check_cruved_scope('R', True, module_code="VALIDATION")
 @json_resp
 def get_synthese_data(info_role):
 
@@ -66,11 +66,11 @@ def get_synthese_data(info_role):
         
         result_limit = blueprint.config['NB_MAX_OBS_MAP']
 
-        allowed_datasets = TDatasets.get_user_datasets(info_role)
+        #allowed_datasets = TDatasets.get_user_datasets(info_role)
 
         q = DB.session.query(VLatestValidationForWebApp)
 
-        q = filter_query_all_filters(VLatestValidationForWebApp, q, filters, info_role, allowed_datasets)
+        q = filter_query_all_filters(VLatestValidationForWebApp, q, filters, info_role)
 
         q = q.order_by(
             VLatestValidationForWebApp.validation_date.desc()
@@ -102,7 +102,7 @@ def get_synthese_data(info_role):
 
 
 @blueprint.route('/statusNames', methods=['GET'])
-@permissions.check_cruved_scope('R', True)
+@permissions.check_cruved_scope('R', True, module_code="VALIDATION")
 @json_resp
 def get_statusNames(info_role):
     try:
@@ -116,7 +116,7 @@ def get_statusNames(info_role):
 
 
 @blueprint.route('/<id_synthese>', methods=['GET','POST'])
-@permissions.check_cruved_scope('C', True)
+@permissions.check_cruved_scope('C', True, module_code="VALIDATION")
 @json_resp
 def post_status(info_role,id_synthese):
     try:
@@ -196,7 +196,7 @@ def post_status(info_role,id_synthese):
 
 
 @blueprint.route('/definitions', methods=['GET'])
-@permissions.check_cruved_scope('R', True)
+@permissions.check_cruved_scope('R', True, module_code="VALIDATION")
 @json_resp
 def get_definitions(info_role):
     """
@@ -242,7 +242,7 @@ def get_autocomplete_taxons_synthese():
 
 
 @blueprint.route('/history/<id_synthese>', methods=['GET'])
-@permissions.check_cruved_scope('R', True)
+@permissions.check_cruved_scope('R', True, module_code="VALIDATION")
 @json_resp
 def get_hist(info_role,id_synthese):
 

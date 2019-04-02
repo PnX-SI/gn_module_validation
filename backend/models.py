@@ -43,7 +43,8 @@ class VLatestValidationForWebApp(DB.Model):
     observers = DB.Column(DB.Unicode)
     determiner = DB.Column(DB.Unicode)
     id_digitiser = DB.Column(DB.Integer)
-    comments = DB.Column(DB.Unicode)
+    comment_context = DB.Column(DB.Unicode)
+    comment_description = DB.Column(DB.Unicode)
     meta_validation_date = DB.Column(DB.DateTime)
     meta_create_date = DB.Column(DB.DateTime)
     meta_update_date = DB.Column(DB.DateTime)
@@ -91,7 +92,7 @@ class VLatestValidationForWebApp(DB.Model):
 @serializable
 class TValidations(DB.Model):
     __tablename__ = 't_validations'
-    __table_args__ = {'schema': 'gn_commons'}
+    __table_args__ = {'schema': 'gn_commons', "extend_existing":True}
 
     id_validation = DB.Column(
         DB.Integer,
@@ -151,7 +152,8 @@ class VValidationsForWebApp(DB.Model):
     observers = DB.Column(DB.Unicode)
     determiner = DB.Column(DB.Unicode)
     id_digitiser = DB.Column(DB.Integer)
-    comments = DB.Column(DB.Unicode)
+    comment_context = DB.Column(DB.Unicode)
+    comment_description = DB.Column(DB.Unicode)
     meta_validation_date = DB.Column(DB.DateTime)
     meta_create_date = DB.Column(DB.DateTime)
     meta_update_date = DB.Column(DB.DateTime)

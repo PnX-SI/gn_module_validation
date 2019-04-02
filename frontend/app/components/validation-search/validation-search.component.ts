@@ -31,6 +31,8 @@ export class ValidationSearchComponent implements OnInit {
   public AppConfig = AppConfig;
   public control_keys;
   public taxonApiEndPoint = `${AppConfig.API_ENDPOINT}/validation/taxons_autocomplete`;
+  public areaFilters: Array<any>;
+
   @Output() searchClicked = new EventEmitter();
   public values;
 
@@ -46,10 +48,21 @@ export class ValidationSearchComponent implements OnInit {
   }
 
   ngOnInit() {
+    // format areas filter
+    this.areaFilters = AppConfig.SYNTHESE.AREA_FILTERS.map(area => {
+      if (typeof area.id_type === 'number') {
+        area['id_type_array'] = [area.id_type];
+      } else {
+        area['id_type_array'] = area.id_type;
+      }
+      return area;
+    });
+
     this._dfs.getNomenclatures('STATUT_VALID').subscribe(data => {
       this.values = data[0].values;
     });
   }
+
 
   onSubmitForm() {
     // mark as dirty to avoid set limit=100 when download
@@ -58,6 +71,7 @@ export class ValidationSearchComponent implements OnInit {
     const updatedParams = this.formService.formatParams();
     this.searchClicked.emit(updatedParams);
   }
+
 
   refreshFilters() {
     this.formService.selectedtaxonFromComponent = [];
@@ -74,6 +88,7 @@ export class ValidationSearchComponent implements OnInit {
     }
   }
 
+  
   openModal() {
     const taxonModal = this.ngbModal.open(ValidationTaxonAdvancedModalComponent, {
       size: 'lg',
