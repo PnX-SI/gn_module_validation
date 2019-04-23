@@ -17,9 +17,9 @@
               </pnx-multiselect>
           </div>
 
-          <div id="modif" [formGroup]="formService.searchForm">
-              <input id="modif_checkbox" value="true" formControlName="modif_since_validation" type="checkbox" checked/>
-              <label for="modif_checkbox"> <small>données modifiées depuis la dernière validation</small> </label>
+          <div id="modif" [formGroup]="formService.searchForm" class="form-check">
+              <input id="modif_checkbox" class="form-check-input" value="true" formControlName="modif_since_validation" type="checkbox" checked/>
+              <label for="modif_checkbox" class="form-check-label"> <small>Données modifiées depuis la dernière validation</small> </label>
           </div>
 
         </fieldset>
