@@ -21,7 +21,7 @@ export const ModuleConfig = {
   1,
   2
  ],
- "ID_MODULE": 5,
+ "ID_MODULE": 7,
  "LIST_COLUMNS_FRONTEND": [
   {
    "max_width": 40,
@@ -100,6 +100,5 @@ export const ModuleConfig = {
   }
  },
  "ZOOM_SINGLE_POINT": 12,
- "id_for_enAttenteDeValidation": 465,
- "ngxObservationNb": "10"
+ "id_for_enAttenteDeValidation": 465
 }

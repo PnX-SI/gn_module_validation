@@ -91,7 +91,7 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
     this.onMapClick();
     this.onTableClick();
     //console.log(this.mapListService.tableData);
-
+    this.npage = 1;
   }
 
 
@@ -165,7 +165,11 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
     if (this.table && this.table.element.clientWidth !== this._latestWidth) {
       this._latestWidth = this.table.element.clientWidth;
     }
-    this.npage = this.getCurPage();
+  }
+
+
+  handlePageChange (event): void {
+    this.npage = event.page;
   }
 
 
@@ -269,10 +273,9 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
 
     // find page from an ngxindex
     for (let ind of this.selectedIndex) {
-      let PageIndex = (ind+1) / parseInt(this.VALIDATION_CONFIG.ngxObservationNb);
+      let PageIndex = (ind+1) / this.table._limit;
       this.selectedPages.push(Math.ceil(PageIndex));
     }
-
   }
 
 
@@ -350,12 +353,6 @@ export class ValidationSyntheseListComponent implements OnInit, OnChanges, After
         }
         this.mapListService.selectedRow = [...this.mapListService.selectedRow];
       });
-  }
-
-
-  getCurPage(): number {
-    return this.table.offset + 1;
-  }
-  
+  }  
 
 }

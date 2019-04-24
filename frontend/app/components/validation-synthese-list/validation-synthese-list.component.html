@@ -2,7 +2,7 @@
 <ngx-datatable (window:resize)="onResize($event)" #table class="material striped margin-top-xs table-size expandable"
   [rows]="mapListService.tableData" [columns]="VALIDATION_CONFIG.LIST_COLUMNS_FRONTEND" [columnMode]="'force'"
   [headerHeight]="50" [footerHeight]="35" [selected]="mapListService.selectedRow" [selectionType]="'multiClick'" [count]="mapListService.tableData.length"
-  [limit]="VALIDATION_CONFIG.ngxObservationNb" [rowClass]="getRowClass" (select)="mapListService.onRowSelect($event)" (activate)="onActivate($event, modal)">
+  [limit]="rowNumber" [rowClass]="getRowClass" (select)="mapListService.onRowSelect($event)" (activate)="onActivate($event, modal)">
 
   <ngx-datatable-row-detail rowHeight="100">
      </ngx-datatable-row-detail>
@@ -70,7 +70,9 @@
          [size]="pageSize"
          [count]="rowCount"
          [hidden]="!((rowCount / pageSize) > 0)"
+         (change)="handlePageChange($event)"
          (change)="table.onFooterPage($event)">
+         >
        </datatable-pager>
 
      </ng-template>
