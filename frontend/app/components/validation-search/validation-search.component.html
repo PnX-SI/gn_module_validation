@@ -17,9 +17,9 @@
               </pnx-multiselect>
           </div>
 
-          <div id="modif" [formGroup]="formService.searchForm">
-              <input id="modif_checkbox" value="true" formControlName="modif_since_validation" type="checkbox" checked/>
-              <label for="modif_checkbox"> <small>Données modifiées depuis la dernière validation</small> </label>
+          <div id="modif" [formGroup]="formService.searchForm" class="form-check">
+              <input id="modif_checkbox" class="form-check-input" value="true" formControlName="modif_since_validation" type="checkbox" checked/>
+              <label for="modif_checkbox" class="form-check-label"> <small>Données modifiées depuis la dernière validation</small> </label>
           </div>
 
         </fieldset>
@@ -130,11 +130,9 @@
           </button>
 
           <div class="collapse advanced" id="OccAdvanved">
-            <div class="card card-body padding-sm">
               <small> Sélectionner un filtre </small>
               <pnx-dynamic-form-generator [formGroup]="formService.searchForm" [formsDefinition]="formService.dynamycFormDef">
               </pnx-dynamic-form-generator>
-            </div>
           </div>
 
         </fieldset>
