@@ -106,6 +106,16 @@ ngx-datatable {
   }
 }
 
+:host /deep/ ngx-datatable.material{
+  datatable-footer datatable-pager a{
+    margin: 0px !important;
+    padding: 0px !important;
+  }
+  .datatable-checkbox input[type='checkbox']:before{
+    border-color: #bfbdbd !important;
+  }
+}
+
 :host /deep/ .datatable-body-cell i {
   font-size: 12px;
 }

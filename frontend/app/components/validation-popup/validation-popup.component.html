@@ -21,7 +21,7 @@
             <div class="modal-body" id="bodyModal" style="padding-top:30px;">
 
               <div> <span id="nbObs">{{this.observations.length}}</span> observation{{plurielObservations}} sélectionnée{{plurielObservations}}  </div>
-              <div *ngIf="nbOffPage !== 0"> <i id="attention" class="material-icons">warning</i> Attention {{nbOffPage}} observation{{plurielNbOffPage}} non-visible{{plurielNbOffPage}} (hors de la page courante) sélectionnée{{plurielNbOffPage}} </div>
+              <div *ngIf="nbOffPage !== 0" class="d-flex" ><i id="attention" class="material-icons">warning</i> Attention {{nbOffPage}} observation{{plurielNbOffPage}} non-visible{{plurielNbOffPage}} (hors de la page courante) sélectionnée{{plurielNbOffPage}} </div>
 
               <br>
               <fieldset>

@@ -208,7 +208,7 @@ def post_status(info_role, id_synthese):
                 id_valdator,
                 comment,
                 val_date,
-                val_auto,
+                val_auto
             )
 
             DB.session.add(addValidation)
