@@ -1,7 +1,7 @@
 GeoNature - Module de validation
 ================================
 
-Module GeoNature dédié à la validation. Construit en dupliquant le module Synthèse et ne l'adaptant sur le standard validation du SINP.
+Module GeoNature dédié à la validation. Construit en dupliquant le module Synthèse de GeoNature et en l'adaptant à partir du standard validation du SINP.
 
 Développé par @JulienCorny, financé par @sig-pnrnm.
 
